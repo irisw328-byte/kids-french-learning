@@ -68,7 +68,7 @@
     .btn-profile-badge {
       background: var(--blue-bg); color: var(--blue-text);
       border: 2px solid var(--blue-border); padding: 8px 14px; border-radius: 99px;
-      font-weight: 900; font-size: 0.9rem; display: flex; align-items: center; gap: 5px;
+      font-weight: 900; font-size: 0.9rem; display: flex; align-items: center; gap: 5px; cursor: pointer;
     }
 
     .btn-parent {
@@ -76,7 +76,6 @@
       padding: 8px 12px; border-radius: 14px; font-weight: 800; font-size: 0.85rem; cursor: pointer;
     }
 
-    /* 放大版草莓農場看板 */
     .dashboard-grid {
       display: grid; grid-template-columns: 1fr 1.3fr; gap: 14px; margin-bottom: 18px;
     }
@@ -143,7 +142,7 @@
     }
     .btn-back:active { transform: scale(0.96); }
 
-    /* HOME PAGE (兩列 2x2 排版) */
+    /* HOME PAGE (色彩繽紛的 2x2 專屬按鈕) */
     .home-welcome-card {
       background: linear-gradient(135deg, #e0f2fe, #f3e8ff);
       border: 3px solid #bae6fd; border-radius: 26px; padding: 22px; text-align: center;
@@ -155,16 +154,29 @@
     @media (max-width: 600px) { .home-grid { grid-template-columns: 1fr; } }
 
     .home-card-btn {
-      background: white; border: 3px solid var(--blue-border); border-radius: 22px;
+      border: 3px solid; border-radius: 22px;
       padding: 22px; text-align: center; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
       box-shadow: 0 6px 16px rgba(0,0,0,0.05); display: flex; flex-direction: column; align-items: center; gap: 8px;
     }
     .home-card-btn:hover { transform: translateY(-4px); box-shadow: 0 10px 24px rgba(0,0,0,0.1); }
     .home-card-icon { font-size: 3.2rem; }
-    .home-card-title { font-size: 1.25rem; font-weight: 900; color: var(--blue-text); }
+    .home-card-title { font-size: 1.25rem; font-weight: 900; }
     .home-card-desc { font-size: 0.88rem; font-weight: 700; color: var(--text-muted); }
 
-    /* 閃卡與總複習頁 */
+    /* 四種馬卡龍配色方格 */
+    .card-study { background: #e0f2fe; border-color: #7dd3fc; }
+    .card-study .home-card-title { color: #0369a1; }
+
+    .card-puzzle { background: #f3e8ff; border-color: #d8b4fe; }
+    .card-puzzle .home-card-title { color: #6b21a8; }
+
+    .card-practice { background: #dcfce7; border-color: #86efac; }
+    .card-practice .home-card-title { color: #15803d; }
+
+    .card-all { background: #ffedd5; border-color: #fdba74; }
+    .card-all .home-card-title { color: #c2410c; }
+
+    /* 閃卡頁 */
     .study-grid {
       display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px;
     }
@@ -369,9 +381,9 @@
       <select class="week-selector" id="weekSelect" onchange="switchWeek(this.value)"></select>
     </div>
     <div class="top-actions">
-      <!-- 玩家名稱按鈕 (可由媽媽在後台新增/切換，避免兄弟倆吵架) -->
-      <button class="btn-profile-badge" onclick="openProfileSelector()" title="Switch Player">
-        👦🏻 <span id="currentProfileName">Jamie</span>
+      <!-- 玩家名稱顯示 (由媽媽在後台設定) -->
+      <button class="btn-profile-badge" onclick="openHeroModal()" title="Current Player">
+        👦🏻 <span id="currentProfileName">Player</span>
       </button>
       <button class="btn-hero" onclick="openHeroModal()">
         🏆 <span id="heroGemBadge">🥉 Bronze</span> ｜ <span id="redStarCount">0</span>🌟 <span id="yellowStarCount">0</span>⭐
@@ -380,14 +392,14 @@
     </div>
   </header>
 
-  <!-- 放大版草莓農場看板 (字體清楚好懂) -->
+  <!-- 放大版草莓農場看板 -->
   <div class="dashboard-grid" id="dashboardGrid">
     <div class="farm-box">
       <div class="farm-info">
         <div class="farm-icon" id="farmEmoji">🍓</div>
         <div>
           <div class="farm-title" style="font-size:1.15rem; color:#14532d; font-weight:900;">Hey! Your Star Berry is Ripe!</div>
-          <div class="farm-timer" style="font-size:0.88rem; color:#166534; font-weight:800; margin-top:2px;">Spell one word to harvest extra 2 stars!</div>
+          <div class="farm-timer" style="font-size:0.85rem; color:#166534; font-weight:800; margin-top:2px;">Spell one word to harvest extra 2 stars!</div>
         </div>
       </div>
       <button class="btn-harvest" id="harvestBtn" onclick="triggerFarmHarvest()">🌾 Harvest</button>
@@ -407,7 +419,7 @@
     <button class="btn-exit-big" onclick="exitSpecialMode()">❌ Exit</button>
   </div>
 
-  <!-- ==================== VIEW 0: HOME PAGE (精確 2x2 排版) ==================== -->
+  <!-- ==================== VIEW 0: HOME PAGE (色彩繽紛的 2x2 排版) ==================== -->
   <div class="view-section active" id="viewHome">
     <div class="home-welcome-card">
       <div style="font-size:3.5rem; margin-bottom:6px;">🌟🎒🚀</div>
@@ -418,29 +430,29 @@
     </div>
 
     <div class="home-grid">
-      <!-- 第一橫列 1 -->
-      <div class="home-card-btn" onclick="switchView('study')">
+      <!-- 第一橫列 1: This Week's New Words (粉藍色) -->
+      <div class="home-card-btn card-study" onclick="switchView('study')">
         <div class="home-card-icon">📖</div>
         <div class="home-card-title">This Week's New Words</div>
         <div class="home-card-desc">Study flashcards & test word by word</div>
       </div>
 
-      <!-- 第一橫列 2 -->
-      <div class="home-card-btn" onclick="switchView('puzzle')">
+      <!-- 第一橫列 2: Word Puzzle Game (粉紫色) -->
+      <div class="home-card-btn card-puzzle" onclick="switchView('puzzle')">
         <div class="home-card-icon">🧩</div>
         <div class="home-card-title">Word Puzzle Game</div>
         <div class="home-card-desc">Play letter grid matching & win stars</div>
       </div>
 
-      <!-- 第二橫列 1 -->
-      <div class="home-card-btn" onclick="startReviewMode()">
+      <!-- 第二橫列 1: Practice all for extra stars! (粉綠色) -->
+      <div class="home-card-btn card-practice" onclick="startReviewMode()">
         <div class="home-card-icon">🍀</div>
         <div class="home-card-title">Practice all for extra stars!</div>
         <div class="home-card-desc">Review pass weeks' words for 2x stars</div>
       </div>
 
-      <!-- 第二橫列 2 -->
-      <div class="home-card-btn" onclick="switchView('viewAll')">
+      <!-- 第二橫列 2: All Words (粉蜜桃色) -->
+      <div class="home-card-btn card-all" onclick="switchView('viewAll')">
         <div class="home-card-icon">📚</div>
         <div class="home-card-title">All Words</div>
         <div class="home-card-desc">View all learned words from all weeks</div>
@@ -470,7 +482,7 @@
     <div class="study-grid" id="allWordsGrid"></div>
   </div>
 
-  <!-- ==================== VIEW 1.8: WORD PUZZLE ==================== -->
+  <!-- ==================== VIEW 1.8: WORD PUZZLE (支援點錯可取消重選) ==================== -->
   <div class="view-section" id="viewPuzzle">
     <div class="nav-back-row">
       <button class="btn-back" onclick="switchView('home')">⬅️ Back to Home</button>
@@ -480,7 +492,8 @@
     </div>
     <div class="puzzle-board">
       <div id="puzzlePrompt" style="font-size:1.3rem; font-weight:900; color:#581c87; margin-bottom:8px;"></div>
-      <div style="font-size:0.85rem; font-weight:800; color:var(--text-muted); margin-bottom:12px;">Tap letters in correct order to spell the full word (including article)!</div>
+      <div style="font-size:0.85rem; font-weight:800; color:var(--text-muted); margin-bottom:6px;">Tap letters in correct order. (Tap a selected letter again to unselect!)</div>
+      <div id="puzzleCurrentForm" style="font-size:1.4rem; font-weight:900; color:#7e22ce; min-height:36px; margin-bottom:10px; letter-spacing:2px;">_</div>
       <div class="puzzle-grid" id="puzzleGrid"></div>
       <button class="btn-submit-quiz" style="margin-top:16px; background:#9333ea; box-shadow:0 4px 0 #581c87;" onclick="initPuzzleGame()">🔄 New Puzzle</button>
     </div>
@@ -565,7 +578,7 @@
       </div>
     </div>
 
-    <div style="font-weight:900; font-size:0.9rem; margin-bottom:6px; color:var(--text-muted);">💎 Gem Rank Ladder (追追追寶石階梯):</div>
+    <div style="font-weight:900; font-size:0.9rem; margin-bottom:6px; color:var(--text-muted);">💎 Gem Rank Ladder (擴充至 2000 星):</div>
     <div class="rank-ladder" id="rankLadder"></div>
 
     <div style="font-weight:900; font-size:0.9rem; margin-bottom:6px; color:var(--purple-text);">🎨 Sticker & Trophy Collection:</div>
@@ -576,34 +589,30 @@
   </div>
 </div>
 
-<!-- MODAL 2: 媽媽專屬後台 (支援玩家名字設定與切換) -->
+<!-- MODAL 2: 媽媽專屬後台 (支援「設為本週主打」＋「玩家名字設定與刪除」) -->
 <div class="modal" id="parentModal">
   <div class="modal-box">
     <div class="modal-top">
-      <h2 style="margin:0; color:var(--blue-text);">🔒 Parent Admin (Profiles & Words)</h2>
+      <h2 style="margin:0; color:var(--blue-text);">🔒 Parent Admin (Profiles & All Weeks)</h2>
       <button class="btn-back" style="padding:6px 14px;" onclick="closeModal('parentModal')">⬅️ Back</button>
     </div>
 
-    <!-- 玩家設定區塊 (防吵架機制) -->
+    <!-- 玩家設定與刪除區塊 -->
     <div style="background:var(--purple-bg); border:2px solid var(--purple-border); border-radius:18px; padding:14px; margin-bottom:16px;">
-      <div style="font-weight:900; color:var(--purple-text); margin-bottom:6px;">👤 Player Profiles (兄弟玩家設定):</div>
-      <div style="font-size:0.82rem; color:#581c87; margin-bottom:8px; font-weight:700;">
-        Mom can set player names and switch who is currently playing so they never fight over scores!
-      </div>
-      <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:10px;">
-        <select id="parentProfileSelect" style="padding:8px 12px; border-radius:10px; border:2px solid #c084fc; font-weight:800; font-size:0.95rem;">
-          <option value="Jamie">Jamie</option>
-          <option value="Brother">Brother</option>
-        </select>
-        <button class="btn-submit-quiz" style="padding:8px 14px; font-size:0.85rem; background:#7e22ce;" onclick="selectParentActiveProfile()">👉 Set Active Player</button>
-        <button class="btn-parent" style="background:#e0f2fe; color:#0369a1; border-color:#7dd3fc;" onclick="addNewProfile()">➕ Add Player Name</button>
+      <div style="font-weight:900; color:var(--purple-text); margin-bottom:6px;">👤 Player Profiles (兄弟玩家管理):</div>
+      <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:8px;">
+        <select id="parentProfileSelect" style="padding:8px 12px; border-radius:10px; border:2px solid #c084fc; font-weight:800; font-size:0.95rem;"></select>
+        <button class="btn-submit-quiz" style="padding:8px 14px; font-size:0.85rem; background:#7e22ce;" onclick="selectParentActiveProfile()">👉 Set Active</button>
+        <button class="btn-parent" style="background:#e0f2fe; color:#0369a1; border-color:#7dd3fc;" onclick="addNewProfile()">➕ Add Player</button>
+        <button class="btn-parent" style="background:#fee2e2; color:#b91c1c; border-color:#fca5a5;" onclick="deleteActiveProfile()">🗑️ Delete Player</button>
       </div>
     </div>
 
+    <!-- 快速同步與匯入區 -->
     <div style="background:var(--blue-bg); border:2px solid var(--blue-border); border-radius:18px; padding:14px; margin-bottom:16px;">
-      <div style="font-weight:900; color:var(--blue-text); margin-bottom:6px;">📲 Sync & Share Words:</div>
+      <div style="font-weight:900; color:var(--blue-text); margin-bottom:6px;">📲 Sync Words to iPad:</div>
       <div style="display:flex; gap:8px; flex-wrap:wrap;">
-        <button class="btn-submit-quiz" style="padding:8px 14px; font-size:0.85rem; background:#7e22ce;" onclick="toggleBulkPaste()">📋 Quick Paste 14 Words</button>
+        <button class="btn-submit-quiz" style="padding:8px 14px; font-size:0.85rem; background:#7e22ce;" onclick="toggleBulkPaste()">📋 Quick Paste Words</button>
         <button class="btn-submit-quiz" style="padding:8px 14px; font-size:0.85rem; background:#0284c7;" onclick="toggleSyncCodeBox()">🔑 Copy / Paste Sync Code</button>
       </div>
 
@@ -627,14 +636,12 @@
       </div>
     </div>
 
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
-      <div style="font-weight:900; font-size:1.05rem;">📚 Manage Current Week:</div>
-      <div style="display:flex; gap:6px; flex-wrap:wrap;">
-        <button class="btn-parent" style="background:#fee2e2; color:#b91c1c; border-color:#fca5a5;" onclick="deleteCurrentWeek()">🗑️ Delete This Week</button>
-        <button class="btn-parent" style="background:#ffedd5; color:#c2410c; border-color:#fdba74;" onclick="resetCurrentWeek()">🔄 Reset Progress</button>
-        <button class="btn-parent" style="background:var(--green-bg); color:var(--green-text); border-color:var(--green-border);" onclick="createNewWeek()">➕ Add New Week</button>
-      </div>
+    <!-- 所有禮拜的管理總表 (All Weeks Manager + 設定為本週主打) -->
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:8px;">
+      <div style="font-weight:900; font-size:1.05rem;">📚 All Weeks Management (設定本週與編輯):</div>
+      <button class="btn-parent" style="background:var(--green-bg); color:var(--green-text); border-color:var(--green-border);" onclick="createNewWeek()">➕ Add New Week</button>
     </div>
+    <div id="allWeeksListAdmin" style="background:#f8fafc; border-radius:14px; padding:10px; border:2px solid #cbd5e1; margin-bottom:14px; max-height:160px; overflow-y:auto;"></div>
 
     <input type="text" id="editWeekTitle" style="width:100%; padding:10px; border-radius:10px; border:2px solid #cbd5e1; font-weight:800; margin-bottom:10px;" placeholder="Week Title">
     <div id="wordRowsContainer"></div>
@@ -691,7 +698,6 @@
     "bateau": { emoji: "⛵", en: "a boat" }, "table": { emoji: "🪑", en: "a table" }
   };
 
-  // 擴充至 2000 星的寶石階梯
   const GEM_RANKS = [
     { min: 0,    name: "🥉 Bronze",      full: "🥉 Bronze Sprout" },
     { min: 20,   name: "🥈 Silver",      full: "🥈 Silver Explorer" },
@@ -750,8 +756,7 @@
   let appData = {
     currentProfile: "Jamie",
     profiles: {
-      "Jamie": { totalStars: 0, allStickers: [], starHistory: [], weeks: JSON.parse(JSON.stringify(DEFAULT_WEEKS)) },
-      "Brother": { totalStars: 0, allStickers: [], starHistory: [], weeks: JSON.parse(JSON.stringify(DEFAULT_WEEKS)) }
+      "Jamie": { totalStars: 0, allStickers: [], starHistory: [], weeks: JSON.parse(JSON.stringify(DEFAULT_WEEKS)) }
     },
     currentWeekId: "week_o",
     nextHarvestTime: 0
@@ -774,8 +779,7 @@
   function getActiveProfileData() {
     if (!appData.profiles) {
       appData.profiles = {
-        "Jamie": { totalStars: appData.totalStars || 0, allStickers: appData.allStickers || [], starHistory: appData.starHistory || [], weeks: appData.weeks || DEFAULT_WEEKS },
-        "Brother": { totalStars: 0, allStickers: [], starHistory: [], weeks: JSON.parse(JSON.stringify(DEFAULT_WEEKS)) }
+        "Jamie": { totalStars: 0, allStickers: [], starHistory: [], weeks: JSON.parse(JSON.stringify(DEFAULT_WEEKS)) }
       };
     }
     if (!appData.profiles[appData.currentProfile]) {
@@ -910,7 +914,7 @@
       artBar.appendChild(b);
     });
 
-    const saved = localStorage.getItem('jamie_french_app_v14');
+    const saved = localStorage.getItem('jamie_french_app_v15');
     if (saved) {
       try { appData = { ...appData, ...JSON.parse(saved) }; } catch (e) {}
     }
@@ -939,14 +943,14 @@
   }
 
   function saveAppData() {
-    localStorage.setItem('jamie_french_app_v14', JSON.stringify(appData));
+    localStorage.setItem('jamie_french_app_v15', JSON.stringify(appData));
     renderHeaderAndRewards();
     renderStudyGrid();
   }
 
   function renderHeaderAndRewards() {
     const pData = getActiveProfileData();
-    document.getElementById('currentProfileName').textContent = appData.currentProfile || "Jamie";
+    document.getElementById('currentProfileName').textContent = appData.currentProfile || "Player";
 
     const week = getActiveWeek();
     const sel = document.getElementById('weekSelect');
@@ -1117,6 +1121,7 @@
     puzzleLetters = letters.slice(0, 16);
     puzzleSelectedIndices = [];
     renderPuzzleGrid();
+    updatePuzzleFormText();
   }
 
   function renderPuzzleGrid() {
@@ -1127,14 +1132,24 @@
       cell.className = 'puzzle-cell' + (puzzleSelectedIndices.includes(idx) ? ' selected' : '');
       cell.textContent = ch;
       cell.onclick = () => {
-        if (!puzzleSelectedIndices.includes(idx)) {
+        const pos = puzzleSelectedIndices.indexOf(idx);
+        if (pos >= 0) {
+          // 支援點錯可取消選取 (Undo/Unselect)
+          puzzleSelectedIndices.splice(pos, 1);
+        } else {
           puzzleSelectedIndices.push(idx);
-          renderPuzzleGrid();
-          checkPuzzleProgress();
         }
+        renderPuzzleGrid();
+        updatePuzzleFormText();
+        checkPuzzleProgress();
       };
       grid.appendChild(cell);
     });
+  }
+
+  function updatePuzzleFormText() {
+    const formed = puzzleSelectedIndices.map(i => puzzleLetters[i]).join('');
+    document.getElementById('puzzleCurrentForm').textContent = formed ? formed : '_';
   }
 
   function checkPuzzleProgress() {
@@ -1146,11 +1161,6 @@
       showCelebration('🧩', 'PUZZLE SOLVED!', `Great job finding "${puzzleTargetWord}"! You earned +2 ⭐!`);
       saveAppData();
       setTimeout(initPuzzleGame, 1500);
-    } else if (formed.length >= cleanTarget.length) {
-      setTimeout(() => {
-        puzzleSelectedIndices = [];
-        renderPuzzleGrid();
-      }, 500);
     }
   }
 
@@ -1511,22 +1521,6 @@
     document.getElementById('heroModal').classList.add('open');
   }
 
-  function openProfileSelector() {
-    const pNames = Object.keys(appData.profiles || { "Jamie": 1, "Brother": 1 });
-    const chosen = prompt(`👤 Current Player: ${appData.currentProfile}\nType player name to switch (e.g. ${pNames.join(', ')}):`, pNames[0]);
-    if (chosen) {
-      const clean = chosen.trim();
-      if (!appData.profiles[clean]) {
-        appData.profiles[clean] = { totalStars: 0, allStickers: [], starHistory: [], weeks: JSON.parse(JSON.stringify(DEFAULT_WEEKS)) };
-      }
-      appData.currentProfile = clean;
-      saveAppData();
-      renderHeaderAndRewards();
-      renderStudyGrid();
-      alert(`✅ Switched active player to: ${clean}`);
-    }
-  }
-
   function promptParentPin() {
     const pin = prompt('🔒 Parent Area: Please enter PIN (1234):');
     if (pin === '1234') {
@@ -1537,10 +1531,7 @@
   }
 
   function openParentModal() {
-    const pNames = Object.keys(appData.profiles || { "Jamie": 1, "Brother": 1 });
-    const sel = document.getElementById('parentProfileSelect');
-    sel.innerHTML = pNames.map(n => `<option value="${n}" ${n === appData.currentProfile ? 'selected' : ''}>${n}</option>`).join('');
-
+    renderAdminWeeksList();
     const week = getActiveWeek();
     document.getElementById('editWeekTitle').value = week.title;
     const container = document.getElementById('wordRowsContainer');
@@ -1552,26 +1543,43 @@
     document.getElementById('parentModal').classList.add('open');
   }
 
-  function selectParentActiveProfile() {
-    const sel = document.getElementById('parentProfileSelect');
-    appData.currentProfile = sel.value;
-    saveAppData();
-    renderHeaderAndRewards();
-    renderStudyGrid();
-    alert(`✅ Parent set active player to: ${appData.currentProfile}`);
+  // 渲染後台所有禮拜的管理清單（含「設為本週主打」按鈕）
+  function renderAdminWeeksList() {
+    const pData = getActiveProfileData();
+    const listEl = document.getElementById('allWeeksListAdmin');
+    listEl.innerHTML = '';
+    pData.weeks.forEach(w => {
+      const isCurrent = (w.id === appData.currentWeekId);
+      const row = document.createElement('div');
+      row.style.cssText = 'display:flex; justify-content:space-between; align-items:center; padding:6px 8px; border-bottom:1px solid #e2e8f0; font-size:0.9rem; font-weight:800;';
+      row.innerHTML = `
+        <span>${w.title} (${w.words.length} words) ${isCurrent ? '⭐ [CURRENT WEEK]' : ''}</span>
+        <div style="display:flex; gap:6px;">
+          ${!isCurrent ? `<button class="btn-parent" style="padding:4px 8px; background:#dcfce7; color:#15803d;" onclick="setAsCurrentWeek('${w.id}')">⭐ Set as Current</button>` : ''}
+          <button class="btn-parent" style="padding:4px 8px;" onclick="loadWeekToEdit('${w.id}')">✏️ Edit</button>
+        </div>
+      `;
+      listEl.appendChild(row);
+    });
   }
 
-  function addNewProfile() {
-    const name = prompt('Enter new player name (e.g. Brother):');
-    if (name && name.trim()) {
-      const clean = name.trim();
-      if (!appData.profiles[clean]) {
-        appData.profiles[clean] = { totalStars: 0, allStickers: [], starHistory: [], weeks: JSON.parse(JSON.stringify(DEFAULT_WEEKS)) };
-      }
-      appData.currentProfile = clean;
-      saveAppData();
-      openParentModal();
-      alert(`✅ Added & switched to player: ${clean}`);
+  function setAsCurrentWeek(id) {
+    appData.currentWeekId = id;
+    saveAppData();
+    renderAdminWeeksList();
+    alert('✅ Successfully set as Current Week!');
+  }
+
+  function loadWeekToEdit(id) {
+    const pData = getActiveProfileData();
+    const w = pData.weeks.find(x => x.id === id);
+    if (w) {
+      appData.currentWeekId = w.id;
+      document.getElementById('editWeekTitle').value = w.title;
+      const container = document.getElementById('wordRowsContainer');
+      container.innerHTML = '';
+      w.words.forEach(wd => addWordRowUI(wd.full, wd.meaning, wd.emoji));
+      renderAdminWeeksList();
     }
   }
 
@@ -1642,6 +1650,35 @@
     }
   }
 
+  function addNewProfile() {
+    const name = prompt('Enter new player name (e.g. Jamie or Brother):');
+    if (name && name.trim()) {
+      const clean = name.trim();
+      if (!appData.profiles[clean]) {
+        appData.profiles[clean] = { totalStars: 0, allStickers: [], starHistory: [], weeks: JSON.parse(JSON.stringify(DEFAULT_WEEKS)) };
+      }
+      appData.currentProfile = clean;
+      saveAppData();
+      openParentModal();
+      alert(`✅ Added & switched to player: ${clean}`);
+    }
+  }
+
+  function deleteActiveProfile() {
+    const names = Object.keys(appData.profiles);
+    if (names.length <= 1) {
+      alert('You must keep at least 1 player profile!');
+      return;
+    }
+    if (confirm(`🗑️ Delete player profile "${appData.currentProfile}"?`)) {
+      delete appData.profiles[appData.currentProfile];
+      appData.currentProfile = Object.keys(appData.profiles)[0];
+      saveAppData();
+      openParentModal();
+      alert(`✅ Profile deleted. Switched to ${appData.currentProfile}`);
+    }
+  }
+
   function deleteCurrentWeek() {
     const pData = getActiveProfileData();
     if (pData.weeks.length <= 1) {
@@ -1653,7 +1690,7 @@
       pData.weeks = pData.weeks.filter(w => w.id !== week.id);
       appData.currentWeekId = pData.weeks[0].id;
       saveAppData();
-      closeModal('parentModal');
+      openParentModal();
       switchView('home');
     }
   }
