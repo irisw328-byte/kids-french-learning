@@ -65,10 +65,10 @@
     }
     .btn-hero:active { transform: translateY(2px); box-shadow: 0 1px 0 #eab308; }
 
-    .btn-profile {
+    .btn-profile-badge {
       background: var(--blue-bg); color: var(--blue-text);
       border: 2px solid var(--blue-border); padding: 8px 14px; border-radius: 99px;
-      font-weight: 900; font-size: 0.9rem; cursor: pointer;
+      font-weight: 900; font-size: 0.9rem; display: flex; align-items: center; gap: 5px;
     }
 
     .btn-parent {
@@ -90,7 +90,7 @@
     .farm-info { display: flex; align-items: center; gap: 12px; }
     .farm-icon { font-size: 2.8rem; }
     .farm-title { font-weight: 900; color: #14532d; font-size: 1.15rem; line-height: 1.2; }
-    .farm-timer { font-size: 0.88rem; font-weight: 800; color: #166534; margin-top: 2px; }
+    .farm-timer { font-size: 0.85rem; font-weight: 800; color: #166534; margin-top: 2px; }
     .btn-harvest {
       background: #22c55e; color: white; border: none; padding: 11px 16px;
       border-radius: 14px; font-weight: 900; font-size: 0.95rem; cursor: pointer;
@@ -211,7 +211,7 @@
     }
     .puzzle-cell.selected { background: #f0abfc; color: white; border-color: #a855f7; transform: scale(0.95); }
 
-    /* Spelling Quiz (順序：綠 -> 藍 -> 紫) */
+    /* Spelling Quiz */
     .quiz-top-card {
       background: var(--yellow-bg); border: 3px solid var(--yellow-border);
       border-radius: 24px; padding: 18px; text-align: center; margin-bottom: 18px;
@@ -369,8 +369,10 @@
       <select class="week-selector" id="weekSelect" onchange="switchWeek(this.value)"></select>
     </div>
     <div class="top-actions">
-      <!-- 多玩家切換按鈕 (Jamie / 哥哥) -->
-      <button class="btn-profile" onclick="switchProfile()" title="Switch Player">👤 <span id="currentProfileName">Jamie</span></button>
+      <!-- 玩家名稱按鈕 (可由媽媽在後台新增/切換，避免兄弟倆吵架) -->
+      <button class="btn-profile-badge" onclick="openProfileSelector()" title="Switch Player">
+        👦🏻 <span id="currentProfileName">Jamie</span>
+      </button>
       <button class="btn-hero" onclick="openHeroModal()">
         🏆 <span id="heroGemBadge">🥉 Bronze</span> ｜ <span id="redStarCount">0</span>🌟 <span id="yellowStarCount">0</span>⭐
       </button>
@@ -378,13 +380,14 @@
     </div>
   </header>
 
+  <!-- 放大版草莓農場看板 (字體清楚好懂) -->
   <div class="dashboard-grid" id="dashboardGrid">
     <div class="farm-box">
       <div class="farm-info">
         <div class="farm-icon" id="farmEmoji">🍓</div>
         <div>
-          <div class="farm-title" style="font-size:1.1rem; color:#14532d;">Hey! Your Star Berry is Ripe!</div>
-          <div class="farm-timer" style="font-size:0.85rem; color:#166534; font-weight:800;">Spell one word to harvest extra 2 stars!</div>
+          <div class="farm-title" style="font-size:1.15rem; color:#14532d; font-weight:900;">Hey! Your Star Berry is Ripe!</div>
+          <div class="farm-timer" style="font-size:0.88rem; color:#166534; font-weight:800; margin-top:2px;">Spell one word to harvest extra 2 stars!</div>
         </div>
       </div>
       <button class="btn-harvest" id="harvestBtn" onclick="triggerFarmHarvest()">🌾 Harvest</button>
@@ -404,7 +407,7 @@
     <button class="btn-exit-big" onclick="exitSpecialMode()">❌ Exit</button>
   </div>
 
-  <!-- ==================== VIEW 0: HOME PAGE (親切友善主頁) ==================== -->
+  <!-- ==================== VIEW 0: HOME PAGE (精確 2x2 排版) ==================== -->
   <div class="view-section active" id="viewHome">
     <div class="home-welcome-card">
       <div style="font-size:3.5rem; margin-bottom:6px;">🌟🎒🚀</div>
@@ -461,7 +464,7 @@
     <div class="nav-back-row">
       <button class="btn-back" onclick="switchView('home')">⬅️ Back to Home</button>
       <h2 style="margin:0; font-size:1.25rem; color:var(--blue-text);" id="allWordsCountTitle">
-        📚 All Words Pool: 0 words
+        📚 All Words: 0 words
       </h2>
     </div>
     <div class="study-grid" id="allWordsGrid"></div>
@@ -517,7 +520,7 @@
       <div class="article-bar" id="articleBar"></div>
     </div>
 
-    <!-- STEP 2: 藍色 (指令改為 Put in order) -->
+    <!-- STEP 2: 藍色 (Put in order) -->
     <div class="step-section step-2-box" id="step2Box">
       <div class="step-header">
         <div><span class="step-badge">STEP 2</span> Put in order</div>
@@ -530,7 +533,7 @@
       <div class="tile-pool" id="poolTiles"></div>
     </div>
 
-    <!-- STEP 3: 紫色 (Type the full word, 無小鍵盤干擾) -->
+    <!-- STEP 3: 紫色 (Type the full word) -->
     <div class="step-section step-3-box" id="step3Box">
       <div class="step-header">
         <div><span class="step-badge">STEP 3</span> Type the full word</div>
@@ -544,7 +547,7 @@
   </div>
 </div>
 
-<!-- MODAL 1: 英雄榜 (Stars & Trophy) -->
+<!-- MODAL 1: 英雄榜 (Jamie's Stars & Trophy) -->
 <div class="modal" id="heroModal">
   <div class="modal-box">
     <div class="modal-top">
@@ -573,16 +576,32 @@
   </div>
 </div>
 
-<!-- MODAL 2: 媽媽專屬後台 -->
+<!-- MODAL 2: 媽媽專屬後台 (支援玩家名字設定與切換) -->
 <div class="modal" id="parentModal">
   <div class="modal-box">
     <div class="modal-top">
-      <h2 style="margin:0; color:var(--blue-text);">🔒 Parent Admin (Words & Sync)</h2>
+      <h2 style="margin:0; color:var(--blue-text);">🔒 Parent Admin (Profiles & Words)</h2>
       <button class="btn-back" style="padding:6px 14px;" onclick="closeModal('parentModal')">⬅️ Back</button>
     </div>
 
+    <!-- 玩家設定區塊 (防吵架機制) -->
+    <div style="background:var(--purple-bg); border:2px solid var(--purple-border); border-radius:18px; padding:14px; margin-bottom:16px;">
+      <div style="font-weight:900; color:var(--purple-text); margin-bottom:6px;">👤 Player Profiles (兄弟玩家設定):</div>
+      <div style="font-size:0.82rem; color:#581c87; margin-bottom:8px; font-weight:700;">
+        Mom can set player names and switch who is currently playing so they never fight over scores!
+      </div>
+      <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:10px;">
+        <select id="parentProfileSelect" style="padding:8px 12px; border-radius:10px; border:2px solid #c084fc; font-weight:800; font-size:0.95rem;">
+          <option value="Jamie">Jamie</option>
+          <option value="Brother">Brother</option>
+        </select>
+        <button class="btn-submit-quiz" style="padding:8px 14px; font-size:0.85rem; background:#7e22ce;" onclick="selectParentActiveProfile()">👉 Set Active Player</button>
+        <button class="btn-parent" style="background:#e0f2fe; color:#0369a1; border-color:#7dd3fc;" onclick="addNewProfile()">➕ Add Player Name</button>
+      </div>
+    </div>
+
     <div style="background:var(--blue-bg); border:2px solid var(--blue-border); border-radius:18px; padding:14px; margin-bottom:16px;">
-      <div style="font-weight:900; color:var(--blue-text); margin-bottom:6px;">📲 Sync to iPad Home Screen App:</div>
+      <div style="font-weight:900; color:var(--blue-text); margin-bottom:6px;">📲 Sync & Share Words:</div>
       <div style="display:flex; gap:8px; flex-wrap:wrap;">
         <button class="btn-submit-quiz" style="padding:8px 14px; font-size:0.85rem; background:#7e22ce;" onclick="toggleBulkPaste()">📋 Quick Paste 14 Words</button>
         <button class="btn-submit-quiz" style="padding:8px 14px; font-size:0.85rem; background:#0284c7;" onclick="toggleSyncCodeBox()">🔑 Copy / Paste Sync Code</button>
@@ -672,7 +691,7 @@
     "bateau": { emoji: "⛵", en: "a boat" }, "table": { emoji: "🪑", en: "a table" }
   };
 
-  // 更新後的寶石段位門檻 (支援至 2000 星)
+  // 擴充至 2000 星的寶石階梯
   const GEM_RANKS = [
     { min: 0,    name: "🥉 Bronze",      full: "🥉 Bronze Sprout" },
     { min: 20,   name: "🥈 Silver",      full: "🥈 Silver Explorer" },
@@ -729,7 +748,7 @@
   ];
 
   let appData = {
-    currentProfile: "Jamie", // 支援多玩家切換 (Jamie / 哥哥)
+    currentProfile: "Jamie",
     profiles: {
       "Jamie": { totalStars: 0, allStickers: [], starHistory: [], weeks: JSON.parse(JSON.stringify(DEFAULT_WEEKS)) },
       "Brother": { totalStars: 0, allStickers: [], starHistory: [], weeks: JSON.parse(JSON.stringify(DEFAULT_WEEKS)) }
@@ -760,19 +779,9 @@
       };
     }
     if (!appData.profiles[appData.currentProfile]) {
-      appData.currentProfile = "Jamie";
+      appData.currentProfile = Object.keys(appData.profiles)[0] || "Jamie";
     }
     return appData.profiles[appData.currentProfile];
-  }
-
-  function switchProfile() {
-    const pNames = Object.keys(appData.profiles || { "Jamie": 1, "Brother": 1 });
-    const nextIdx = (pNames.indexOf(appData.currentProfile) + 1) % pNames.length;
-    appData.currentProfile = pNames[nextIdx];
-    saveAppData();
-    renderHeaderAndRewards();
-    renderStudyGrid();
-    alert(`👤 Switched profile to: ${appData.currentProfile}`);
   }
 
   function splitIntoPhonics(noun) {
@@ -901,7 +910,7 @@
       artBar.appendChild(b);
     });
 
-    const saved = localStorage.getItem('jamie_french_app_v13');
+    const saved = localStorage.getItem('jamie_french_app_v14');
     if (saved) {
       try { appData = { ...appData, ...JSON.parse(saved) }; } catch (e) {}
     }
@@ -930,7 +939,7 @@
   }
 
   function saveAppData() {
-    localStorage.setItem('jamie_french_app_v13', JSON.stringify(appData));
+    localStorage.setItem('jamie_french_app_v14', JSON.stringify(appData));
     renderHeaderAndRewards();
     renderStudyGrid();
   }
@@ -1059,7 +1068,7 @@
     const pData = getActiveProfileData();
     let allPool = [];
     pData.weeks.forEach(w => w.words.forEach(wd => allPool.push(wd)));
-    document.getElementById('allWordsCountTitle').textContent = `📚 All Words Pool: ${allPool.length} words total`;
+    document.getElementById('allWordsCountTitle').textContent = `📚 All Words: ${allPool.length} words total`;
 
     const grid = document.getElementById('allWordsGrid');
     grid.innerHTML = '';
@@ -1349,7 +1358,7 @@
   function checkUserAnswer() {
     if (awaitingNext) {
       if (specificTestWord || isFarmQuest) {
-        switchView('study');
+        switchView('home');
         return;
       }
       pickNextQuestion();
@@ -1432,7 +1441,7 @@
     }
 
     awaitingNext = true;
-    document.getElementById('checkBtn').textContent = (specificTestWord || isFarmQuest) ? '⬅️ Back to Cards' : 'Next Word ➡️';
+    document.getElementById('checkBtn').textContent = (specificTestWord || isFarmQuest) ? '⬅️ Back to Home' : 'Next Word ➡️';
   }
 
   function checkRewardMilestones(week) {
@@ -1478,7 +1487,7 @@
     const ladder = document.getElementById('rankLadder');
     ladder.innerHTML = GEM_RANKS.map(r => `
       <div class="rank-card ${total >= r.min ? 'reached' : ''}">
-        <div style="font-size:1.1rem;">${r.name}</div>
+        <div style="font-size:1.05rem;">${r.name}</div>
         <div>${r.min} ⭐</div>
       </div>
     `).join('');
@@ -1502,6 +1511,22 @@
     document.getElementById('heroModal').classList.add('open');
   }
 
+  function openProfileSelector() {
+    const pNames = Object.keys(appData.profiles || { "Jamie": 1, "Brother": 1 });
+    const chosen = prompt(`👤 Current Player: ${appData.currentProfile}\nType player name to switch (e.g. ${pNames.join(', ')}):`, pNames[0]);
+    if (chosen) {
+      const clean = chosen.trim();
+      if (!appData.profiles[clean]) {
+        appData.profiles[clean] = { totalStars: 0, allStickers: [], starHistory: [], weeks: JSON.parse(JSON.stringify(DEFAULT_WEEKS)) };
+      }
+      appData.currentProfile = clean;
+      saveAppData();
+      renderHeaderAndRewards();
+      renderStudyGrid();
+      alert(`✅ Switched active player to: ${clean}`);
+    }
+  }
+
   function promptParentPin() {
     const pin = prompt('🔒 Parent Area: Please enter PIN (1234):');
     if (pin === '1234') {
@@ -1512,6 +1537,10 @@
   }
 
   function openParentModal() {
+    const pNames = Object.keys(appData.profiles || { "Jamie": 1, "Brother": 1 });
+    const sel = document.getElementById('parentProfileSelect');
+    sel.innerHTML = pNames.map(n => `<option value="${n}" ${n === appData.currentProfile ? 'selected' : ''}>${n}</option>`).join('');
+
     const week = getActiveWeek();
     document.getElementById('editWeekTitle').value = week.title;
     const container = document.getElementById('wordRowsContainer');
@@ -1521,6 +1550,29 @@
     document.getElementById('bulkPasteArea').style.display = 'none';
     document.getElementById('parentModal').dataset.isNew = 'false';
     document.getElementById('parentModal').classList.add('open');
+  }
+
+  function selectParentActiveProfile() {
+    const sel = document.getElementById('parentProfileSelect');
+    appData.currentProfile = sel.value;
+    saveAppData();
+    renderHeaderAndRewards();
+    renderStudyGrid();
+    alert(`✅ Parent set active player to: ${appData.currentProfile}`);
+  }
+
+  function addNewProfile() {
+    const name = prompt('Enter new player name (e.g. Brother):');
+    if (name && name.trim()) {
+      const clean = name.trim();
+      if (!appData.profiles[clean]) {
+        appData.profiles[clean] = { totalStars: 0, allStickers: [], starHistory: [], weeks: JSON.parse(JSON.stringify(DEFAULT_WEEKS)) };
+      }
+      appData.currentProfile = clean;
+      saveAppData();
+      openParentModal();
+      alert(`✅ Added & switched to player: ${clean}`);
+    }
   }
 
   function toggleBulkPaste() {
@@ -1568,7 +1620,7 @@
     const box = document.getElementById('exportCodeBox');
     box.select();
     navigator.clipboard.writeText(box.value);
-    alert('✅ Sync Code copied! Send it to iPad and paste it into Step B inside the Home Screen app.');
+    alert('✅ Sync Code copied!');
   }
 
   function importFromSyncCode() {
@@ -1583,17 +1635,17 @@
         upsertWeek(incomingWeek);
         closeModal('parentModal');
         switchView('home');
-        alert(`✅ Successfully imported "${incomingWeek.title}" into this app!`);
+        alert(`✅ Successfully imported "${incomingWeek.title}"!`);
       }
     } catch (e) {
-      alert('❌ Invalid Sync Code. Please make sure you copied the full code.');
+      alert('❌ Invalid Sync Code.');
     }
   }
 
   function deleteCurrentWeek() {
     const pData = getActiveProfileData();
     if (pData.weeks.length <= 1) {
-      alert('You must keep at least 1 week list in the app!');
+      alert('You must keep at least 1 week list!');
       return;
     }
     const week = getActiveWeek();
@@ -1612,7 +1664,7 @@
     row.className = 'word-row';
     row.innerHTML = `
       <input type="text" class="input-emoji" value="${emoji}" title="Emoji">
-      <input type="text" class="input-fr" value="${fr}" placeholder="French (e.g. un renard)" oninput="onFrInputChange(this)">
+      <input type="text" class="input-fr" value="${fr}" placeholder="French" oninput="onFrInputChange(this)">
       <input type="text" class="input-en" value="${en}" placeholder="English meaning">
       <button class="btn-del" onclick="this.parentElement.remove()">✕</button>
     `;
