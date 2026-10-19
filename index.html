@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <title>Jamie's French Adventure</title>
+  <title>Jamie's French Quiz</title>
   <style>
     :root {
       --bg-main: #f4f6fb;
@@ -22,9 +22,6 @@
       --peach-bg: #ffedd5;
       --peach-border: #fdba74;
       --peach-text: #c2410c;
-      --pink-bg: #fce7f3;
-      --pink-border: #f9a8d4;
-      --pink-text: #be185d;
       --yellow-bg: #fef9c3;
       --yellow-border: #fde047;
       --yellow-text: #a16207;
@@ -68,35 +65,12 @@
     }
     .btn-hero:active { transform: translateY(2px); box-shadow: 0 1px 0 #eab308; }
 
-    .btn-practice-all {
-      background: var(--green-bg); color: var(--green-text);
-      border: 2px solid var(--green-border); padding: 8px 14px; border-radius: 14px;
-      font-weight: 900; font-size: 0.9rem; cursor: pointer;
-      box-shadow: 0 3px 0 #4ade80;
-    }
-    .btn-practice-all:active { transform: translateY(2px); box-shadow: 0 1px 0 #4ade80; }
-
-    .btn-view-all {
-      background: var(--blue-bg); color: var(--blue-text);
-      border: 2px solid var(--blue-border); padding: 8px 14px; border-radius: 14px;
-      font-weight: 900; font-size: 0.9rem; cursor: pointer;
-      box-shadow: 0 3px 0 #38bdf8;
-    }
-    .btn-view-all:active { transform: translateY(2px); box-shadow: 0 1px 0 #38bdf8; }
-
-    .btn-puzzle {
-      background: var(--purple-bg); color: var(--purple-text);
-      border: 2px solid var(--purple-border); padding: 8px 14px; border-radius: 14px;
-      font-weight: 900; font-size: 0.9rem; cursor: pointer;
-      box-shadow: 0 3px 0 #c084fc;
-    }
-    .btn-puzzle:active { transform: translateY(2px); box-shadow: 0 1px 0 #c084fc; }
-
     .btn-parent {
       background: #f1f5f9; color: #475569; border: 2px solid #cbd5e1;
       padding: 8px 12px; border-radius: 14px; font-weight: 800; font-size: 0.85rem; cursor: pointer;
     }
 
+    /* 儀表板與農場 */
     .dashboard-grid {
       display: grid; grid-template-columns: 1fr 1.3fr; gap: 14px; margin-bottom: 18px;
     }
@@ -163,7 +137,26 @@
     }
     .btn-back:active { transform: scale(0.96); }
 
-    /* 閃卡頁與 View All Words 頁 */
+    /* HOME PAGE (主頁引導大按鈕風格) */
+    .home-welcome-card {
+      background: linear-gradient(135deg, #e0f2fe, #f3e8ff);
+      border: 3px solid #bae6fd; border-radius: 26px; padding: 24px; text-align: center;
+      margin-bottom: 20px; box-shadow: 0 8px 20px rgba(3,105,161,0.08);
+    }
+    .home-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;
+    }
+    .home-card-btn {
+      background: white; border: 3px solid var(--blue-border); border-radius: 22px;
+      padding: 20px; text-align: center; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.05); display: flex; flex-direction: column; align-items: center; gap: 8px;
+    }
+    .home-card-btn:hover { transform: translateY(-4px); box-shadow: 0 10px 24px rgba(0,0,0,0.1); }
+    .home-card-icon { font-size: 3rem; }
+    .home-card-title { font-size: 1.2rem; font-weight: 900; color: var(--blue-text); }
+    .home-card-desc { font-size: 0.85rem; font-weight: 700; color: var(--text-muted); }
+
+    /* 閃卡與總複習頁 */
     .study-grid {
       display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px;
     }
@@ -194,7 +187,7 @@
     .fc-btn-listen { background: var(--blue-bg); color: var(--blue-text); }
     .fc-btn-spell { background: #22c55e; color: white; box-shadow: 0 3px 0 #15803d; }
 
-    /* Puzzle 遊戲頁面樣式 */
+    /* Word Puzzle 頁面 */
     .puzzle-board {
       background: linear-gradient(135deg, #faf5ff, #f3e8ff);
       border: 3px solid #c084fc; border-radius: 24px; padding: 20px; text-align: center;
@@ -209,7 +202,6 @@
       box-shadow: 0 4px 10px rgba(107,33,168,0.08); user-select: none;
     }
     .puzzle-cell.selected { background: #f0abfc; color: white; border-color: #a855f7; transform: scale(0.95); }
-    .puzzle-cell.matched { background: #bbf7d0; color: #15803d; border-color: #4ade80; }
 
     /* Spelling Quiz (順序：綠 -> 藍 -> 紫) */
     .quiz-top-card {
@@ -260,7 +252,7 @@
     .step-2-box { background: var(--blue-bg); border-color: var(--blue-border); color: var(--blue-text); }
     .step-2-box .step-badge { background: #0284c7; }
 
-    /* Step 3: 紫色 (Purple) */
+    /* Step 3: 紫色 (Purple) - 拿掉小鍵盤，乾淨俐落 */
     .step-3-box { background: var(--purple-bg); border-color: var(--purple-border); color: var(--purple-text); }
     .step-3-box .step-badge { background: #7e22ce; }
 
@@ -292,11 +284,6 @@
     .tile.in-tray { background: #bae6fd; border-color: #0284c7; color: #0c4a6e; }
     .tile.used { opacity: 0.2; pointer-events: none; }
 
-    .accent-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
-    .btn-acc {
-      width: 44px; height: 44px; border-radius: 12px; border: 2px solid #c084fc;
-      background: white; font-size: 1.3rem; font-weight: 900; color: #581c87; cursor: pointer;
-    }
     .type-row { display: flex; gap: 10px; flex-wrap: wrap; }
     .type-input {
       flex: 1; min-width: 220px; padding: 14px 18px; font-size: 1.5rem;
@@ -318,6 +305,7 @@
     .diff-text { font-size: 1.65rem; font-weight: 900; letter-spacing: 2px; margin: 6px 0; }
     .wrong-ch { color: #e11d48; text-decoration: underline wavy; }
 
+    /* Modals */
     .modal {
       display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.55);
       align-items: center; justify-content: center; padding: 14px; z-index: 100;
@@ -372,16 +360,13 @@
 <div class="container">
   <header>
     <div class="brand-box">
-      <h1 class="brand-title">🇫🇷 Jamie's French Quest</h1>
+      <h1 class="brand-title">🇫🇷 Jamie's French Quiz</h1>
       <select class="week-selector" id="weekSelect" onchange="switchWeek(this.value)"></select>
     </div>
     <div class="top-actions">
       <button class="btn-hero" onclick="openHeroModal()">
         🏆 <span id="heroGemBadge">🥉 Bronze</span> ｜ <span id="redStarCount">0</span>🌟 <span id="yellowStarCount">0</span>⭐
       </button>
-      <button class="btn-practice-all" onclick="startReviewMode()">🍀 Practice all for extra stars!</button>
-      <button class="btn-view-all" onclick="switchView('viewAll')">📖 View All Words</button>
-      <button class="btn-puzzle" onclick="switchView('puzzle')">🧩 Word Puzzle</button>
       <button class="btn-parent" onclick="promptParentPin()">🔒 Parent</button>
     </div>
   </header>
@@ -408,16 +393,51 @@
   </div>
 
   <div class="mode-banner" id="modeBanner">
-    <span id="modeBannerText">🍀 Practice All Mode: Spell words from all weeks for 2x Extra Stars!</span>
+    <span id="modeBannerText">🍀 Practice All Mode: Reviewing all learned words for 2x Extra Stars!</span>
     <button class="btn-exit-big" onclick="exitSpecialMode()">❌ Exit</button>
   </div>
 
-  <!-- VIEW 1: 學習閃卡頁 -->
-  <div class="view-section active" id="viewStudy">
+  <!-- ==================== VIEW 0: HOME PAGE (全新親切可愛首頁) ==================== -->
+  <div class="view-section active" id="viewHome">
+    <div class="home-welcome-card">
+      <div style="font-size:3.5rem; margin-bottom:6px;">🌟🎒🎉</div>
+      <h2 style="margin:0 0 6px 0; font-size:1.8rem; color:var(--blue-text);">Let's start learning!</h2>
+      <p style="margin:0; font-weight:800; color:var(--text-muted); font-size:1.05rem;">
+        Choose an activity below to learn French words, play puzzles, and win stars!
+      </p>
+    </div>
+
+    <div class="home-grid">
+      <div class="home-card-btn" onclick="switchView('study')">
+        <div class="home-card-icon">📖</div>
+        <div class="home-card-title">This Week's New Words</div>
+        <div class="home-card-desc">Study flashcards & test word by word</div>
+      </div>
+
+      <div class="home-card-btn" onclick="startReviewMode()">
+        <div class="home-card-icon">🍀</div>
+        <div class="home-card-title">Practice All (Extra Stars!)</div>
+        <div class="home-card-desc">Review pass weeks' words for 2x stars</div>
+      </div>
+
+      <div class="home-card-btn" onclick="switchView('viewAll')">
+        <div class="home-card-icon">📚</div>
+        <div class="home-card-title">All Words Pool</div>
+        <div class="home-card-desc">View all learned words from all weeks</div>
+      </div>
+
+      <div class="home-card-btn" onclick="switchView('puzzle')">
+        <div class="home-card-icon">🧩</div>
+        <div class="home-card-title">Word Puzzle Game</div>
+        <div class="home-card-desc">Play letter grid matching & win stars</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== VIEW 1: 學習閃卡頁 (This Week's Words) ==================== -->
+  <div class="view-section" id="viewStudy">
     <div class="nav-back-row">
-      <h2 style="margin:0; font-size:1.25rem; color:var(--blue-text);">
-        📖 Tap a card to listen, then click "Spell It!" to win stars:
-      </h2>
+      <button class="btn-back" onclick="switchView('home')">⬅️ Back to Home</button>
       <button class="btn-submit-quiz" style="padding:10px 20px; font-size:1rem; background:#16a34a; box-shadow:0 4px 0 #14532d;" onclick="startFullWeekQuiz()">
         🚀 Quiz All Words
       </button>
@@ -425,10 +445,10 @@
     <div class="study-grid" id="studyGrid"></div>
   </div>
 
-  <!-- VIEW 1.5: VIEW ALL WORDS -->
+  <!-- ==================== VIEW 1.5: ALL WORDS POOL ==================== -->
   <div class="view-section" id="viewAllWords">
     <div class="nav-back-row">
-      <button class="btn-back" onclick="switchView('study')">⬅️ Back to Current Week</button>
+      <button class="btn-back" onclick="switchView('home')">⬅️ Back to Home</button>
       <h2 style="margin:0; font-size:1.25rem; color:var(--blue-text);" id="allWordsCountTitle">
         📚 All Learned Words Pool: 0 words
       </h2>
@@ -436,10 +456,10 @@
     <div class="study-grid" id="allWordsGrid"></div>
   </div>
 
-  <!-- VIEW 1.8: WORD PUZZLE (修復：完整包含冠詞與名詞) -->
+  <!-- ==================== VIEW 1.8: WORD PUZZLE ==================== -->
   <div class="view-section" id="viewPuzzle">
     <div class="nav-back-row">
-      <button class="btn-back" onclick="switchView('study')">⬅️ Back to Word Cards</button>
+      <button class="btn-back" onclick="switchView('home')">⬅️ Back to Home</button>
       <h2 style="margin:0; font-size:1.25rem; color:var(--purple-text);">
         🧩 French Word Puzzle (Match letters & win +2⭐!)
       </h2>
@@ -452,10 +472,10 @@
     </div>
   </div>
 
-  <!-- VIEW 2: Spelling Quiz -->
+  <!-- ==================== VIEW 2: Spelling Quiz (色彩順序：綠 -> 藍 -> 紫，且拿掉小鍵盤) ==================== -->
   <div class="view-section" id="viewQuiz">
     <div class="nav-back-row">
-      <button class="btn-back" onclick="switchView('study')">⬅️ Back to Word Cards</button>
+      <button class="btn-back" onclick="switchView('study')">⬅️ Back to Words</button>
       <div style="font-weight:900; color:var(--purple-text); font-size:1rem;" id="quizMasteryBadge">
         Word Mastery: ⚪⚪
       </div>
@@ -486,10 +506,10 @@
       <div class="article-bar" id="articleBar"></div>
     </div>
 
-    <!-- STEP 2: 藍色 (Blue) -->
+    <!-- STEP 2: 藍色 (Blue) - 指令改為 Put in order -->
     <div class="step-section step-2-box" id="step2Box">
       <div class="step-header">
-        <div><span class="step-badge">STEP 2</span> Listen & Tap Sound Blocks in Order</div>
+        <div><span class="step-badge">STEP 2</span> Put in order</div>
         <span style="font-size:0.85rem; font-weight:800;">(Tap placed block to undo)</span>
       </div>
       <div class="answer-tray" onclick="popLastTile()">
@@ -499,12 +519,11 @@
       <div class="tile-pool" id="poolTiles"></div>
     </div>
 
-    <!-- STEP 3: 紫色 (Purple) -->
+    <!-- STEP 3: 紫色 (Purple) - 拿掉小鍵盤，純打字 -->
     <div class="step-section step-3-box" id="step3Box">
       <div class="step-header">
-        <div><span class="step-badge">STEP 3</span> Type the Full Word to Win Stars!</div>
+        <div><span class="step-badge">STEP 3</span> Type the full word</div>
       </div>
-      <div class="accent-row" id="accentRow"></div>
       <div class="type-row">
         <input type="text" id="typeInput" class="type-input" placeholder="Type full word (e.g. une pomme)..." autocomplete="off" autocapitalize="none" spellcheck="false">
         <button class="btn-submit-quiz" id="checkBtn" onclick="checkUserAnswer()">✅ Check Answer</button>
@@ -713,7 +732,7 @@
     weeks: DEFAULT_WEEKS
   };
 
-  let currentView = 'study';
+  let currentView = 'home'; // 預設進來是全新 Home 主頁
   let isReviewMode = false;
   let isFarmQuest = false;
   let specificTestWord = null;
@@ -852,16 +871,7 @@
       artBar.appendChild(b);
     });
 
-    const accRow = document.getElementById('accentRow');
-    ACCENTS.forEach(ch => {
-      const b = document.createElement('button');
-      b.className = 'btn-acc';
-      b.textContent = ch;
-      b.onclick = () => insertAccentChar(ch);
-      accRow.appendChild(b);
-    });
-
-    const saved = localStorage.getItem('jamie_french_app_v11');
+    const saved = localStorage.getItem('jamie_french_app_v12');
     if (saved) {
       try { appData = { ...appData, ...JSON.parse(saved) }; } catch (e) {}
     }
@@ -889,7 +899,7 @@
   }
 
   function saveAppData() {
-    localStorage.setItem('jamie_french_app_v11', JSON.stringify(appData));
+    localStorage.setItem('jamie_french_app_v12', JSON.stringify(appData));
     renderHeaderAndRewards();
     renderStudyGrid();
   }
@@ -971,12 +981,13 @@
 
   function switchView(view) {
     currentView = view;
-    if (view === 'study') {
+    if (view === 'home' || view === 'study') {
       specificTestWord = null;
       isFarmQuest = false;
       isReviewMode = false;
       document.getElementById('modeBanner').classList.remove('show');
     }
+    document.getElementById('viewHome').classList.toggle('active', view === 'home');
     document.getElementById('viewStudy').classList.toggle('active', view === 'study');
     document.getElementById('viewAllWords').classList.toggle('active', view === 'viewAll');
     document.getElementById('viewPuzzle').classList.toggle('active', view === 'puzzle');
@@ -988,7 +999,7 @@
       renderAllWordsGrid();
     } else if (view === 'puzzle') {
       initPuzzleGame();
-    } else {
+    } else if (view === 'quiz') {
       pickNextQuestion();
     }
   }
@@ -1042,13 +1053,12 @@
     });
   }
 
-  // 數獨小遊戲 (修復：完整包含冠詞，如 du chocolat)
   function initPuzzleGame() {
     let allPool = [];
     appData.weeks.forEach(w => w.words.forEach(wd => allPool.push(wd)));
     if (allPool.length === 0) {
       alert('No words available for puzzle!');
-      switchView('study');
+      switchView('home');
       return;
     }
     const targetObj = allPool[Math.floor(Math.random() * allPool.length)];
@@ -1056,7 +1066,6 @@
 
     document.getElementById('puzzlePrompt').textContent = `Find & spell: ${targetObj.emoji} ${targetObj.full} (${targetObj.meaning})`;
 
-    // 準備 4x4 字母網格 (包含完整單字含冠詞去除空白與標點後的字母)
     let letters = puzzleTargetWord.replace(/[^a-zàâéèêëîïôùûçœ]/g, '').split('');
     const alphabet = 'abcdefghijklmnopqrstuvwxyz';
     while (letters.length < 16) {
@@ -1144,7 +1153,7 @@
     isFarmQuest = false;
     specificTestWord = null;
     document.getElementById('modeBanner').classList.remove('show');
-    switchView('study');
+    switchView('home');
   }
 
   function speakWordText(text) {
@@ -1287,15 +1296,6 @@
     const box = document.getElementById('phonicsHintBox');
     box.style.display = box.style.display === 'block' ? 'none' : 'block';
     speakCurrent(0.55);
-  }
-
-  function insertAccentChar(ch) {
-    const inp = document.getElementById('typeInput');
-    const s = inp.selectionStart;
-    const e = inp.selectionEnd;
-    inp.value = inp.value.slice(0, s) + ch + inp.value.slice(e);
-    inp.focus();
-    inp.setSelectionRange(s + 1, s + 1);
   }
 
   function speakCurrent(rate = 0.9) {
@@ -1547,7 +1547,7 @@
       if (incomingWeek && incomingWeek.words.length > 0) {
         upsertWeek(incomingWeek);
         closeModal('parentModal');
-        switchView('study');
+        switchView('home');
         alert(`✅ Successfully imported "${incomingWeek.title}" into this app!`);
       }
     } catch (e) {
@@ -1566,7 +1566,7 @@
       appData.currentWeekId = appData.weeks[0].id;
       saveAppData();
       closeModal('parentModal');
-      switchView('study');
+      switchView('home');
     }
   }
 
@@ -1632,7 +1632,7 @@
     }
 
     closeModal('parentModal');
-    switchView('study');
+    switchView('home');
   }
 
   function resetCurrentWeek() {
@@ -1641,11 +1641,10 @@
       week.words.forEach(w => { w.streak = 0; w.mastered = false; });
       saveAppData();
       closeModal('parentModal');
-      switchView('study');
+      switchView('home');
     }
   }
 
-  // 強制重新整理確保瀏覽器不卡舊快取
   function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 
   document.getElementById('typeInput').addEventListener('keydown', e => {
