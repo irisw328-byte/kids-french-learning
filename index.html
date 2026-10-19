@@ -376,17 +376,12 @@
       <select class="week-selector" id="weekSelect" onchange="switchWeek(this.value)"></select>
     </div>
     <div class="top-actions">
-      <!-- 英雄榜按鈕 -->
       <button class="btn-hero" onclick="openHeroModal()">
         🏆 <span id="heroGemBadge">🥉 Bronze</span> ｜ <span id="redStarCount">0</span>🌟 <span id="yellowStarCount">0</span>⭐
       </button>
-      <!-- Practice All -->
       <button class="btn-practice-all" onclick="startReviewMode()">🍀 Practice all for extra stars!</button>
-      <!-- View All Words (新功能：不分禮拜的全部生字大寶庫) -->
       <button class="btn-view-all" onclick="switchView('viewAll')">📖 View All Words</button>
-      <!-- Word Puzzle (新功能：生字數獨/格狀小遊戲) -->
       <button class="btn-puzzle" onclick="switchView('puzzle')">🧩 Word Puzzle</button>
-      <!-- 媽媽後台 -->
       <button class="btn-parent" onclick="promptParentPin()">🔒 Parent</button>
     </div>
   </header>
@@ -417,7 +412,7 @@
     <button class="btn-exit-big" onclick="exitSpecialMode()">❌ Exit</button>
   </div>
 
-  <!-- VIEW 1: 學習閃卡頁 (本週生字) -->
+  <!-- VIEW 1: 學習閃卡頁 -->
   <div class="view-section active" id="viewStudy">
     <div class="nav-back-row">
       <h2 style="margin:0; font-size:1.25rem; color:var(--blue-text);">
@@ -430,7 +425,7 @@
     <div class="study-grid" id="studyGrid"></div>
   </div>
 
-  <!-- VIEW 1.5: VIEW ALL WORDS (不分禮拜全部學過的生字大寶庫) -->
+  <!-- VIEW 1.5: VIEW ALL WORDS -->
   <div class="view-section" id="viewAllWords">
     <div class="nav-back-row">
       <button class="btn-back" onclick="switchView('study')">⬅️ Back to Current Week</button>
@@ -441,7 +436,7 @@
     <div class="study-grid" id="allWordsGrid"></div>
   </div>
 
-  <!-- VIEW 1.8: WORD PUZZLE (生字數獨與配對小遊戲) -->
+  <!-- VIEW 1.8: WORD PUZZLE (修復：完整包含冠詞與名詞) -->
   <div class="view-section" id="viewPuzzle">
     <div class="nav-back-row">
       <button class="btn-back" onclick="switchView('study')">⬅️ Back to Word Cards</button>
@@ -450,14 +445,14 @@
       </h2>
     </div>
     <div class="puzzle-board">
-      <div id="puzzlePrompt" style="font-size:1.2rem; font-weight:900; color:#581c87; margin-bottom:8px;"></div>
-      <div style="font-size:0.85rem; font-weight:800; color:var(--text-muted); margin-bottom:12px;">Tap letters in correct order to spell the word!</div>
+      <div id="puzzlePrompt" style="font-size:1.3rem; font-weight:900; color:#581c87; margin-bottom:8px;"></div>
+      <div style="font-size:0.85rem; font-weight:800; color:var(--text-muted); margin-bottom:12px;">Tap letters in correct order to spell the full word (including article)!</div>
       <div class="puzzle-grid" id="puzzleGrid"></div>
       <button class="btn-submit-quiz" style="margin-top:16px; background:#9333ea; box-shadow:0 4px 0 #581c87;" onclick="initPuzzleGame()">🔄 New Puzzle</button>
     </div>
   </div>
 
-  <!-- VIEW 2: Spelling Quiz (順序：綠 -> 藍 -> 紫) -->
+  <!-- VIEW 2: Spelling Quiz -->
   <div class="view-section" id="viewQuiz">
     <div class="nav-back-row">
       <button class="btn-back" onclick="switchView('study')">⬅️ Back to Word Cards</button>
@@ -482,7 +477,7 @@
       <div class="phonics-reveal" id="phonicsHintBox"></div>
     </div>
 
-    <!-- STEP 1: 綠色背景 (Green) -->
+    <!-- STEP 1: 綠色 (Green) -->
     <div class="step-section step-1-box" id="step1Box">
       <div class="step-header">
         <div><span class="step-badge">STEP 1</span> Pick the First Word (Article)</div>
@@ -491,7 +486,7 @@
       <div class="article-bar" id="articleBar"></div>
     </div>
 
-    <!-- STEP 2: 藍色背景 (Blue) -->
+    <!-- STEP 2: 藍色 (Blue) -->
     <div class="step-section step-2-box" id="step2Box">
       <div class="step-header">
         <div><span class="step-badge">STEP 2</span> Listen & Tap Sound Blocks in Order</div>
@@ -504,7 +499,7 @@
       <div class="tile-pool" id="poolTiles"></div>
     </div>
 
-    <!-- STEP 3: 紫色背景 (Purple) -->
+    <!-- STEP 3: 紫色 (Purple) -->
     <div class="step-section step-3-box" id="step3Box">
       <div class="step-header">
         <div><span class="step-badge">STEP 3</span> Type the Full Word to Win Stars!</div>
@@ -552,7 +547,7 @@
 <div class="modal" id="parentModal">
   <div class="modal-box">
     <div class="modal-top">
-      <h2 style="margin:0; color:var(--blue-text);">🔒 Parent Admin (Words & Home Screen Sync)</h2>
+      <h2 style="margin:0; color:var(--blue-text);">🔒 Parent Admin (Words & Sync)</h2>
       <button class="btn-back" style="padding:6px 14px;" onclick="closeModal('parentModal')">⬅️ Back</button>
     </div>
 
@@ -866,7 +861,7 @@
       accRow.appendChild(b);
     });
 
-    const saved = localStorage.getItem('jamie_french_app_v10');
+    const saved = localStorage.getItem('jamie_french_app_v11');
     if (saved) {
       try { appData = { ...appData, ...JSON.parse(saved) }; } catch (e) {}
     }
@@ -894,7 +889,7 @@
   }
 
   function saveAppData() {
-    localStorage.setItem('jamie_french_app_v10', JSON.stringify(appData));
+    localStorage.setItem('jamie_french_app_v11', JSON.stringify(appData));
     renderHeaderAndRewards();
     renderStudyGrid();
   }
@@ -1021,7 +1016,6 @@
     });
   }
 
-  // 渲染 View All Words (不分禮拜全部學過的生字大寶庫)
   function renderAllWordsGrid() {
     let allPool = [];
     appData.weeks.forEach(w => w.words.forEach(wd => allPool.push(wd)));
@@ -1048,7 +1042,7 @@
     });
   }
 
-  // 數獨/拼字小遊戲邏輯 (Word Puzzle)
+  // 數獨小遊戲 (修復：完整包含冠詞，如 du chocolat)
   function initPuzzleGame() {
     let allPool = [];
     appData.weeks.forEach(w => w.words.forEach(wd => allPool.push(wd)));
@@ -1059,17 +1053,15 @@
     }
     const targetObj = allPool[Math.floor(Math.random() * allPool.length)];
     puzzleTargetWord = targetObj.full.toLowerCase();
-    const { noun } = splitFrenchArticle(puzzleTargetWord);
 
     document.getElementById('puzzlePrompt').textContent = `Find & spell: ${targetObj.emoji} ${targetObj.full} (${targetObj.meaning})`;
 
-    // 準備 4x4 字母網格 (包含正確名詞字母 + 隨機干擾字母)
-    let letters = noun.replace(/[^a-zàâéèêëîïôùûçœ]/g, '').split('');
+    // 準備 4x4 字母網格 (包含完整單字含冠詞去除空白與標點後的字母)
+    let letters = puzzleTargetWord.replace(/[^a-zàâéèêëîïôùûçœ]/g, '').split('');
     const alphabet = 'abcdefghijklmnopqrstuvwxyz';
     while (letters.length < 16) {
       letters.push(alphabet[Math.floor(Math.random() * alphabet.length)]);
     }
-    // 洗牌
     for (let i = letters.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [letters[i], letters[j]] = [letters[j], letters[i]];
@@ -1099,16 +1091,14 @@
 
   function checkPuzzleProgress() {
     const formed = puzzleSelectedIndices.map(i => puzzleLetters[i]).join('');
-    const { noun } = splitFrenchArticle(puzzleTargetWord);
-    const cleanNoun = noun.replace(/[^a-zàâéèêëîïôùûçœ]/g, '');
+    const cleanTarget = puzzleTargetWord.replace(/[^a-zàâéèêëîïôùûçœ]/g, '');
 
-    if (formed === cleanNoun) {
+    if (formed === cleanTarget) {
       addStars(2, `🧩 Word Puzzle ("${puzzleTargetWord}")`);
       showCelebration('🧩', 'PUZZLE SOLVED!', `Great job finding "${puzzleTargetWord}"! You earned +2 ⭐!`);
       saveAppData();
       setTimeout(initPuzzleGame, 1500);
-    } else if (formed.length >= cleanNoun.length) {
-      // 超過長度還沒對就重置
+    } else if (formed.length >= cleanTarget.length) {
       setTimeout(() => {
         puzzleSelectedIndices = [];
         renderPuzzleGrid();
@@ -1117,7 +1107,6 @@
   }
 
   function startTestForWord(wordFull) {
-    const week = getActiveWeek();
     let found = null;
     appData.weeks.forEach(w => {
       const match = w.words.find(wd => wd.full === wordFull);
@@ -1656,6 +1645,7 @@
     }
   }
 
+  // 強制重新整理確保瀏覽器不卡舊快取
   function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 
   document.getElementById('typeInput').addEventListener('keydown', e => {
