@@ -76,6 +76,22 @@
     }
     .btn-practice-all:active { transform: translateY(2px); box-shadow: 0 1px 0 #4ade80; }
 
+    .btn-view-all {
+      background: var(--blue-bg); color: var(--blue-text);
+      border: 2px solid var(--blue-border); padding: 8px 14px; border-radius: 14px;
+      font-weight: 900; font-size: 0.9rem; cursor: pointer;
+      box-shadow: 0 3px 0 #38bdf8;
+    }
+    .btn-view-all:active { transform: translateY(2px); box-shadow: 0 1px 0 #38bdf8; }
+
+    .btn-puzzle {
+      background: var(--purple-bg); color: var(--purple-text);
+      border: 2px solid var(--purple-border); padding: 8px 14px; border-radius: 14px;
+      font-weight: 900; font-size: 0.9rem; cursor: pointer;
+      box-shadow: 0 3px 0 #c084fc;
+    }
+    .btn-puzzle:active { transform: translateY(2px); box-shadow: 0 1px 0 #c084fc; }
+
     .btn-parent {
       background: #f1f5f9; color: #475569; border: 2px solid #cbd5e1;
       padding: 8px 12px; border-radius: 14px; font-weight: 800; font-size: 0.85rem; cursor: pointer;
@@ -147,7 +163,7 @@
     }
     .btn-back:active { transform: scale(0.96); }
 
-    /* PAGE 1: 學習閃卡頁 */
+    /* 閃卡頁與 View All Words 頁 */
     .study-grid {
       display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px;
     }
@@ -178,7 +194,24 @@
     .fc-btn-listen { background: var(--blue-bg); color: var(--blue-text); }
     .fc-btn-spell { background: #22c55e; color: white; box-shadow: 0 3px 0 #15803d; }
 
-    /* PAGE 2: Spelling Quiz (新順序：綠 ➔ 藍 ➔ 紫) */
+    /* Puzzle 遊戲頁面樣式 */
+    .puzzle-board {
+      background: linear-gradient(135deg, #faf5ff, #f3e8ff);
+      border: 3px solid #c084fc; border-radius: 24px; padding: 20px; text-align: center;
+    }
+    .puzzle-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; max-width: 360px; margin: 16px auto;
+    }
+    .puzzle-cell {
+      aspect-ratio: 1; background: white; border: 3px solid #d8b4fe; border-radius: 16px;
+      font-size: 1.6rem; font-weight: 900; color: #6b21a8;
+      display: flex; align-items: center; justify-content: center; cursor: pointer;
+      box-shadow: 0 4px 10px rgba(107,33,168,0.08); user-select: none;
+    }
+    .puzzle-cell.selected { background: #f0abfc; color: white; border-color: #a855f7; transform: scale(0.95); }
+    .puzzle-cell.matched { background: #bbf7d0; color: #15803d; border-color: #4ade80; }
+
+    /* Spelling Quiz (順序：綠 -> 藍 -> 紫) */
     .quiz-top-card {
       background: var(--yellow-bg); border: 3px solid var(--yellow-border);
       border-radius: 24px; padding: 18px; text-align: center; margin-bottom: 18px;
@@ -219,15 +252,15 @@
       font-size: 0.95rem; margin-right: 8px; color: white;
     }
 
-    /* Step 1: 粉綠色 (Green) */
+    /* Step 1: 綠色 (Green) */
     .step-1-box { background: var(--green-bg); border-color: var(--green-border); color: var(--green-text); }
     .step-1-box .step-badge { background: #16a34a; }
 
-    /* Step 2: 粉藍色 (Blue) */
+    /* Step 2: 藍色 (Blue) */
     .step-2-box { background: var(--blue-bg); border-color: var(--blue-border); color: var(--blue-text); }
     .step-2-box .step-badge { background: #0284c7; }
 
-    /* Step 3: 粉紫色 (Purple) */
+    /* Step 3: 紫色 (Purple) */
     .step-3-box { background: var(--purple-bg); border-color: var(--purple-border); color: var(--purple-text); }
     .step-3-box .step-badge { background: #7e22ce; }
 
@@ -343,10 +376,17 @@
       <select class="week-selector" id="weekSelect" onchange="switchWeek(this.value)"></select>
     </div>
     <div class="top-actions">
+      <!-- 英雄榜按鈕 -->
       <button class="btn-hero" onclick="openHeroModal()">
         🏆 <span id="heroGemBadge">🥉 Bronze</span> ｜ <span id="redStarCount">0</span>🌟 <span id="yellowStarCount">0</span>⭐
       </button>
+      <!-- Practice All -->
       <button class="btn-practice-all" onclick="startReviewMode()">🍀 Practice all for extra stars!</button>
+      <!-- View All Words (新功能：不分禮拜的全部生字大寶庫) -->
+      <button class="btn-view-all" onclick="switchView('viewAll')">📖 View All Words</button>
+      <!-- Word Puzzle (新功能：生字數獨/格狀小遊戲) -->
+      <button class="btn-puzzle" onclick="switchView('puzzle')">🧩 Word Puzzle</button>
+      <!-- 媽媽後台 -->
       <button class="btn-parent" onclick="promptParentPin()">🔒 Parent</button>
     </div>
   </header>
@@ -373,24 +413,51 @@
   </div>
 
   <div class="mode-banner" id="modeBanner">
-    <span id="modeBannerText">🍀 Practice All Mode: Spell words from all weeks for 2x Stars!</span>
+    <span id="modeBannerText">🍀 Practice All Mode: Spell words from all weeks for 2x Extra Stars!</span>
     <button class="btn-exit-big" onclick="exitSpecialMode()">❌ Exit</button>
   </div>
 
-  <!-- VIEW 1: 學習閃卡頁 -->
+  <!-- VIEW 1: 學習閃卡頁 (本週生字) -->
   <div class="view-section active" id="viewStudy">
     <div class="nav-back-row">
       <h2 style="margin:0; font-size:1.25rem; color:var(--blue-text);">
         📖 Tap a card to listen, then click "Spell It!" to win stars:
       </h2>
       <button class="btn-submit-quiz" style="padding:10px 20px; font-size:1rem; background:#16a34a; box-shadow:0 4px 0 #14532d;" onclick="startFullWeekQuiz()">
-        🚀 Quiz All 14 Words
+        🚀 Quiz All Words
       </button>
     </div>
     <div class="study-grid" id="studyGrid"></div>
   </div>
 
-  <!-- VIEW 2: 三步驟顏色分區 Spelling Quiz (順序：綠 -> 藍 -> 紫) -->
+  <!-- VIEW 1.5: VIEW ALL WORDS (不分禮拜全部學過的生字大寶庫) -->
+  <div class="view-section" id="viewAllWords">
+    <div class="nav-back-row">
+      <button class="btn-back" onclick="switchView('study')">⬅️ Back to Current Week</button>
+      <h2 style="margin:0; font-size:1.25rem; color:var(--blue-text);" id="allWordsCountTitle">
+        📚 All Learned Words Pool: 0 words
+      </h2>
+    </div>
+    <div class="study-grid" id="allWordsGrid"></div>
+  </div>
+
+  <!-- VIEW 1.8: WORD PUZZLE (生字數獨與配對小遊戲) -->
+  <div class="view-section" id="viewPuzzle">
+    <div class="nav-back-row">
+      <button class="btn-back" onclick="switchView('study')">⬅️ Back to Word Cards</button>
+      <h2 style="margin:0; font-size:1.25rem; color:var(--purple-text);">
+        🧩 French Word Puzzle (Match letters & win +2⭐!)
+      </h2>
+    </div>
+    <div class="puzzle-board">
+      <div id="puzzlePrompt" style="font-size:1.2rem; font-weight:900; color:#581c87; margin-bottom:8px;"></div>
+      <div style="font-size:0.85rem; font-weight:800; color:var(--text-muted); margin-bottom:12px;">Tap letters in correct order to spell the word!</div>
+      <div class="puzzle-grid" id="puzzleGrid"></div>
+      <button class="btn-submit-quiz" style="margin-top:16px; background:#9333ea; box-shadow:0 4px 0 #581c87;" onclick="initPuzzleGame()">🔄 New Puzzle</button>
+    </div>
+  </div>
+
+  <!-- VIEW 2: Spelling Quiz (順序：綠 -> 藍 -> 紫) -->
   <div class="view-section" id="viewQuiz">
     <div class="nav-back-row">
       <button class="btn-back" onclick="switchView('study')">⬅️ Back to Word Cards</button>
@@ -481,7 +548,7 @@
   </div>
 </div>
 
-<!-- MODAL 2: 媽媽專屬後台 (支援 iPad Home Screen 內部貼上同步碼 + 刪除多餘週次按鈕) -->
+<!-- MODAL 2: 媽媽專屬後台 -->
 <div class="modal" id="parentModal">
   <div class="modal-box">
     <div class="modal-top">
@@ -489,36 +556,30 @@
       <button class="btn-back" style="padding:6px 14px;" onclick="closeModal('parentModal')">⬅️ Back</button>
     </div>
 
-    <!-- 專為 iPad Home Screen 設計的免跳出同步區 -->
     <div style="background:var(--blue-bg); border:2px solid var(--blue-border); border-radius:18px; padding:14px; margin-bottom:16px;">
       <div style="font-weight:900; color:var(--blue-text); margin-bottom:6px;">
-        📲 Sync to iPad Home Screen App (免開相機、直接更新桌面程式):
-      </div>
-      <div style="font-size:0.8rem; color:#0c4a6e; margin-bottom:10px; font-weight:700;">
-        💡 Because iPad Home Screen apps are isolated from Safari camera QR scans, use <b>Method 1</b> or <b>Method 2</b> inside the iPad Home Screen app!
+        📲 Sync to iPad Home Screen App:
       </div>
       <div style="display:flex; gap:8px; flex-wrap:wrap;">
         <button class="btn-submit-quiz" style="padding:8px 14px; font-size:0.85rem; background:#7e22ce;" onclick="toggleBulkPaste()">
-          📋 Method 1: Quick Paste 14 Words
+          📋 Quick Paste 14 Words
         </button>
         <button class="btn-submit-quiz" style="padding:8px 14px; font-size:0.85rem; background:#0284c7;" onclick="toggleSyncCodeBox()">
-          🔑 Method 2: Copy / Paste Sync Code
+          🔑 Copy / Paste Sync Code
         </button>
       </div>
 
-      <!-- 方法 1：一鍵整批貼上 14 個法文單字 -->
       <div id="bulkPasteArea" style="display:none; margin-top:12px; padding-top:12px; border-top:1px dashed #7dd3fc;">
         <div style="font-size:0.82rem; color:#0c4a6e; margin-bottom:6px; font-weight:700;">
-          Type or paste words below (one word per line, e.g. <code>un renard</code>). Icons & English meanings will auto-fill!
+          Type or paste words below (one word per line, e.g. <code>un renard</code>):
         </div>
         <textarea id="bulkTextarea" style="width:100%; height:130px; border-radius:10px; padding:10px; border:2px solid #7dd3fc; font-weight:700;" placeholder="un renard&#10;un repas&#10;un requin&#10;un menu&#10;un chemin"></textarea>
         <button class="btn-submit-quiz" style="margin-top:6px; padding:8px 18px; font-size:0.9rem; background:#16a34a;" onclick="applyBulkPaste()">✨ Auto-Fill Into Rows Below</button>
       </div>
 
-      <!-- 方法 2：複製/貼上同步碼 (專治 iPad 主畫面 App 無法掃 QR 的問題) -->
       <div id="syncCodeArea" style="display:none; margin-top:12px; padding-top:12px; border-top:1px dashed #7dd3fc;">
         <div style="font-size:0.82rem; color:#0c4a6e; font-weight:800; margin-bottom:4px;">
-          Step A (On Computer): Click to copy this week's Sync Code:
+          Step A (On Computer): Click to copy Sync Code:
         </div>
         <div style="display:flex; gap:6px; margin-bottom:10px;">
           <input type="text" id="exportCodeBox" style="flex:1; padding:8px; border-radius:8px; border:1px solid #cbd5e1; font-size:0.8rem;" readonly onclick="this.select()">
@@ -526,7 +587,7 @@
         </div>
 
         <div style="font-size:0.82rem; color:#0c4a6e; font-weight:800; margin-bottom:4px;">
-          Step B (On iPad Home Screen App): Paste the code here & click Import:
+          Step B (On iPad App): Paste the code here & click Import:
         </div>
         <div style="display:flex; gap:6px;">
           <input type="text" id="importCodeBox" style="flex:1; padding:8px; border-radius:8px; border:2px solid #7e22ce; font-size:0.85rem;" placeholder="Paste Sync Code here...">
@@ -535,7 +596,6 @@
       </div>
     </div>
 
-    <!-- 每週單字編輯器 + 刪除重複週次按鈕 -->
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
       <div style="font-weight:900; font-size:1.05rem;">📚 Manage Current Week:</div>
       <div style="display:flex; gap:6px; flex-wrap:wrap;">
@@ -667,6 +727,11 @@
   let currentTiles = [];
   let selectedTiles = [];
   let awaitingNext = false;
+
+  // Puzzle state
+  let puzzleLetters = [];
+  let puzzleTargetWord = null;
+  let puzzleSelectedIndices = [];
 
   function splitIntoPhonics(noun) {
     const chunks = [];
@@ -801,7 +866,7 @@
       accRow.appendChild(b);
     });
 
-    const saved = localStorage.getItem('jamie_french_app_v9');
+    const saved = localStorage.getItem('jamie_french_app_v10');
     if (saved) {
       try { appData = { ...appData, ...JSON.parse(saved) }; } catch (e) {}
     }
@@ -829,7 +894,7 @@
   }
 
   function saveAppData() {
-    localStorage.setItem('jamie_french_app_v9', JSON.stringify(appData));
+    localStorage.setItem('jamie_french_app_v10', JSON.stringify(appData));
     renderHeaderAndRewards();
     renderStudyGrid();
   }
@@ -918,9 +983,16 @@
       document.getElementById('modeBanner').classList.remove('show');
     }
     document.getElementById('viewStudy').classList.toggle('active', view === 'study');
+    document.getElementById('viewAllWords').classList.toggle('active', view === 'viewAll');
+    document.getElementById('viewPuzzle').classList.toggle('active', view === 'puzzle');
     document.getElementById('viewQuiz').classList.toggle('active', view === 'quiz');
+
     if (view === 'study') {
       renderStudyGrid();
+    } else if (view === 'viewAll') {
+      renderAllWordsGrid();
+    } else if (view === 'puzzle') {
+      initPuzzleGame();
     } else {
       pickNextQuestion();
     }
@@ -949,9 +1021,108 @@
     });
   }
 
+  // 渲染 View All Words (不分禮拜全部學過的生字大寶庫)
+  function renderAllWordsGrid() {
+    let allPool = [];
+    appData.weeks.forEach(w => w.words.forEach(wd => allPool.push(wd)));
+    document.getElementById('allWordsCountTitle').textContent = `📚 All Learned Words Pool: ${allPool.length} words total`;
+
+    const grid = document.getElementById('allWordsGrid');
+    grid.innerHTML = '';
+    allPool.forEach(w => {
+      const card = document.createElement('div');
+      card.className = 'flashcard' + (w.mastered ? ' mastered' : '');
+      card.innerHTML = `
+        <div class="fc-badge">${w.mastered ? '✅ Mastered' : '⭐'}</div>
+        <div>
+          <div class="fc-emoji">${w.emoji || '✨'}</div>
+          <div class="fc-french">${w.full}</div>
+          <div class="fc-meaning">${w.meaning || ''}</div>
+        </div>
+        <div class="fc-btns">
+          <button class="fc-btn fc-btn-listen" onclick="speakWordText('${w.full.replace(/'/g, "\\'")}')">🔊 Listen</button>
+          <button class="fc-btn fc-btn-spell" onclick="startTestForWord('${w.full.replace(/'/g, "\\'")}')">🎯 Spell It!</button>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  // 數獨/拼字小遊戲邏輯 (Word Puzzle)
+  function initPuzzleGame() {
+    let allPool = [];
+    appData.weeks.forEach(w => w.words.forEach(wd => allPool.push(wd)));
+    if (allPool.length === 0) {
+      alert('No words available for puzzle!');
+      switchView('study');
+      return;
+    }
+    const targetObj = allPool[Math.floor(Math.random() * allPool.length)];
+    puzzleTargetWord = targetObj.full.toLowerCase();
+    const { noun } = splitFrenchArticle(puzzleTargetWord);
+
+    document.getElementById('puzzlePrompt').textContent = `Find & spell: ${targetObj.emoji} ${targetObj.full} (${targetObj.meaning})`;
+
+    // 準備 4x4 字母網格 (包含正確名詞字母 + 隨機干擾字母)
+    let letters = noun.replace(/[^a-zàâéèêëîïôùûçœ]/g, '').split('');
+    const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+    while (letters.length < 16) {
+      letters.push(alphabet[Math.floor(Math.random() * alphabet.length)]);
+    }
+    // 洗牌
+    for (let i = letters.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [letters[i], letters[j]] = [letters[j], letters[i]];
+    }
+    puzzleLetters = letters.slice(0, 16);
+    puzzleSelectedIndices = [];
+    renderPuzzleGrid();
+  }
+
+  function renderPuzzleGrid() {
+    const grid = document.getElementById('puzzleGrid');
+    grid.innerHTML = '';
+    puzzleLetters.forEach((ch, idx) => {
+      const cell = document.createElement('div');
+      cell.className = 'puzzle-cell' + (puzzleSelectedIndices.includes(idx) ? ' selected' : '');
+      cell.textContent = ch;
+      cell.onclick = () => {
+        if (!puzzleSelectedIndices.includes(idx)) {
+          puzzleSelectedIndices.push(idx);
+          renderPuzzleGrid();
+          checkPuzzleProgress();
+        }
+      };
+      grid.appendChild(cell);
+    });
+  }
+
+  function checkPuzzleProgress() {
+    const formed = puzzleSelectedIndices.map(i => puzzleLetters[i]).join('');
+    const { noun } = splitFrenchArticle(puzzleTargetWord);
+    const cleanNoun = noun.replace(/[^a-zàâéèêëîïôùûçœ]/g, '');
+
+    if (formed === cleanNoun) {
+      addStars(2, `🧩 Word Puzzle ("${puzzleTargetWord}")`);
+      showCelebration('🧩', 'PUZZLE SOLVED!', `Great job finding "${puzzleTargetWord}"! You earned +2 ⭐!`);
+      saveAppData();
+      setTimeout(initPuzzleGame, 1500);
+    } else if (formed.length >= cleanNoun.length) {
+      // 超過長度還沒對就重置
+      setTimeout(() => {
+        puzzleSelectedIndices = [];
+        renderPuzzleGrid();
+      }, 500);
+    }
+  }
+
   function startTestForWord(wordFull) {
     const week = getActiveWeek();
-    const found = week.words.find(w => w.full === wordFull);
+    let found = null;
+    appData.weeks.forEach(w => {
+      const match = w.words.find(wd => wd.full === wordFull);
+      if (match) found = match;
+    });
     if (found) {
       specificTestWord = found;
       isReviewMode = false;
@@ -1395,7 +1566,6 @@
     }
   }
 
-  // 刪除多餘或重複的週次
   function deleteCurrentWeek() {
     if (appData.weeks.length <= 1) {
       alert('You must keep at least 1 week list in the app!');
