@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <title>Jamie's French Adventure</title>
   <style>
     :root {
@@ -67,10 +69,12 @@
     .btn-hero:active { transform: translateY(2px); box-shadow: 0 1px 0 #eab308; }
 
     .btn-practice-all {
-      background: var(--peach-bg); color: var(--peach-text);
-      border: 2px solid var(--peach-border); padding: 8px 14px; border-radius: 14px;
+      background: var(--green-bg); color: var(--green-text);
+      border: 2px solid var(--green-border); padding: 8px 14px; border-radius: 14px;
       font-weight: 900; font-size: 0.9rem; cursor: pointer;
+      box-shadow: 0 3px 0 #4ade80;
     }
+    .btn-practice-all:active { transform: translateY(2px); box-shadow: 0 1px 0 #4ade80; }
 
     .btn-parent {
       background: #f1f5f9; color: #475569; border: 2px solid #cbd5e1;
@@ -174,7 +178,7 @@
     .fc-btn-listen { background: var(--blue-bg); color: var(--blue-text); }
     .fc-btn-spell { background: #22c55e; color: white; box-shadow: 0 3px 0 #15803d; }
 
-    /* PAGE 2: Spelling Quiz */
+    /* PAGE 2: Spelling Quiz (新順序：綠 ➔ 藍 ➔ 紫) */
     .quiz-top-card {
       background: var(--yellow-bg); border: 3px solid var(--yellow-border);
       border-radius: 24px; padding: 18px; text-align: center; margin-bottom: 18px;
@@ -215,60 +219,63 @@
       font-size: 0.95rem; margin-right: 8px; color: white;
     }
 
-    .step-1-box { background: var(--blue-bg); border-color: var(--blue-border); color: var(--blue-text); }
-    .step-1-box .step-badge { background: #0284c7; }
+    /* Step 1: 粉綠色 (Green) */
+    .step-1-box { background: var(--green-bg); border-color: var(--green-border); color: var(--green-text); }
+    .step-1-box .step-badge { background: #16a34a; }
 
-    .step-2-box { background: var(--purple-bg); border-color: var(--purple-border); color: var(--purple-text); }
-    .step-2-box .step-badge { background: #7e22ce; }
+    /* Step 2: 粉藍色 (Blue) */
+    .step-2-box { background: var(--blue-bg); border-color: var(--blue-border); color: var(--blue-text); }
+    .step-2-box .step-badge { background: #0284c7; }
 
-    .step-3-box { background: var(--green-bg); border-color: var(--green-border); color: var(--green-text); }
-    .step-3-box .step-badge { background: #15803d; }
+    /* Step 3: 粉紫色 (Purple) */
+    .step-3-box { background: var(--purple-bg); border-color: var(--purple-border); color: var(--purple-text); }
+    .step-3-box .step-badge { background: #7e22ce; }
 
     .article-bar { display: flex; flex-wrap: wrap; gap: 10px; }
     .art-chip {
-      padding: 10px 20px; border-radius: 14px; border: 3px solid #bae6fd;
-      background: white; font-size: 1.2rem; font-weight: 900; cursor: pointer; color: #0369a1;
+      padding: 10px 20px; border-radius: 14px; border: 3px solid #86efac;
+      background: white; font-size: 1.2rem; font-weight: 900; cursor: pointer; color: #15803d;
     }
     .art-chip.selected {
-      background: #0284c7; border-color: #0369a1; color: white;
+      background: #16a34a; border-color: #14532d; color: white;
       transform: scale(1.05);
     }
 
     .answer-tray {
-      min-height: 64px; border: 3px dashed #c084fc; border-radius: 18px;
+      min-height: 64px; border: 3px dashed #38bdf8; border-radius: 18px;
       display: flex; flex-wrap: wrap; gap: 8px; padding: 10px 16px;
       align-items: center; margin-bottom: 14px; background: white; cursor: pointer;
     }
-    .art-preview { font-size: 1.5rem; font-weight: 900; color: #0284c7; margin-right: 6px; }
+    .art-preview { font-size: 1.5rem; font-weight: 900; color: #16a34a; margin-right: 6px; }
     .tile-pool { display: flex; flex-wrap: wrap; gap: 10px; min-height: 54px; }
     .tile {
       min-width: 52px; height: 52px; padding: 0 16px; border-radius: 14px;
-      background: white; border: 2px solid #a855f7; border-bottom-width: 5px;
-      font-size: 1.4rem; font-weight: 900; color: #581c87;
+      background: white; border: 2px solid #0284c7; border-bottom-width: 5px;
+      font-size: 1.4rem; font-weight: 900; color: #0369a1;
       display: flex; align-items: center; justify-content: center;
       cursor: pointer; user-select: none;
     }
     .tile.tile-phonic { background: #fce7f3; border-color: #ec4899; color: #9d174d; }
-    .tile.in-tray { background: #d8b4fe; border-color: #7e22ce; color: #3b0764; }
+    .tile.in-tray { background: #bae6fd; border-color: #0284c7; color: #0c4a6e; }
     .tile.used { opacity: 0.2; pointer-events: none; }
 
     .accent-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
     .btn-acc {
-      width: 44px; height: 44px; border-radius: 12px; border: 2px solid #86efac;
-      background: white; font-size: 1.3rem; font-weight: 900; color: #14532d; cursor: pointer;
+      width: 44px; height: 44px; border-radius: 12px; border: 2px solid #c084fc;
+      background: white; font-size: 1.3rem; font-weight: 900; color: #581c87; cursor: pointer;
     }
     .type-row { display: flex; gap: 10px; flex-wrap: wrap; }
     .type-input {
       flex: 1; min-width: 220px; padding: 14px 18px; font-size: 1.5rem;
-      border: 3px solid #4ade80; border-radius: 16px; outline: none;
-      font-weight: 900; color: #14532d; background: white;
+      border: 3px solid #a855f7; border-radius: 16px; outline: none;
+      font-weight: 900; color: #4c1d95; background: white;
     }
     .btn-submit-quiz {
-      background: #16a34a; color: white; border: none; padding: 14px 28px;
+      background: #7e22ce; color: white; border: none; padding: 14px 28px;
       border-radius: 16px; font-size: 1.25rem; font-weight: 900; cursor: pointer;
-      box-shadow: 0 5px 0 #14532d;
+      box-shadow: 0 5px 0 #4c1d95;
     }
-    .btn-submit-quiz:active { transform: translateY(2px); box-shadow: 0 3px 0 #14532d; }
+    .btn-submit-quiz:active { transform: translateY(2px); box-shadow: 0 3px 0 #4c1d95; }
 
     .feedback {
       margin-top: 14px; padding: 16px; border-radius: 18px; text-align: center; display: none;
@@ -339,7 +346,7 @@
       <button class="btn-hero" onclick="openHeroModal()">
         🏆 <span id="heroGemBadge">🥉 Bronze</span> ｜ <span id="redStarCount">0</span>🌟 <span id="yellowStarCount">0</span>⭐
       </button>
-      <button class="btn-practice-all" onclick="startReviewMode()">🔄 Practice All</button>
+      <button class="btn-practice-all" onclick="startReviewMode()">🍀 Practice all for extra stars!</button>
       <button class="btn-parent" onclick="promptParentPin()">🔒 Parent</button>
     </div>
   </header>
@@ -366,7 +373,7 @@
   </div>
 
   <div class="mode-banner" id="modeBanner">
-    <span id="modeBannerText">🔄 Practice All Mode: Spell words from all weeks for 2x Stars!</span>
+    <span id="modeBannerText">🍀 Practice All Mode: Spell words from all weeks for 2x Stars!</span>
     <button class="btn-exit-big" onclick="exitSpecialMode()">❌ Exit</button>
   </div>
 
@@ -376,14 +383,14 @@
       <h2 style="margin:0; font-size:1.25rem; color:var(--blue-text);">
         📖 Tap a card to listen, then click "Spell It!" to win stars:
       </h2>
-      <button class="btn-submit-quiz" style="padding:10px 20px; font-size:1rem;" onclick="startFullWeekQuiz()">
+      <button class="btn-submit-quiz" style="padding:10px 20px; font-size:1rem; background:#16a34a; box-shadow:0 4px 0 #14532d;" onclick="startFullWeekQuiz()">
         🚀 Quiz All 14 Words
       </button>
     </div>
     <div class="study-grid" id="studyGrid"></div>
   </div>
 
-  <!-- VIEW 2: 三步驟顏色分區 Spelling Quiz -->
+  <!-- VIEW 2: 三步驟顏色分區 Spelling Quiz (順序：綠 -> 藍 -> 紫) -->
   <div class="view-section" id="viewQuiz">
     <div class="nav-back-row">
       <button class="btn-back" onclick="switchView('study')">⬅️ Back to Word Cards</button>
@@ -408,7 +415,7 @@
       <div class="phonics-reveal" id="phonicsHintBox"></div>
     </div>
 
-    <!-- STEP 1 -->
+    <!-- STEP 1: 綠色背景 (Green) -->
     <div class="step-section step-1-box" id="step1Box">
       <div class="step-header">
         <div><span class="step-badge">STEP 1</span> Pick the First Word (Article)</div>
@@ -417,7 +424,7 @@
       <div class="article-bar" id="articleBar"></div>
     </div>
 
-    <!-- STEP 2 -->
+    <!-- STEP 2: 藍色背景 (Blue) -->
     <div class="step-section step-2-box" id="step2Box">
       <div class="step-header">
         <div><span class="step-badge">STEP 2</span> Listen & Tap Sound Blocks in Order</div>
@@ -430,7 +437,7 @@
       <div class="tile-pool" id="poolTiles"></div>
     </div>
 
-    <!-- STEP 3 -->
+    <!-- STEP 3: 紫色背景 (Purple) -->
     <div class="step-section step-3-box" id="step3Box">
       <div class="step-header">
         <div><span class="step-badge">STEP 3</span> Type the Full Word to Win Stars!</div>
@@ -474,53 +481,66 @@
   </div>
 </div>
 
-<!-- MODAL 2: 媽媽專屬後台 (新增 Quick Paste 一鍵貼上 + 超清晰壓縮版 QR Code) -->
+<!-- MODAL 2: 媽媽專屬後台 (支援 iPad Home Screen 內部貼上同步碼 + 刪除多餘週次按鈕) -->
 <div class="modal" id="parentModal">
   <div class="modal-box">
     <div class="modal-top">
-      <h2 style="margin:0; color:var(--blue-text);">🔒 Parent Admin (Words & Sync)</h2>
+      <h2 style="margin:0; color:var(--blue-text);">🔒 Parent Admin (Words & Home Screen Sync)</h2>
       <button class="btn-back" style="padding:6px 14px;" onclick="closeModal('parentModal')">⬅️ Back</button>
     </div>
 
-    <!-- 替代方案 1：一整排快速貼上 (Quick Bulk Paste) + 清晰壓縮版 QR -->
+    <!-- 專為 iPad Home Screen 設計的免跳出同步區 -->
     <div style="background:var(--blue-bg); border:2px solid var(--blue-border); border-radius:18px; padding:14px; margin-bottom:16px;">
       <div style="font-weight:900; color:var(--blue-text); margin-bottom:6px;">
-        ⚡ Easy Ways to Update Words on iPad (免掃碼或超清晰掃碼):
+        📲 Sync to iPad Home Screen App (免開相機、直接更新桌面程式):
+      </div>
+      <div style="font-size:0.8rem; color:#0c4a6e; margin-bottom:10px; font-weight:700;">
+        💡 Because iPad Home Screen apps are isolated from Safari camera QR scans, use <b>Method 1</b> or <b>Method 2</b> inside the iPad Home Screen app!
       </div>
       <div style="display:flex; gap:8px; flex-wrap:wrap;">
-        <button class="btn-submit-quiz" style="padding:8px 14px; font-size:0.88rem; background:#7e22ce;" onclick="toggleBulkPaste()">
-          📋 Method 1: Quick Paste 14 Words (一鍵貼上整排單字)
+        <button class="btn-submit-quiz" style="padding:8px 14px; font-size:0.85rem; background:#7e22ce;" onclick="toggleBulkPaste()">
+          📋 Method 1: Quick Paste 14 Words
         </button>
-        <button class="btn-submit-quiz" style="padding:8px 14px; font-size:0.88rem; background:#0284c7;" onclick="toggleQrBox()">
-          📲 Method 2: Easy-Scan QR / Link (清晰版 QR 連結)
+        <button class="btn-submit-quiz" style="padding:8px 14px; font-size:0.85rem; background:#0284c7;" onclick="toggleSyncCodeBox()">
+          🔑 Method 2: Copy / Paste Sync Code
         </button>
       </div>
 
-      <!-- 一鍵整批貼上區 -->
+      <!-- 方法 1：一鍵整批貼上 14 個法文單字 -->
       <div id="bulkPasteArea" style="display:none; margin-top:12px; padding-top:12px; border-top:1px dashed #7dd3fc;">
         <div style="font-size:0.82rem; color:#0c4a6e; margin-bottom:6px; font-weight:700;">
-          Type or paste 14 words below (one word per line, e.g. <code>un renard</code>). Icons & English meanings will auto-fill!
+          Type or paste words below (one word per line, e.g. <code>un renard</code>). Icons & English meanings will auto-fill!
         </div>
-        <textarea id="bulkTextarea" style="width:100%; height:140px; border-radius:10px; padding:10px; border:2px solid #7dd3fc; font-weight:700;" placeholder="un renard&#10;un repas&#10;un requin&#10;un menu&#10;un chemin"></textarea>
-        <button class="btn-submit-quiz" style="margin-top:6px; padding:8px 18px; font-size:0.9rem;" onclick="applyBulkPaste()">✨ Auto-Fill Into Rows Below</button>
+        <textarea id="bulkTextarea" style="width:100%; height:130px; border-radius:10px; padding:10px; border:2px solid #7dd3fc; font-weight:700;" placeholder="un renard&#10;un repas&#10;un requin&#10;un menu&#10;un chemin"></textarea>
+        <button class="btn-submit-quiz" style="margin-top:6px; padding:8px 18px; font-size:0.9rem; background:#16a34a;" onclick="applyBulkPaste()">✨ Auto-Fill Into Rows Below</button>
       </div>
 
-      <!-- 壓縮版超清晰 QR Code 區 -->
-      <div id="qrBoxArea" style="display:none; text-align:center; margin-top:12px; padding-top:12px; border-top:1px dashed #7dd3fc;">
-        <div style="font-size:0.82rem; color:#0c4a6e; font-weight:700; margin-bottom:6px;">
-          ✨ Upgraded Ultra-Clear QR Code (Compressed data so iPad scans it in 1 second!):
+      <!-- 方法 2：複製/貼上同步碼 (專治 iPad 主畫面 App 無法掃 QR 的問題) -->
+      <div id="syncCodeArea" style="display:none; margin-top:12px; padding-top:12px; border-top:1px dashed #7dd3fc;">
+        <div style="font-size:0.82rem; color:#0c4a6e; font-weight:800; margin-bottom:4px;">
+          Step A (On Computer): Click to copy this week's Sync Code:
         </div>
-        <img id="qrCodeImg" style="width:220px; height:220px; border-radius:14px; border:6px solid white; margin:0 auto 8px; display:block;" alt="QR">
-        <input type="text" id="shareUrlBox" style="width:100%; padding:8px; border-radius:8px; border:1px solid #cbd5e1; font-size:0.8rem; margin-bottom:8px;" readonly onclick="this.select()">
-        <button class="btn-parent" style="background:#22c55e; color:white; border:none; padding:10px 18px;" onclick="copySyncLink()">📋 Copy Sync Link (傳網址給 iPad 點開也可以)</button>
+        <div style="display:flex; gap:6px; margin-bottom:10px;">
+          <input type="text" id="exportCodeBox" style="flex:1; padding:8px; border-radius:8px; border:1px solid #cbd5e1; font-size:0.8rem;" readonly onclick="this.select()">
+          <button class="btn-parent" style="background:#0284c7; color:white; border:none;" onclick="copyExportCode()">📋 Copy Code</button>
+        </div>
+
+        <div style="font-size:0.82rem; color:#0c4a6e; font-weight:800; margin-bottom:4px;">
+          Step B (On iPad Home Screen App): Paste the code here & click Import:
+        </div>
+        <div style="display:flex; gap:6px;">
+          <input type="text" id="importCodeBox" style="flex:1; padding:8px; border-radius:8px; border:2px solid #7e22ce; font-size:0.85rem;" placeholder="Paste Sync Code here...">
+          <button class="btn-parent" style="background:#16a34a; color:white; border:none;" onclick="importFromSyncCode()">📥 Import Now</button>
+        </div>
       </div>
     </div>
 
-    <!-- 每週單字編輯器 -->
+    <!-- 每週單字編輯器 + 刪除重複週次按鈕 -->
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
-      <div style="font-weight:900; font-size:1.05rem;">📚 Edit Weekly 14 Words:</div>
-      <div style="display:flex; gap:8px;">
-        <button class="btn-parent" style="background:#fee2e2; color:#991b1b; border-color:#fca5a5;" onclick="resetCurrentWeek()">🔄 Reset Progress</button>
+      <div style="font-weight:900; font-size:1.05rem;">📚 Manage Current Week:</div>
+      <div style="display:flex; gap:6px; flex-wrap:wrap;">
+        <button class="btn-parent" style="background:#fee2e2; color:#b91c1c; border-color:#fca5a5;" onclick="deleteCurrentWeek()">🗑️ Delete This Week</button>
+        <button class="btn-parent" style="background:#ffedd5; color:#c2410c; border-color:#fdba74;" onclick="resetCurrentWeek()">🔄 Reset Progress</button>
         <button class="btn-parent" style="background:var(--green-bg); color:var(--green-text); border-color:var(--green-border);" onclick="createNewWeek()">➕ Add New Week</button>
       </div>
     </div>
@@ -532,7 +552,7 @@
 
     <div style="display:flex; justify-content:flex-end; gap:10px;">
       <button class="btn-back" style="padding:10px 18px;" onclick="closeModal('parentModal')">Cancel</button>
-      <button class="btn-submit-quiz" style="padding:10px 24px; font-size:1rem;" onclick="saveEditorWords()">💾 Save Word List</button>
+      <button class="btn-submit-quiz" style="padding:10px 24px; font-size:1rem; background:#16a34a; box-shadow:0 4px 0 #14532d;" onclick="saveEditorWords()">💾 Save Word List</button>
     </div>
   </div>
 </div>
@@ -548,7 +568,6 @@
 </div>
 
 <script>
-  // 擴充超過 100 個小學法文高頻單字自動配圖與英文翻譯字典（包含妳剛打的 renard, repas, requin, menu, chemin!）
   const AUTO_DICT = {
     "pomme": { emoji: "🍎", en: "an apple" }, "orange": { emoji: "🍊", en: "an orange" },
     "rose": { emoji: "🌹", en: "the rose" }, "chocolat": { emoji: "🍫", en: "chocolate" },
@@ -694,7 +713,6 @@
     return { emoji: "✨", en: "" };
   }
 
-  // 極簡壓縮編碼：只把「週標題 + 單字與意思」壓成最短字串，讓 QR Code 超大超清晰！
   function encodeCompactWeek(week) {
     const lines = [week.title];
     week.words.forEach(w => {
@@ -708,12 +726,13 @@
   }
 
   function decodeCompactWeek(b64) {
-    const bin = atob(b64);
+    const cleanB64 = b64.trim();
+    const bin = atob(cleanB64);
     const bytes = new Uint8Array(bin.length);
     for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
     const raw = new TextDecoder().decode(bytes);
     const parts = raw.split('|');
-    const title = parts[0] || 'New Week';
+    const title = (parts[0] || 'New Week').trim();
     const words = parts.slice(1).filter(Boolean).map(item => {
       const [fr, en] = item.split('~');
       const meta = autoLookupMeta(fr);
@@ -726,6 +745,18 @@
       };
     });
     return { id: 'week_' + Date.now(), title, stickers: [], trophyEarned: false, words };
+  }
+
+  function upsertWeek(incomingWeek) {
+    const idx = appData.weeks.findIndex(w => w.title.toLowerCase() === incomingWeek.title.toLowerCase());
+    if (idx >= 0) {
+      appData.weeks[idx].words = incomingWeek.words;
+      appData.currentWeekId = appData.weeks[idx].id;
+    } else {
+      appData.weeks.unshift(incomingWeek);
+      appData.currentWeekId = incomingWeek.id;
+    }
+    saveAppData();
   }
 
   function getCurrentRank(stars) {
@@ -770,7 +801,6 @@
       accRow.appendChild(b);
     });
 
-    // 保留 v9 資料不流失
     const saved = localStorage.getItem('jamie_french_app_v9');
     if (saved) {
       try { appData = { ...appData, ...JSON.parse(saved) }; } catch (e) {}
@@ -781,17 +811,9 @@
       try {
         const incomingWeek = decodeCompactWeek(params.get('q'));
         if (incomingWeek && incomingWeek.words.length > 0) {
-          const idx = appData.weeks.findIndex(w => w.title === incomingWeek.title);
-          if (idx >= 0) {
-            appData.weeks[idx].words = incomingWeek.words;
-            appData.currentWeekId = appData.weeks[idx].id;
-          } else {
-            appData.weeks.unshift(incomingWeek);
-            appData.currentWeekId = incomingWeek.id;
-          }
-          saveAppData();
+          upsertWeek(incomingWeek);
           window.history.replaceState({}, document.title, window.location.pathname);
-          alert(`✅ Synced new word list: ${incomingWeek.title}`);
+          alert(`✅ Synced word list: ${incomingWeek.title}`);
         }
       } catch (e) {}
     }
@@ -952,7 +974,7 @@
     isFarmQuest = false;
     specificTestWord = null;
     const banner = document.getElementById('modeBanner');
-    document.getElementById('modeBannerText').textContent = '🔄 Practice All Mode: Reviewing all learned words for 2x Stars!';
+    document.getElementById('modeBannerText').textContent = '🍀 Practice All Mode: Reviewing all learned words for 2x Extra Stars!';
     banner.classList.add('show');
     switchView('quiz');
   }
@@ -1021,15 +1043,15 @@
 
     document.getElementById('quizMasteryBadge').textContent =
       isFarmQuest ? '🌾 Farm Harvest Challenge (+2⭐)' :
-      (isReviewMode ? '🔄 Practice All Mode (+2⭐)' : `Word Mastery: ${'🟢'.repeat(currentWord.streak)}${'⚪'.repeat(2 - currentWord.streak)}`);
+      (isReviewMode ? '🍀 Practice All Mode (+2⭐)' : `Word Mastery: ${'🟢'.repeat(currentWord.streak)}${'⚪'.repeat(2 - currentWord.streak)}`);
 
     document.getElementById('wordEmoji').textContent = currentWord.emoji || '✨';
     document.getElementById('wordMeaning').textContent = currentWord.meaning || 'Listen & spell in French';
 
     const chunks = splitIntoPhonics(noun);
     document.getElementById('phonicsHintBox').innerHTML =
-      `Sound chunks: <span style="color:#0284c7;">${article}</span> &nbsp; ` +
-      chunks.map(c => `<span style="background:#f3e8ff; padding:2px 8px; border-radius:6px; margin:0 2px;">${c.text}</span>`).join(' - ');
+      `Sound chunks: <span style="color:#16a34a;">${article}</span> &nbsp; ` +
+      chunks.map(c => `<span style="background:#e0f2fe; padding:2px 8px; border-radius:6px; margin:0 2px;">${c.text}</span>`).join(' - ');
 
     selectedArticle = '';
     setupTiles(noun);
@@ -1167,7 +1189,7 @@
         updateFarmTimer();
       } else if (isReviewMode) {
         starEarned = 2;
-        logReason = `🔄 Practice All ("${target}")`;
+        logReason = `🍀 Practice All ("${target}")`;
       }
 
       addStars(starEarned, logReason);
@@ -1300,14 +1322,15 @@
     const container = document.getElementById('wordRowsContainer');
     container.innerHTML = '';
     week.words.forEach(w => addWordRowUI(w.full, w.meaning, w.emoji));
-    document.getElementById('qrBoxArea').style.display = 'none';
+    document.getElementById('syncCodeArea').style.display = 'none';
     document.getElementById('bulkPasteArea').style.display = 'none';
+    document.getElementById('parentModal').dataset.isNew = 'false';
     document.getElementById('parentModal').classList.add('open');
   }
 
   function toggleBulkPaste() {
     const box = document.getElementById('bulkPasteArea');
-    document.getElementById('qrBoxArea').style.display = 'none';
+    document.getElementById('syncCodeArea').style.display = 'none';
     box.style.display = box.style.display === 'none' ? 'block' : 'none';
   }
 
@@ -1326,9 +1349,8 @@
     document.getElementById('bulkPasteArea').style.display = 'none';
   }
 
-  // 即時讀取目前輸入框裡的單字來產生「超清晰壓縮版 QR Code」
-  function toggleQrBox() {
-    const box = document.getElementById('qrBoxArea');
+  function toggleSyncCodeBox() {
+    const box = document.getElementById('syncCodeArea');
     document.getElementById('bulkPasteArea').style.display = 'none';
     if (box.style.display === 'none') {
       const title = document.getElementById('editWeekTitle').value.trim() || 'French Dictée';
@@ -1339,23 +1361,54 @@
         const en = r.querySelector('.input-en').value.trim();
         if (fr) tempWords.push({ full: fr, meaning: en });
       });
-
-      const payload = encodeCompactWeek({ title, words: tempWords });
-      const url = `${window.location.origin}${window.location.pathname}?q=${encodeURIComponent(payload)}`;
-      document.getElementById('shareUrlBox').value = url;
-      document.getElementById('qrCodeImg').src =
-        `https://api.qrserver.com/v1/create-qr-code/?size=240x240&ecc=L&margin=10&data=${encodeURIComponent(url)}`;
+      document.getElementById('exportCodeBox').value = encodeCompactWeek({ title, words: tempWords });
+      document.getElementById('importCodeBox').value = '';
       box.style.display = 'block';
     } else {
       box.style.display = 'none';
     }
   }
 
-  function copySyncLink() {
-    const box = document.getElementById('shareUrlBox');
+  function copyExportCode() {
+    const box = document.getElementById('exportCodeBox');
     box.select();
     navigator.clipboard.writeText(box.value);
-    alert('✅ Sync link copied! Send it via WhatsApp/Email to open on iPad.');
+    alert('✅ Sync Code copied! Send it to iPad and paste it into Step B inside the Home Screen app.');
+  }
+
+  function importFromSyncCode() {
+    const code = document.getElementById('importCodeBox').value.trim();
+    if (!code) {
+      alert('Please paste the Sync Code first!');
+      return;
+    }
+    try {
+      const incomingWeek = decodeCompactWeek(code);
+      if (incomingWeek && incomingWeek.words.length > 0) {
+        upsertWeek(incomingWeek);
+        closeModal('parentModal');
+        switchView('study');
+        alert(`✅ Successfully imported "${incomingWeek.title}" into this app!`);
+      }
+    } catch (e) {
+      alert('❌ Invalid Sync Code. Please make sure you copied the full code.');
+    }
+  }
+
+  // 刪除多餘或重複的週次
+  function deleteCurrentWeek() {
+    if (appData.weeks.length <= 1) {
+      alert('You must keep at least 1 week list in the app!');
+      return;
+    }
+    const week = getActiveWeek();
+    if (confirm(`🗑️ Are you sure you want to delete "${week.title}"?`)) {
+      appData.weeks = appData.weeks.filter(w => w.id !== week.id);
+      appData.currentWeekId = appData.weeks[0].id;
+      saveAppData();
+      closeModal('parentModal');
+      switchView('study');
+    }
   }
 
   function addWordRowUI(fr = '', en = '', emoji = '✨') {
@@ -1410,17 +1463,15 @@
 
     const isNew = document.getElementById('parentModal').dataset.isNew === 'true';
     if (isNew) {
-      const newId = 'week_' + Date.now();
-      appData.weeks.unshift({ id: newId, title, stickers: [], trophyEarned: false, words: newWords });
-      appData.currentWeekId = newId;
+      upsertWeek({ id: 'week_' + Date.now(), title, stickers: [], trophyEarned: false, words: newWords });
       document.getElementById('parentModal').dataset.isNew = 'false';
     } else {
       const week = getActiveWeek();
       week.title = title;
       week.words = newWords;
+      saveAppData();
     }
 
-    saveAppData();
     closeModal('parentModal');
     switchView('study');
   }
