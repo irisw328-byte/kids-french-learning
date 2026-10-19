@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Jamie's French Dictée Practice</title>
+  <style>
+    :root {
+      --bg-main: #f8f5f1;
+      --card-bg: #ffffff;
+      --pastel-blue: #dceefb;
+      --pastel-blue-dark: #3b719f;
+      --pastel-mint: #dcfce7;
+      --pastel-mint-dark: #15803d;
+      --pastel-peach: #ffedd5;
+      --pastel-peach-dark: #c2410c;
+      --pastel-lavender: #f3e8ff;
+      --pastel-lavender-dark: #6b21a8;
+      --pastel-pink: #fce7f3;
+      --pastel-pink-dark: #be185d;
+      --pastel-yellow: #fef9c3;
+      --pastel-yellow-dark: #a16207;
+      --text-main: #334155;
+      --text-muted: #64748b;
+      --border-soft: #e2e8f0;
+    }
+
+    * { box-sizing: border-box; font-family: 'Quicksand', 'Nunito', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    body {
+      margin: 0; padding: 14px; background: var(--bg-main); color: var(--text-main);
+      display: flex; flex-direction: column; align-items: center; min-height: 100vh;
+    }
+
+    .container {
+      width: 100%; max-width: 650px; background: var(--card-bg);
+      border-radius: 28px; padding: 22px;
+      box-shadow: 0 12px 32px rgba(148, 163, 184, 0.12);
+      border: 2px solid #f1f5f9;
+    }
+
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 10px; margin-bottom: 14px;
+      padding-bottom: 12px; border-bottom: 2px dashed var(--border-soft);
+    }
+    .brand-box { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .brand-title { font-size: 1.3rem; font-weight: 800; color: var(--pastel-blue-dark); margin: 0; }
+    .week-selector {
+      background: var(--pastel-lavender); color: var(--pastel-lavender-dark);
+      border: none; padding: 6px 12px; border-radius: 12px; font-weight: 700;
+      font-size: 0.85rem; cursor: pointer; outline: none;
+    }
+
+    .top-actions { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+    .trophy-pill {
+      background: var(--pastel-yellow); color: var(--pastel-yellow-dark);
+      padding: 6px 12px; border-radius: 99px; font-weight: 800; font-size: 0.88rem;
+      display: flex; align-items: center; gap: 5px; cursor: pointer;
+      border: 2px solid #fde047; transition: transform 0.1s;
+    }
+    .trophy-pill:active { transform: scale(0.95); }
+    
+    .btn-review-mode {
+      background: linear-gradient(135deg, #fef08a, #fde047); color: #854d0e;
+      border: 2px solid #facc15; padding: 6px 12px; border-radius: 12px;
+      font-weight: 800; font-size: 0.85rem; cursor: pointer;
+    }
+    .btn-soft {
+      background: #f1f5f9; border: none; padding: 7px 12px; border-radius: 12px;
+      cursor: pointer; font-weight: 700; color: #475569; font-size: 0.85rem;
+      transition: transform 0.1s;
+    }
+    .btn-soft:active { transform: scale(0.95); }
+
+    .review-banner {
+      display: none; background: #fef08a; border: 2px solid #facc15; color: #854d0e;
+      padding: 8px 12px; border-radius: 12px; font-weight: 800; font-size: 0.9rem;
+      margin-bottom: 12px; text-align: center;
+    }
+    .review-banner.show { display: block; }
+
+    .reward-bar {
+      background: #fdfbf7; border: 2px solid #f3e8ff; border-radius: 18px;
+      padding: 10px 14px; margin-bottom: 16px;
+    }
+    .reward-header {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.85rem; font-weight: 800; color: var(--pastel-lavender-dark); margin-bottom: 8px;
+    }
+    .sticker-slots {
+      display: flex; justify-content: space-between; gap: 6px; align-items: center;
+    }
+    .sticker-slot {
+      flex: 1; height: 42px; border-radius: 12px; background: #f8fafc;
+      border: 2px dashed #cbd5e1; display: flex; align-items: center; justify-content: center;
+      font-size: 1.45rem; position: relative; transition: all 0.3s ease;
+    }
+    .sticker-slot.unlocked {
+      background: var(--pastel-mint); border: 2px solid #86efac;
+      transform: translateY(-2px); box-shadow: 0 4px 10px rgba(21,128,61,0.08);
+    }
+    .sticker-slot.trophy-slot {
+      background: var(--pastel-yellow); border-color: #fde047;
+    }
+
+    .mode-switch {
+      display: flex; gap: 6px; margin-bottom: 16px; background: #f1f5f9;
+      padding: 5px; border-radius: 16px;
+    }
+    .mode-btn {
+      flex: 1; padding: 9px 6px; border: none; border-radius: 12px; font-weight: 800;
+      cursor: pointer; background: transparent; color: var(--text-muted); font-size: 0.82rem;
+    }
+    .mode-btn.active {
+      background: var(--card-bg); color: var(--pastel-blue-dark);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+    }
+
+    .word-card {
+      background: linear-gradient(145deg, #f8fafc, #f0f9ff);
+      border: 2px solid var(--pastel-blue); border-radius: 22px;
+      padding: 18px; text-align: center; margin-bottom: 16px; position: relative;
+    }
+    .streak-pill {
+      position: absolute; top: 12px; right: 14px; font-size: 0.8rem;
+      background: white; padding: 4px 10px; border-radius: 99px; font-weight: 800;
+      border: 1px solid var(--border-soft);
+    }
+    .word-illustration {
+      font-size: 4.5rem; line-height: 1.1; margin: 4px 0 8px;
+      filter: drop-shadow(0 6px 8px rgba(0,0,0,0.06));
+    }
+    .word-meaning {
+      font-size: 1.1rem; font-weight: 800; color: #475569; margin-bottom: 14px;
+    }
+    .audio-controls { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+    .btn-voice {
+      border: none; padding: 10px 18px; border-radius: 14px; font-size: 0.95rem;
+      font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 6px;
+      transition: transform 0.1s;
+    }
+    .btn-voice:active { transform: scale(0.95); }
+    .voice-normal { background: var(--pastel-blue); color: var(--pastel-blue-dark); }
+    .voice-slow { background: var(--pastel-peach); color: var(--pastel-peach-dark); }
+    .voice-phonics { background: var(--pastel-lavender); color: var(--pastel-lavender-dark); }
+
+    .phonics-display {
+      display: none; margin-top: 12px; padding: 10px; border-radius: 14px;
+      background: white; border: 2px dashed #d8b4fe;
+    }
+    .phonics-chunk {
+      display: inline-block; padding: 4px 10px; margin: 3px; border-radius: 8px;
+      font-weight: 800; font-size: 1.15rem;
+    }
+    .chunk-complex { background: var(--pastel-pink); color: var(--pastel-pink-dark); }
+    .chunk-normal { background: var(--pastel-blue); color: var(--pastel-blue-dark); }
+
+    .step-label {
+      font-size: 0.85rem; font-weight: 800; color: var(--text-muted); margin-bottom: 6px;
+    }
+    .article-bar {
+      display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 14px;
+    }
+    .art-chip {
+      padding: 8px 15px; border-radius: 12px; border: 2px solid var(--border-soft);
+      background: white; font-size: 1.05rem; font-weight: 800; cursor: pointer; color: var(--text-main);
+    }
+    .art-chip.selected {
+      background: var(--pastel-blue); border-color: #7dd3fc; color: var(--pastel-blue-dark);
+    }
+
+    .answer-tray {
+      min-height: 58px; border: 2px dashed #cbd5e1; border-radius: 16px;
+      display: flex; flex-wrap: wrap; gap: 8px; padding: 10px 14px;
+      justify-content: center; align-items: center; margin-bottom: 14px; background: #fcfcfd;
+    }
+    .art-preview { font-size: 1.35rem; font-weight: 800; color: var(--pastel-blue-dark); margin-right: 4px; }
+    .tile-pool {
+      display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+      margin-bottom: 16px; min-height: 52px;
+    }
+    .tile {
+      min-width: 48px; height: 50px; padding: 0 14px; border-radius: 14px;
+      background: white; border: 2px solid #cbd5e1; border-bottom-width: 5px;
+      font-size: 1.35rem; font-weight: 800; color: var(--text-main);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; user-select: none; transition: transform 0.1s;
+    }
+    .tile:active { transform: translateY(2px); }
+    .tile.tile-phonic {
+      background: var(--pastel-lavender); border-color: #c084fc; color: var(--pastel-lavender-dark);
+    }
+    .tile.in-tray {
+      background: var(--pastel-mint); border-color: #86efac; color: var(--pastel-mint-dark);
+    }
+    .tile.used { opacity: 0.2; pointer-events: none; }
+
+    .accent-row {
+      display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-bottom: 10px;
+    }
+    .btn-acc {
+      width: 40px; height: 40px; border-radius: 10px; border: 2px solid var(--border-soft);
+      background: #f8fafc; font-size: 1.2rem; font-weight: 800; cursor: pointer;
+    }
+    .type-input {
+      width: 100%; padding: 14px; font-size: 1.45rem; text-align: center;
+      border: 2px solid #cbd5e1; border-radius: 16px; outline: none;
+      font-weight: 800; letter-spacing: 1.5px; margin-bottom: 14px;
+    }
+    .type-input:focus { border-color: #7dd3fc; background: #f0f9ff; }
+
+    .btn-check {
+      width: 100%; padding: 15px; border: none; border-radius: 16px;
+      background: #34d399; color: #064e3b; font-size: 1.15rem; font-weight: 900;
+      cursor: pointer; box-shadow: 0 4px 0 #059669;
+    }
+    .btn-check:active { transform: translateY(2px); box-shadow: 0 2px 0 #059669; }
+
+    .feedback {
+      margin-top: 14px; padding: 14px; border-radius: 16px; text-align: center; display: none;
+    }
+    .feedback.ok { display: block; background: var(--pastel-mint); color: var(--pastel-mint-dark); }
+    .feedback.err { display: block; background: #ffe4e6; color: #9f1239; }
+    .diff-text { font-size: 1.45rem; font-weight: 900; letter-spacing: 2px; margin: 6px 0; }
+    .wrong-ch { color: #e11d48; text-decoration: underline wavy; }
+
+    .modal {
+      display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.45);
+      align-items: center; justify-content: center; padding: 14px; z-index: 100;
+    }
+    .modal.open { display: flex; }
+    .modal-box {
+      background: white; width: 100%; max-width: 580px; border-radius: 24px;
+      padding: 22px; max-height: 90vh; overflow-y: auto;
+    }
+
+    .word-row {
+      display: flex; gap: 6px; align-items: center; margin-bottom: 8px;
+      background: #f8fafc; padding: 8px; border-radius: 12px; border: 1px solid var(--border-soft);
+    }
+    .word-row input {
+      padding: 8px; border-radius: 8px; border: 1px solid #cbd5e1; font-weight: 700;
+    }
+    .input-emoji { width: 48px; text-align: center; font-size: 1.2rem; }
+    .input-fr { flex: 1.2; }
+    .input-en { flex: 1; }
+    .btn-del {
+      background: #fee2e2; color: #b91c1c; border: none; border-radius: 8px;
+      width: 32px; height: 32px; cursor: pointer; font-weight: 800;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="review-banner" id="reviewBanner">🌟 Review Mode Active! (Practicing all learned words for 2x Stars ⭐⭐)</div>
+
+  <header>
+    <div class="brand-box">
+      <h1 class="brand-title">🇫🇷 Jamie's Dictée</h1>
+      <select class="week-selector" id="weekSelect" onchange="switchWeek(this.value)"></select>
+    </div>
+    <div class="top-actions">
+      <button class="btn-review-mode" onclick="startReviewMode()" title="Review all learned words">🌟 Review</button>
+      <div class="trophy-pill" onclick="openTrophyModal()" title="View Stickers & Trophies">
+        🏆 <span id="totalStarsCount">0</span>⭐
+      </div>
+      <button class="btn-soft" onclick="openEditorModal()">📚 Words</button>
+      <button class="btn-soft" onclick="openShareModal()">📲 QR</button>
+      <button class="btn-soft" onclick="resetCurrentWeek()" title="Reset current week">🔄</button>
+    </div>
+  </header>
+
+  <!-- Reward Progress Bar -->
+  <div class="reward-bar" id="rewardBarContainer">
+    <div class="reward-header">
+      <span id="progressText">⭐ Mastered: 0 / 14</span>
+      <span>🎁 Unlock a sticker every 2 words!</span>
+    </div>
+    <div class="sticker-slots" id="stickerTrack"></div>
+  </div>
+
+  <!-- Mode Switch -->
+  <div class="mode-switch">
+    <button class="mode-btn active" id="btnModePhonics" onclick="setMode('phonics')">
+      🧱 1. Phonics Blocks
+    </button>
+    <button class="mode-btn" id="btnModeLetters" onclick="setMode('letters')">
+      🧩 2. Letter Scramble
+    </button>
+    <button class="mode-btn" id="btnModeType" onclick="setMode('type')">
+      ⌨️ 3. Spelling Test
+    </button>
+  </div>
+
+  <!-- Quiz Area -->
+  <div id="quizZone">
+    <div class="word-card">
+      <div class="streak-pill" id="streakBadge">Mastery: ⚪⚪</div>
+      <div class="word-illustration" id="wordEmoji">🍎</div>
+      <div class="word-meaning" id="wordMeaning">an apple</div>
+      <div class="audio-controls">
+        <button class="btn-voice voice-normal" onclick="speakCurrent(0.9)">🔊 Normal Audio</button>
+        <button class="btn-voice voice-slow" onclick="speakCurrent(0.5)">🐢 Slow Audio</button>
+        <button class="btn-voice voice-phonics" onclick="togglePhonicsHint()">💡 Sound It Out</button>
+      </div>
+      <div class="phonics-display" id="phonicsHintBox"></div>
+    </div>
+
+    <!-- Scramble Area -->
+    <div id="scrambleArea">
+      <div class="step-label">Step 1: Select the article (un / une / le / la...)</div>
+      <div class="article-bar" id="articleBar"></div>
+
+      <div class="step-label" id="step2Label">Step 2: Listen & arrange the blocks (Purple blocks are sound groups!)</div>
+      <div class="answer-tray" onclick="popLastTile()">
+        <span class="art-preview" id="artPreview">___</span>
+        <div id="trayTiles" style="display:flex; gap:6px; flex-wrap:wrap;"></div>
+      </div>
+      <div class="tile-pool" id="poolTiles"></div>
+    </div>
+
+    <!-- Type Area -->
+    <div id="typeArea" class="hidden">
+      <div class="step-label">Type the full word including the article:</div>
+      <div class="accent-row" id="accentRow"></div>
+      <input type="text" id="typeInput" class="type-input" placeholder="Type what you hear..." autocomplete="off" autocapitalize="none" spellcheck="false">
+    </div>
+
+    <button class="btn-check" id="checkBtn" onclick="checkUserAnswer()">Check Answer</button>
+    <div class="feedback" id="feedbackBox"></div>
+  </div>
+</div>
+
+<!-- 1. Word List Editor Modal -->
+<div class="modal" id="editorModal">
+  <div class="modal-box">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+      <h2 style="margin:0; font-size:1.15rem; color:var(--pastel-blue-dark);">📚 Weekly Word List Manager</h2>
+      <button class="btn-soft" style="background:var(--pastel-mint); color:var(--pastel-mint-dark);" onclick="createNewWeek()">➕ New Week</button>
+    </div>
+    <p style="font-size:0.82rem; color:var(--text-muted); margin:4px 0 10px;">
+      💡 Just type the French word (e.g. <code>une pomme</code>), and it will <strong>auto-match the icon</strong> & <strong>auto-split phonics blocks</strong>!
+    </p>
+    <input type="text" id="editWeekTitle" style="width:100%; padding:10px; border-radius:10px; border:2px solid #cbd5e1; font-weight:800; margin-bottom:12px;" placeholder="Theme (e.g. MOTS DE DICTÉE 'O')">
+
+    <div id="wordRowsContainer"></div>
+
+    <button class="btn-soft" style="width:100%; margin:8px 0 16px; padding:10px; background:#f0f9ff; color:var(--pastel-blue-dark);" onclick="addBlankWordRow()">
+      ➕ Add Another Word Slot
+    </button>
+
+    <div style="display:flex; justify-content:flex-end; gap:10px;">
+      <button class="btn-soft" onclick="closeModal('editorModal')">Cancel</button>
+      <button class="btn-soft" style="background:var(--pastel-blue-dark); color:white; padding:10px 20px;" onclick="saveEditorWords()">💾 Save Word List</button>
+    </div>
+  </div>
+</div>
+
+<!-- 2. Trophy & Sticker Book Modal -->
+<div class="modal" id="trophyModal">
+  <div class="modal-box" style="text-align:center;">
+    <h2 style="margin-top:0; color:var(--pastel-yellow-dark);">🏆 Jamie's Trophy & Sticker Book</h2>
+    <div style="background:var(--pastel-yellow); padding:16px; border-radius:20px; margin-bottom:16px;">
+      <div id="rankBadgeTitle" style="font-size:1.25rem; font-weight:900; color:#854d0e; margin-bottom:4px;">🌱 French Beginner</div>
+      <div style="font-size:0.9rem; font-weight:800; color:var(--pastel-yellow-dark);">
+        Total Stars: ⭐ <span id="modalTotalStars">0</span> ｜ Gold Trophies: 🏆 <span id="modalTotalTrophies">0</span>
+      </div>
+    </div>
+
+    <div style="text-align:left; font-weight:800; margin-bottom:8px; color:var(--pastel-lavender-dark);">🎨 Unlocked Sticker Collection:</div>
+    <div id="stickerCollectionGrid" style="display:flex; flex-wrap:wrap; gap:10px; background:#f8fafc; padding:14px; border-radius:16px; min-height:72px; justify-content:center; font-size:2rem; margin-bottom:16px; border:2px dashed #e2e8f0;"></div>
+
+    <div style="display:flex; gap:10px; justify-content:center;">
+      <button class="btn-soft" onclick="closeModal('trophyModal')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- 3. QR Code Sync Modal -->
+<div class="modal" id="shareModal">
+  <div class="modal-box" style="text-align:center;">
+    <h2 style="margin-top:0; font-size:1.2rem;">📲 Sync to Jamie's iPad</h2>
+    <p style="font-size:0.85rem; color:var(--text-muted);">Scan this QR Code with iPad camera to load this week's words instantly:</p>
+    <img id="qrCodeImg" style="width:210px; height:210px; border-radius:16px; border:4px solid #f1f5f9; margin:10px auto; display:block;" alt="QR">
+    <input type="text" id="shareUrlBox" style="width:100%; padding:8px; border-radius:8px; border:1px solid #cbd5e1; font-size:0.8rem; margin-bottom:12px;" readonly onclick="this.select()">
+    <div style="display:flex; gap:10px; justify-content:center;">
+      <button class="btn-soft" style="background:var(--pastel-mint); color:var(--pastel-mint-dark);" onclick="copySyncLink()">📋 Copy Link</button>
+      <button class="btn-soft" onclick="closeModal('shareModal')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- 4. Celebration Modal -->
+<div class="modal" id="celebrateModal">
+  <div class="modal-box" style="text-align:center; max-width:400px;">
+    <div id="celebrateIcon" style="font-size:5rem; margin:10px 0;">🎉</div>
+    <h2 id="celebrateTitle" style="color:var(--pastel-lavender-dark); margin:6px 0;">New Sticker Unlocked!</h2>
+    <p id="celebrateDesc" style="font-weight:700; color:var(--text-muted);"></p>
+    <button class="btn-check" onclick="closeModal('celebrateModal')">Awesome! Keep Going 🚀</button>
+  </div>
+</div>
+
+<script>
+  const AUTO_DICT = {
+    "pomme": { emoji: "🍎", en: "apple" }, "orange": { emoji: "🍊", en: "orange" },
+    "rose": { emoji: "🌹", en: "rose" }, "chocolat": { emoji: "🍫", en: "chocolate" },
+    "soleil": { emoji: "☀️", en: "sun" }, "orage": { emoji: "⛈️", en: "thunderstorm" },
+    "robe": { emoji: "👗", en: "dress" }, "école": { emoji: "🏫", en: "school" },
+    "tomate": { emoji: "🍅", en: "tomato" }, "cornet": { emoji: "🍦", en: "ice cream cone" },
+    "fromage": { emoji: "🧀", en: "cheese" }, "olives": { emoji: "🫒", en: "olives" },
+    "poche": { emoji: "👕", en: "pocket" }, "océan": { emoji: "🌊", en: "ocean" },
+    "maison": { emoji: "🏠", en: "house" }, "chat": { emoji: "🐱", en: "cat" },
+    "chien": { emoji: "🐶", en: "dog" }, "oiseau": { emoji: "🐦", en: "bird" },
+    "voiture": { emoji: "🚗", en: "car" }, "livre": { emoji: "📖", en: "book" }
+  };
+
+  const STICKER_POOL = ["🦖", "🚀", "🏎️", "🤖", "🦁", "🦈", "🎮", "🛸", "⚡", "🐉", "🍕", "🎸", "🛹", "🥷", "👾", "☄️", "🛡️", "⭐"];
+  const ARTICLES = ["un", "une", "le", "la", "l'", "les", "du", "des"];
+  const ACCENTS = ['é', 'è', 'ê', 'à', 'â', 'ô', 'î', 'û', 'ù', 'ç', 'œ', "'"];
+
+  const FRENCH_DIGRAPHS = [
+    'eaux', 'eau', 'oient', 'ouille', 'euil', 'eil', 'ail', 'ille',
+    'ouin', 'oin', 'ain', 'ein', 'ian', 'ien', 'ion',
+    'ou', 'oi', 'ai', 'ei', 'au', 'eu', 'œu',
+    'an', 'en', 'on', 'in', 'un', 'om', 'am', 'em', 'im',
+    'ch', 'ph', 'gn', 'qu', 'gu',
+    'mm', 'nn', 'll', 'ss', 'tt', 'pp', 'rr', 'ff', 'cc'
+  ];
+
+  function splitIntoPhonics(noun) {
+    const chunks = [];
+    let i = 0;
+    const lower = noun.toLowerCase();
+    while (i < noun.length) {
+      let matched = '';
+      for (const dg of FRENCH_DIGRAPHS) {
+        if (lower.startsWith(dg, i)) {
+          matched = noun.slice(i, i + dg.length);
+          break;
+        }
+      }
+      if (matched) {
+        chunks.push({ text: matched, isComplex: true });
+        i += matched.length;
+      } else {
+        chunks.push({ text: noun[i], isComplex: false });
+        i += 1;
+      }
+    }
+    return chunks;
+  }
+
+  function splitFrenchArticle(fullText) {
+    const clean = fullText.trim();
+    if (clean.toLowerCase().startsWith("l'")) {
+      return { article: "l'", noun: clean.slice(2).trim() };
+    }
+    const parts = clean.split(/\s+/);
+    if (parts.length > 1 && ARTICLES.includes(parts[0].toLowerCase())) {
+      return { article: parts[0].toLowerCase(), noun: parts.slice(1).join(' ') };
+    }
+    return { article: '', noun: clean };
+  }
+
+  function autoLookupMeta(fullFr) {
+    const { noun } = splitFrenchArticle(fullFr);
+    const key = noun.toLowerCase();
+    if (AUTO_DICT[key]) return AUTO_DICT[key];
+    for (const k in AUTO_DICT) {
+      if (key.includes(k)) return AUTO_DICT[k];
+    }
+    return { emoji: "✨", en: "" };
+  }
+
+  const DEFAULT_WEEKS = [
+    {
+      id: "week_o",
+      title: 'MOTS DE DICTÉE "O"',
+      stickers: [],
+      trophyEarned: false,
+      words: [
+        { full: "une pomme", meaning: "an apple", emoji: "🍎", streak: 0, mastered: false },
+        { full: "une orange", meaning: "an orange", emoji: "🍊", streak: 0, mastered: false },
+        { full: "la rose", meaning: "the rose", emoji: "🌹", streak: 0, mastered: false },
+        { full: "du chocolat", meaning: "chocolate", emoji: "🍫", streak: 0, mastered: false },
+        { full: "le soleil", meaning: "the sun", emoji: "☀️", streak: 0, mastered: false },
+        { full: "un orage", meaning: "a thunderstorm", emoji: "⛈️", streak: 0, mastered: false },
+        { full: "une robe", meaning: "a dress", emoji: "👗", streak: 0, mastered: false },
+        { full: "l'école", meaning: "the school", emoji: "🏫", streak: 0, mastered: false },
+        { full: "la tomate", meaning: "the tomato", emoji: "🍅", streak: 0, mastered: false },
+        { full: "le cornet", meaning: "the ice cream cone", emoji: "🍦", streak: 0, mastered: false },
+        { full: "le fromage", meaning: "the cheese", emoji: "🧀", streak: 0, mastered: false },
+        { full: "les olives", meaning: "the olives", emoji: "🫒", streak: 0, mastered: false },
+        { full: "la poche", meaning: "the pocket", emoji: "👕", streak: 0, mastered: false },
+        { full: "un océan", meaning: "an ocean", emoji: "🌊", streak: 0, mastered: false }
+      ]
+    }
+  ];
+
+  let appData = {
+    currentWeekId: "week_o",
+    totalStars: 0,
+    allStickers: [],
+    weeks: DEFAULT_WEEKS
+  };
+
+  let isReviewMode = false;
+  let currentMode = 'phonics';
+  let currentWord = null;
+  let selectedArticle = '';
+  let currentTiles = [];
+  let selectedTiles = [];
+  let awaitingNext = false;
+
+  function encodePayload(obj) {
+    const bytes = new TextEncoder().encode(JSON.stringify(obj));
+    let bin = '';
+    bytes.forEach(b => bin += String.fromCharCode(b));
+    return btoa(bin);
+  }
+  function decodePayload(b64) {
+    const bin = atob(b64);
+    const bytes = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return JSON.parse(new TextDecoder().decode(bytes));
+  }
+
+  function getRankTitle(stars) {
+    if (stars >= 50) return "👑 French Spelling Grandmaster";
+    if (stars >= 30) return "🦁 Royal French Knight";
+    if (stars >= 14) return "🦊 Dictée Captain";
+    if (stars >= 5)  return "🐣 Spelling Explorer";
+    return "🌱 French Beginner";
+  }
+
+  function initUI() {
+    const artBar = document.getElementById('articleBar');
+    ARTICLES.forEach(art => {
+      const b = document.createElement('button');
+      b.className = 'art-chip';
+      b.textContent = art;
+      b.onclick = () => {
+        if (!awaitingNext) {
+          selectedArticle = art;
+          updateArticleChips();
+        }
+      };
+      artBar.appendChild(b);
+    });
+
+    const accRow = document.getElementById('accentRow');
+    ACCENTS.forEach(ch => {
+      const b = document.createElement('button');
+      b.className = 'btn-acc';
+      b.textContent = ch;
+      b.onclick = () => insertAccentChar(ch);
+      accRow.appendChild(b);
+    });
+
+    const saved = localStorage.getItem('jamie_french_app_v6');
+    if (saved) {
+      try { appData = JSON.parse(saved); } catch (e) {}
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('sync')) {
+      try {
+        const incomingWeek = decodePayload(params.get('sync'));
+        if (incomingWeek && incomingWeek.words) {
+          const existingIdx = appData.weeks.findIndex(w => w.title === incomingWeek.title);
+          if (existingIdx >= 0) {
+            appData.weeks[existingIdx] = incomingWeek;
+            appData.currentWeekId = incomingWeek.id;
+          } else {
+            appData.weeks.unshift(incomingWeek);
+            appData.currentWeekId = incomingWeek.id;
+          }
+          saveAppData();
+          window.history.replaceState({}, document.title, window.location.pathname);
+          alert(`✅ Successfully synced word list: ${incomingWeek.title}`);
+        }
+      } catch (e) {}
+    }
+
+    renderHeaderAndRewards();
+    pickNextQuestion();
+  }
+
+  function getActiveWeek() {
+    return appData.weeks.find(w => w.id === appData.currentWeekId) || appData.weeks[0];
+  }
+
+  function saveAppData() {
+    localStorage.setItem('jamie_french_app_v6', JSON.stringify(appData));
+    renderHeaderAndRewards();
+  }
+
+  function renderHeaderAndRewards() {
+    const week = getActiveWeek();
+    const sel = document.getElementById('weekSelect');
+    sel.disabled = isReviewMode;
+    sel.innerHTML = '';
+    appData.weeks.forEach(w => {
+      const opt = document.createElement('option');
+      opt.value = w.id;
+      opt.textContent = w.title;
+      if (w.id === week.id) opt.selected = true;
+      sel.appendChild(opt);
+    });
+
+    const totalStars = appData.totalStars || 0;
+    const totalTrophies = appData.weeks.filter(w => w.trophyEarned).length;
+    document.getElementById('totalStarsCount').textContent = totalStars;
+    document.getElementById('modalTotalStars').textContent = totalStars;
+    document.getElementById('modalTotalTrophies').textContent = totalTrophies;
+    document.getElementById('rankBadgeTitle').textContent = getRankTitle(totalStars);
+
+    if (!isReviewMode) {
+      const masteredCount = week.words.filter(w => w.mastered).length;
+      const total = week.words.length;
+      document.getElementById('progressText').textContent = `⭐ Mastered: ${masteredCount} / ${total}`;
+
+      const slotCount = Math.max(1, Math.ceil(total / 2));
+      const track = document.getElementById('stickerTrack');
+      track.innerHTML = '';
+      for (let i = 0; i < slotCount; i++) {
+        const d = document.createElement('div');
+        const isLast = (i === slotCount - 1);
+        const unlocked = week.stickers[i];
+        d.className = 'sticker-slot' + (unlocked ? ' unlocked' : '') + (isLast ? ' trophy-slot' : '');
+        d.textContent = unlocked ? unlocked : (isLast ? '🏆' : '🎁');
+        if (!unlocked) d.style.opacity = '0.45';
+        track.appendChild(d);
+      }
+    }
+  }
+
+  function switchWeek(weekId) {
+    if (isReviewMode) return;
+    appData.currentWeekId = weekId;
+    saveAppData();
+    pickNextQuestion();
+  }
+
+  function startReviewMode() {
+    isReviewMode = true;
+    document.getElementById('reviewBanner').classList.add('show');
+    document.getElementById('rewardBarContainer').style.display = 'none';
+    pickNextQuestion();
+  }
+
+  function exitReviewMode() {
+    isReviewMode = false;
+    document.getElementById('reviewBanner').classList.remove('show');
+    document.getElementById('rewardBarContainer').style.display = 'block';
+    renderHeaderAndRewards();
+    pickNextQuestion();
+  }
+
+  function setMode(mode) {
+    currentMode = mode;
+    document.getElementById('btnModePhonics').classList.toggle('active', mode === 'phonics');
+    document.getElementById('btnModeLetters').classList.toggle('active', mode === 'letters');
+    document.getElementById('btnModeType').classList.toggle('active', mode === 'type');
+    document.getElementById('scrambleArea').classList.toggle('hidden', mode === 'type');
+    document.getElementById('typeArea').classList.toggle('hidden', mode !== 'type');
+    renderCurrentWord();
+  }
+
+  function pickNextQuestion() {
+    awaitingNext = false;
+    document.getElementById('feedbackBox').className = 'feedback';
+    document.getElementById('phonicsHintBox').style.display = 'none';
+    document.getElementById('checkBtn').textContent = 'Check Answer';
+
+    let pool = [];
+    if (isReviewMode) {
+      appData.weeks.forEach(w => {
+        w.words.forEach(wd => pool.push(wd));
+      });
+    } else {
+      const week = getActiveWeek();
+      pool = week.words.filter(w => !w.mastered);
+      if (pool.length === 0) {
+        document.getElementById('wordEmoji').textContent = '🏆';
+        document.getElementById('wordMeaning').textContent = 'Fantastic Jamie! All words mastered for this week! Click [🌟 Review] to test all words!';
+        document.getElementById('scrambleArea').classList.add('hidden');
+        document.getElementById('typeArea').classList.add('hidden');
+        document.getElementById('checkBtn').classList.add('hidden');
+        return;
+      }
+    }
+
+    if (pool.length === 0) {
+      alert('No words found. Please add words first!');
+      exitReviewMode();
+      return;
+    }
+
+    document.getElementById('checkBtn').classList.remove('hidden');
+    setMode(currentMode);
+
+    const candidates = pool.length > 1 && currentWord
+      ? pool.filter(w => w.full !== currentWord.full)
+      : pool;
+    currentWord = candidates[Math.floor(Math.random() * candidates.length)];
+
+    renderCurrentWord();
+    setTimeout(() => speakCurrent(0.9), 200);
+  }
+
+  function renderCurrentWord() {
+    if (!currentWord) return;
+    const { article, noun } = splitFrenchArticle(currentWord.full);
+    const stars = isReviewMode ? '🌟 Review Mode (2x Stars)' : ('🟢'.repeat(currentWord.streak) + '⚪'.repeat(2 - currentWord.streak));
+    document.getElementById('streakBadge').textContent = stars;
+    document.getElementById('wordEmoji').textContent = currentWord.emoji || '✨';
+    document.getElementById('wordMeaning').textContent = currentWord.meaning || 'Listen & spell in French';
+
+    const chunks = splitIntoPhonics(noun);
+    const hintBox = document.getElementById('phonicsHintBox');
+    hintBox.innerHTML = `<span style="font-weight:800; color:#64748b; margin-right:6px;">${article}</span>` +
+      chunks.map(c => `<span class="phonics-chunk ${c.isComplex ? 'chunk-complex' : 'chunk-normal'}">${c.text}</span>`).join(' - ');
+
+    if (currentMode === 'type') {
+      const inp = document.getElementById('typeInput');
+      inp.value = '';
+      inp.focus();
+    } else {
+      selectedArticle = '';
+      updateArticleChips();
+      setupTiles(noun);
+    }
+  }
+
+  function updateArticleChips() {
+    document.querySelectorAll('.art-chip').forEach(b => {
+      b.classList.toggle('selected', b.textContent === selectedArticle);
+    });
+    document.getElementById('artPreview').textContent =
+      selectedArticle ? (selectedArticle === "l'" ? "l'" : selectedArticle + " ") : "___ ";
+  }
+
+  function setupTiles(noun) {
+    let rawPieces = [];
+    if (currentMode === 'phonics') {
+      rawPieces = splitIntoPhonics(noun).map((c, idx) => ({ text: c.text, isComplex: c.isComplex, id: idx }));
+    } else {
+      rawPieces = noun.split('').map((ch, idx) => ({ text: ch, isComplex: false, id: idx }));
+    }
+    for (let i = rawPieces.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [rawPieces[i], rawPieces[j]] = [rawPieces[j], rawPieces[i]];
+    }
+    currentTiles = rawPieces;
+    selectedTiles = [];
+    renderTilesUI();
+  }
+
+  function renderTilesUI() {
+    const tray = document.getElementById('trayTiles');
+    const pool = document.getElementById('poolTiles');
+    tray.innerHTML = '';
+    pool.innerHTML = '';
+
+    selectedTiles.forEach((t, idx) => {
+      const el = document.createElement('div');
+      el.className = 'tile in-tray';
+      el.textContent = t.text;
+      el.onclick = (e) => {
+        e.stopPropagation();
+        if (!awaitingNext) {
+          selectedTiles.splice(idx, 1);
+          renderTilesUI();
+        }
+      };
+      tray.appendChild(el);
+    });
+
+    currentTiles.forEach(t => {
+      const used = selectedTiles.some(s => s.id === t.id);
+      const el = document.createElement('div');
+      el.className = 'tile' + (t.isComplex ? ' tile-phonic' : '') + (used ? ' used' : '');
+      el.textContent = t.text;
+      el.onclick = () => {
+        if (!used && !awaitingNext) {
+          selectedTiles.push(t);
+          renderTilesUI();
+        }
+      };
+      pool.appendChild(el);
+    });
+  }
+
+  function popLastTile() {
+    if (selectedTiles.length > 0 && !awaitingNext) {
+      selectedTiles.pop();
+      renderTilesUI();
+    }
+  }
+
+  function togglePhonicsHint() {
+    const box = document.getElementById('phonicsHintBox');
+    box.style.display = box.style.display === 'block' ? 'none' : 'block';
+    speakCurrent(0.55);
+  }
+
+  function insertAccentChar(ch) {
+    const inp = document.getElementById('typeInput');
+    const s = inp.selectionStart;
+    const e = inp.selectionEnd;
+    inp.value = inp.value.slice(0, s) + ch + inp.value.slice(e);
+    inp.focus();
+    inp.setSelectionRange(s + 1, s + 1);
+  }
+
+  function speakCurrent(rate = 0.9) {
+    if (!currentWord || !('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(currentWord.full);
+    u.lang = 'fr-CA';
+    u.rate = rate;
+    const voices = window.speechSynthesis.getVoices();
+    const fr = voices.find(v => v.lang.includes('fr-CA')) || voices.find(v => v.lang.includes('fr'));
+    if (fr) u.voice = fr;
+    window.speechSynthesis.speak(u);
+  }
+
+  function norm(s) {
+    return s.trim().replace(/\s+/g, ' ').replace(/’/g, "'").toLowerCase();
+  }
+
+  function checkUserAnswer() {
+    if (awaitingNext) {
+      pickNextQuestion();
+      return;
+    }
+    if (!currentWord) return;
+
+    const { article } = splitFrenchArticle(currentWord.full);
+    let ans = '';
+    if (currentMode === 'type') {
+      ans = document.getElementById('typeInput').value;
+    } else {
+      if (article && !selectedArticle) {
+        alert('Please select the article first (Step 1)!');
+        return;
+      }
+      const nounPart = selectedTiles.map(t => t.text).join('');
+      ans = selectedArticle === "l'" ? `l'${nounPart}` : (selectedArticle ? `${selectedArticle} ${nounPart}` : nounPart);
+    }
+
+    if (!ans.trim()) return;
+
+    const target = currentWord.full;
+    const fb = document.getElementById('feedbackBox');
+
+    if (norm(ans) === norm(target)) {
+      const starEarned = isReviewMode ? 2 : 1;
+      appData.totalStars = (appData.totalStars || 0) + starEarned;
+
+      let newlyMastered = false;
+      if (!isReviewMode) {
+        currentWord.streak += 1;
+        if (currentWord.streak >= 2 && !currentWord.mastered) {
+          currentWord.mastered = true;
+          newlyMastered = true;
+        }
+      }
+
+      fb.className = 'feedback ok';
+      fb.innerHTML = `
+        <div style="font-size:1.15rem; font-weight:900;">✅ Excellent! Correct!</div>
+        <div class="diff-text">${target}</div>
+        <div>🌟 Earned +${starEarned} star(s)!</div>
+      `;
+      speakCurrent(0.95);
+
+      if (newlyMastered) {
+        checkRewardMilestones(getActiveWeek());
+      }
+      saveAppData();
+    } else {
+      if (!isReviewMode) currentWord.streak = 0;
+      saveAppData();
+
+      const uTrim = ans.trim();
+      let diff = '';
+      const maxL = Math.max(uTrim.length, target.length);
+      for (let i = 0; i < maxL; i++) {
+        const uC = uTrim[i] || '_';
+        const tC = target[i] || '';
+        diff += (uC.toLowerCase() === tC.toLowerCase()) ? `<span>${uC}</span>` : `<span class="wrong-ch">${uC}</span>`;
+      }
+
+      fb.className = 'feedback err';
+      fb.innerHTML = `
+        <div style="font-weight:900;">❌ Almost! Check the highlighted letters:</div>
+        <div class="diff-text">${diff}</div>
+        <div style="font-size:0.85rem;">Correct Spelling:</div>
+        <div class="diff-text" style="color:#15803d;">${target}</div>
+      `;
+      document.getElementById('phonicsHintBox').style.display = 'block';
+      speakCurrent(0.55);
+    }
+
+    awaitingNext = true;
+    document.getElementById('checkBtn').textContent = 'Next Question ➡️';
+  }
+
+  function checkRewardMilestones(week) {
+    const masteredCount = week.words.filter(w => w.mastered).length;
+    const total = week.words.length;
+    const targetStickers = Math.floor(masteredCount / 2);
+
+    if (masteredCount === total && !week.trophyEarned) {
+      week.trophyEarned = true;
+      week.stickers.push('🏆');
+      appData.allStickers.push('🏆');
+      showCelebration('🏆', 'Amazing! All 14 words mastered!', 'You earned this week\'s Gold Trophy 🏆!');
+    } else if (targetStickers > week.stickers.length) {
+      const randomSticker = STICKER_POOL[Math.floor(Math.random() * STICKER_POOL.length)];
+      week.stickers.push(randomSticker);
+      appData.allStickers.push(randomSticker);
+      showCelebration(randomSticker, '🎉 2 New Words Mastered!', `You unlocked a new sticker: ${randomSticker}!`);
+    }
+  }
+
+  function showCelebration(icon, title, desc) {
+    document.getElementById('celebrateIcon').textContent = icon;
+    document.getElementById('celebrateTitle').textContent = title;
+    document.getElementById('celebrateDesc').textContent = desc;
+    document.getElementById('celebrateModal').classList.add('open');
+  }
+
+  function openEditorModal() {
+    if (isReviewMode) exitReviewMode();
+    const week = getActiveWeek();
+    document.getElementById('editWeekTitle').value = week.title;
+    const container = document.getElementById('wordRowsContainer');
+    container.innerHTML = '';
+    week.words.forEach(w => addWordRowUI(w.full, w.meaning, w.emoji));
+    document.getElementById('editorModal').classList.add('open');
+  }
+
+  function addWordRowUI(fr = '', en = '', emoji = '✨') {
+    const container = document.getElementById('wordRowsContainer');
+    const row = document.createElement('div');
+    row.className = 'word-row';
+    row.innerHTML = `
+      <input type="text" class="input-emoji" value="${emoji}" title="Emoji">
+      <input type="text" class="input-fr" value="${fr}" placeholder="French (e.g. une pomme)" oninput="onFrInputChange(this)">
+      <input type="text" class="input-en" value="${en}" placeholder="English meaning">
+      <button class="btn-del" onclick="this.parentElement.remove()">✕</button>
+    `;
+    container.appendChild(row);
+  }
+
+  function addBlankWordRow() { addWordRowUI('', '', '✨'); }
+
+  function onFrInputChange(inputEl) {
+    const row = inputEl.parentElement;
+    const emojiInput = row.querySelector('.input-emoji');
+    const enInput = row.querySelector('.input-en');
+    const meta = autoLookupMeta(inputEl.value);
+    if (meta.emoji !== '✨') {
+      emojiInput.value = meta.emoji;
+      if (!enInput.value) enInput.value = meta.en;
+    }
+  }
+
+  function createNewWeek() {
+    document.getElementById('editWeekTitle').value = `Week ${appData.weeks.length + 1} Dictée`;
+    const container = document.getElementById('wordRowsContainer');
+    container.innerHTML = '';
+    for (let i = 0; i < 14; i++) addBlankWordRow();
+    document.getElementById('editorModal').dataset.isNew = 'true';
+  }
+
+  function saveEditorWords() {
+    const title = document.getElementById('editWeekTitle').value.trim() || 'French Dictée';
+    const rows = document.querySelectorAll('#wordRowsContainer .word-row');
+    const newWords = [];
+    rows.forEach(r => {
+      const fr = r.querySelector('.input-fr').value.trim();
+      const en = r.querySelector('.input-en').value.trim();
+      const em = r.querySelector('.input-emoji').value.trim() || '✨';
+      if (fr) {
+        newWords.push({ full: fr, meaning: en, emoji: em, streak: 0, mastered: false });
+      }
+    });
+
+    if (newWords.length === 0) {
+      alert('Please enter at least one French word!');
+      return;
+    }
+
+    const isNew = document.getElementById('editorModal').dataset.isNew === 'true';
+    if (isNew) {
+      const newId = 'week_' + Date.now();
+      appData.weeks.unshift({ id: newId, title, stickers: [], trophyEarned: false, words: newWords });
+      appData.currentWeekId = newId;
+      document.getElementById('editorModal').dataset.isNew = 'false';
+    } else {
+      const week = getActiveWeek();
+      week.title = title;
+      week.words = newWords;
+      week.stickers = [];
+      week.trophyEarned = false;
+    }
+
+    saveAppData();
+    closeModal('editorModal');
+    pickNextQuestion();
+  }
+
+  function openTrophyModal() {
+    const grid = document.getElementById('stickerCollectionGrid');
+    grid.innerHTML = appData.allStickers && appData.allStickers.length
+      ? appData.allStickers.map(s => `<span>${s}</span>`).join('')
+      : '<span style="font-size:0.9rem; color:#94a3b8;">No stickers yet! Practice words to unlock them.</span>';
+    document.getElementById('trophyModal').classList.add('open');
+  }
+
+  function openShareModal() {
+    if (isReviewMode) exitReviewMode();
+    const week = getActiveWeek();
+    const payload = encodePayload(week);
+    const url = `${window.location.origin}${window.location.pathname}?sync=${encodeURIComponent(payload)}`;
+    document.getElementById('shareUrlBox').value = url;
+    document.getElementById('qrCodeImg').src =
+      `https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=10&data=${encodeURIComponent(url)}`;
+    document.getElementById('shareModal').classList.add('open');
+  }
+
+  function copySyncLink() {
+    const box = document.getElementById('shareUrlBox');
+    box.select();
+    navigator.clipboard.writeText(box.value);
+    alert('✅ Sync link copied to clipboard!');
+  }
+
+  function resetCurrentWeek() {
+    if (isReviewMode) {
+      if (confirm('Exit review mode?')) exitReviewMode();
+      return;
+    }
+    if (confirm('Reset progress for this week? (Your stars and unlocked stickers will be kept)')) {
+      const week = getActiveWeek();
+      week.words.forEach(w => { w.streak = 0; w.mastered = false; });
+      saveAppData();
+      pickNextQuestion();
+    }
+  }
+
+  function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+  document.getElementById('typeInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') checkUserAnswer();
+  });
+
+  window.speechSynthesis.onvoiceschanged = () => {};
+  initUI();
+</script>
+</body>
+</html>
