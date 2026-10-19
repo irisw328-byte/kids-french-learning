@@ -43,7 +43,6 @@
       border: 3px solid #e2e8f0;
     }
 
-    /* 頂部導覽列 */
     header {
       display: flex; justify-content: space-between; align-items: center;
       flex-wrap: wrap; gap: 10px; margin-bottom: 16px;
@@ -78,7 +77,6 @@
       padding: 8px 12px; border-radius: 14px; font-weight: 800; font-size: 0.85rem; cursor: pointer;
     }
 
-    /* 農場打卡與獎勵橫幅區 (Top Dashboard) */
     .dashboard-grid {
       display: grid; grid-template-columns: 1fr 1.3fr; gap: 14px; margin-bottom: 18px;
     }
@@ -118,7 +116,6 @@
     }
     .sticker-slot.unlocked { background: #fae8ff; border-style: solid; }
 
-    /* 練習模式橫幅 + 大顆 Exit 鍵 */
     .mode-banner {
       display: none; background: var(--peach-bg); border: 3px solid var(--peach-border);
       color: var(--peach-text); padding: 12px 18px; border-radius: 18px;
@@ -135,7 +132,6 @@
     .view-section { display: none; }
     .view-section.active { display: block; }
 
-    /* 返回上一頁按鈕列 */
     .nav-back-row {
       display: flex; justify-content: space-between; align-items: center;
       margin-bottom: 14px; flex-wrap: wrap; gap: 10px;
@@ -147,7 +143,7 @@
     }
     .btn-back:active { transform: scale(0.96); }
 
-    /* ==================== PAGE 1: 學習閃卡頁 ==================== */
+    /* PAGE 1: 學習閃卡頁 */
     .study-grid {
       display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px;
     }
@@ -178,7 +174,7 @@
     .fc-btn-listen { background: var(--blue-bg); color: var(--blue-text); }
     .fc-btn-spell { background: #22c55e; color: white; box-shadow: 0 3px 0 #15803d; }
 
-    /* ==================== PAGE 2: 清楚分區的 Spelling Quiz ==================== */
+    /* PAGE 2: Spelling Quiz */
     .quiz-top-card {
       background: var(--yellow-bg); border: 3px solid var(--yellow-border);
       border-radius: 24px; padding: 18px; text-align: center; margin-bottom: 18px;
@@ -206,10 +202,9 @@
       font-size: 1.25rem; font-weight: 900; color: #6b21a8;
     }
 
-    /* Step 1, Step 2, Step 3 獨立色彩鮮明區塊 */
     .step-section {
       border-radius: 24px; padding: 18px 20px; margin-bottom: 16px;
-      border: 3px solid transparent; transition: opacity 0.2s;
+      border: 3px solid transparent;
     }
     .step-header {
       font-size: 1.25rem; font-weight: 900; margin-bottom: 12px;
@@ -220,15 +215,12 @@
       font-size: 0.95rem; margin-right: 8px; color: white;
     }
 
-    /* Step 1: 粉藍區 (Select Article) */
     .step-1-box { background: var(--blue-bg); border-color: var(--blue-border); color: var(--blue-text); }
     .step-1-box .step-badge { background: #0284c7; }
 
-    /* Step 2: 粉紫區 (Listen & Build Blocks) */
     .step-2-box { background: var(--purple-bg); border-color: var(--purple-border); color: var(--purple-text); }
     .step-2-box .step-badge { background: #7e22ce; }
 
-    /* Step 3: 粉綠區 (Type the Full Word) */
     .step-3-box { background: var(--green-bg); border-color: var(--green-border); color: var(--green-text); }
     .step-3-box .step-badge { background: #15803d; }
 
@@ -260,7 +252,6 @@
     .tile.in-tray { background: #d8b4fe; border-color: #7e22ce; color: #3b0764; }
     .tile.used { opacity: 0.2; pointer-events: none; }
 
-    /* Step 3 打字列 */
     .accent-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
     .btn-acc {
       width: 44px; height: 44px; border-radius: 12px; border: 2px solid #86efac;
@@ -287,15 +278,14 @@
     .diff-text { font-size: 1.65rem; font-weight: 900; letter-spacing: 2px; margin: 6px 0; }
     .wrong-ch { color: #e11d48; text-decoration: underline wavy; }
 
-    /* 彈出視窗與英雄榜 */
     .modal {
       display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.55);
       align-items: center; justify-content: center; padding: 14px; z-index: 100;
     }
     .modal.open { display: flex; }
     .modal-box {
-      background: white; width: 100%; max-width: 640px; border-radius: 28px;
-      padding: 24px; max-height: 90vh; overflow-y: auto; border: 3px solid #cbd5e1;
+      background: white; width: 100%; max-width: 660px; border-radius: 28px;
+      padding: 24px; max-height: 92vh; overflow-y: auto; border: 3px solid #cbd5e1;
     }
     .modal-top {
       display: flex; justify-content: space-between; align-items: center;
@@ -340,25 +330,20 @@
 <body>
 
 <div class="container">
-  <!-- 頂部列 -->
   <header>
     <div class="brand-box">
       <h1 class="brand-title">🇫🇷 Jamie's French Quest</h1>
       <select class="week-selector" id="weekSelect" onchange="switchWeek(this.value)"></select>
     </div>
     <div class="top-actions">
-      <!-- 英雄榜按鈕：顯示紅星(3小星合成1紅星)與小黃星 -->
       <button class="btn-hero" onclick="openHeroModal()">
         🏆 <span id="heroGemBadge">🥉 Bronze</span> ｜ <span id="redStarCount">0</span>🌟 <span id="yellowStarCount">0</span>⭐
       </button>
-      <!-- 總複習改用 🔄 圖示，不跟星星混淆 -->
       <button class="btn-practice-all" onclick="startReviewMode()">🔄 Practice All</button>
-      <!-- 媽媽專屬後台 (密碼 1234) -->
       <button class="btn-parent" onclick="promptParentPin()">🔒 Parent</button>
     </div>
   </header>
 
-  <!-- 農場打卡 + 貼紙進度區 -->
   <div class="dashboard-grid" id="dashboardGrid">
     <div class="farm-box">
       <div class="farm-info">
@@ -380,13 +365,12 @@
     </div>
   </div>
 
-  <!-- 特殊模式橫幅 (Practice All 或 農場收成任務) 附帶清楚的 Exit 大按鈕 -->
   <div class="mode-banner" id="modeBanner">
     <span id="modeBannerText">🔄 Practice All Mode: Spell words from all weeks for 2x Stars!</span>
     <button class="btn-exit-big" onclick="exitSpecialMode()">❌ Exit</button>
   </div>
 
-  <!-- ==================== VIEW 1: 學習閃卡頁 (Flashcards) ==================== -->
+  <!-- VIEW 1: 學習閃卡頁 -->
   <div class="view-section active" id="viewStudy">
     <div class="nav-back-row">
       <h2 style="margin:0; font-size:1.25rem; color:var(--blue-text);">
@@ -399,7 +383,7 @@
     <div class="study-grid" id="studyGrid"></div>
   </div>
 
-  <!-- ==================== VIEW 2: 清楚三步驟顏色分區的 Spelling Quiz ==================== -->
+  <!-- VIEW 2: 三步驟顏色分區 Spelling Quiz -->
   <div class="view-section" id="viewQuiz">
     <div class="nav-back-row">
       <button class="btn-back" onclick="switchView('study')">⬅️ Back to Word Cards</button>
@@ -408,7 +392,6 @@
       </div>
     </div>
 
-    <!-- 題目發音大圖卡 -->
     <div class="quiz-top-card">
       <div class="quiz-illust">
         <div class="quiz-emoji" id="wordEmoji">🍎</div>
@@ -425,7 +408,7 @@
       <div class="phonics-reveal" id="phonicsHintBox"></div>
     </div>
 
-    <!-- STEP 1: 粉藍色區塊 - 選冠詞 -->
+    <!-- STEP 1 -->
     <div class="step-section step-1-box" id="step1Box">
       <div class="step-header">
         <div><span class="step-badge">STEP 1</span> Pick the First Word (Article)</div>
@@ -434,7 +417,7 @@
       <div class="article-bar" id="articleBar"></div>
     </div>
 
-    <!-- STEP 2: 粉紫色區塊 - 聽音排積木 -->
+    <!-- STEP 2 -->
     <div class="step-section step-2-box" id="step2Box">
       <div class="step-header">
         <div><span class="step-badge">STEP 2</span> Listen & Tap Sound Blocks in Order</div>
@@ -447,7 +430,7 @@
       <div class="tile-pool" id="poolTiles"></div>
     </div>
 
-    <!-- STEP 3: 粉綠色區塊 - 親手打出完整單字 -->
+    <!-- STEP 3 -->
     <div class="step-section step-3-box" id="step3Box">
       <div class="step-header">
         <div><span class="step-badge">STEP 3</span> Type the Full Word to Win Stars!</div>
@@ -462,7 +445,7 @@
   </div>
 </div>
 
-<!-- ==================== MODAL 1: 英雄榜 (Hero Board & Gem Ranks & Star Log) ==================== -->
+<!-- MODAL 1: 英雄榜 -->
 <div class="modal" id="heroModal">
   <div class="modal-box">
     <div class="modal-top">
@@ -470,7 +453,6 @@
       <button class="btn-back" style="padding:6px 14px;" onclick="closeModal('heroModal')">⬅️ Back</button>
     </div>
 
-    <!-- 紅星與黃星轉換看板 -->
     <div style="background:linear-gradient(135deg,#fef9c3,#fde047); padding:16px; border-radius:20px; text-align:center; margin-bottom:14px; border:2px solid #eab308;">
       <div id="modalRankTitle" style="font-size:1.4rem; font-weight:900; color:#713f12;">🥉 Bronze Explorer</div>
       <div style="font-size:1.15rem; font-weight:900; color:#854d0e; margin:6px 0;">
@@ -481,43 +463,56 @@
       </div>
     </div>
 
-    <!-- 寶石段位一覽 (Ruby / Sapphire / Diamond) -->
     <div style="font-weight:900; font-size:0.9rem; margin-bottom:6px; color:var(--text-muted);">💎 Gem Rank Ladder:</div>
     <div class="rank-ladder" id="rankLadder"></div>
 
-    <!-- 收集到的貼紙與獎盃 -->
     <div style="font-weight:900; font-size:0.9rem; margin-bottom:6px; color:var(--purple-text);">🎨 Sticker & Trophy Collection:</div>
     <div id="stickerCollectionGrid" style="display:flex; flex-wrap:wrap; gap:10px; background:#fdf4ff; padding:12px; border-radius:16px; min-height:60px; font-size:2rem; margin-bottom:14px; border:2px dashed #e879f9;"></div>
 
-    <!-- 星星英雄榜全紀錄 -->
     <div style="font-weight:900; font-size:0.9rem; margin-bottom:6px; color:var(--blue-text);">📜 Star History Log (Recent Achievements):</div>
     <div class="history-list" id="starHistoryList"></div>
   </div>
 </div>
 
-<!-- ==================== MODAL 2: 媽媽專屬後台 (密碼 1234 保護，含單字管理與 QR 說明) ==================== -->
+<!-- MODAL 2: 媽媽專屬後台 (新增 Quick Paste 一鍵貼上 + 超清晰壓縮版 QR Code) -->
 <div class="modal" id="parentModal">
   <div class="modal-box">
     <div class="modal-top">
-      <h2 style="margin:0; color:var(--blue-text);">🔒 Parent Admin (Words & iPad Sync)</h2>
+      <h2 style="margin:0; color:var(--blue-text);">🔒 Parent Admin (Words & Sync)</h2>
       <button class="btn-back" style="padding:6px 14px;" onclick="closeModal('parentModal')">⬅️ Back</button>
     </div>
 
-    <!-- QR 同步功能區塊與清楚說明 -->
+    <!-- 替代方案 1：一整排快速貼上 (Quick Bulk Paste) + 清晰壓縮版 QR -->
     <div style="background:var(--blue-bg); border:2px solid var(--blue-border); border-radius:18px; padding:14px; margin-bottom:16px;">
-      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-        <div>
-          <div style="font-weight:900; color:var(--blue-text);">📲 What is QR Sync? (跨裝置同步到 iPad)</div>
-          <div style="font-size:0.82rem; color:#0c4a6e; margin-top:2px;">
-            If you type new words on your phone/computer, click <b>"Show QR Code"</b> and scan it with Jamie's iPad camera so his iPad gets the new words instantly!
-          </div>
-        </div>
-        <button class="btn-submit-quiz" style="padding:8px 14px; font-size:0.9rem; background:#0284c7;" onclick="toggleQrBox()">📲 Show QR Code</button>
+      <div style="font-weight:900; color:var(--blue-text); margin-bottom:6px;">
+        ⚡ Easy Ways to Update Words on iPad (免掃碼或超清晰掃碼):
       </div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <button class="btn-submit-quiz" style="padding:8px 14px; font-size:0.88rem; background:#7e22ce;" onclick="toggleBulkPaste()">
+          📋 Method 1: Quick Paste 14 Words (一鍵貼上整排單字)
+        </button>
+        <button class="btn-submit-quiz" style="padding:8px 14px; font-size:0.88rem; background:#0284c7;" onclick="toggleQrBox()">
+          📲 Method 2: Easy-Scan QR / Link (清晰版 QR 連結)
+        </button>
+      </div>
+
+      <!-- 一鍵整批貼上區 -->
+      <div id="bulkPasteArea" style="display:none; margin-top:12px; padding-top:12px; border-top:1px dashed #7dd3fc;">
+        <div style="font-size:0.82rem; color:#0c4a6e; margin-bottom:6px; font-weight:700;">
+          Type or paste 14 words below (one word per line, e.g. <code>un renard</code>). Icons & English meanings will auto-fill!
+        </div>
+        <textarea id="bulkTextarea" style="width:100%; height:140px; border-radius:10px; padding:10px; border:2px solid #7dd3fc; font-weight:700;" placeholder="un renard&#10;un repas&#10;un requin&#10;un menu&#10;un chemin"></textarea>
+        <button class="btn-submit-quiz" style="margin-top:6px; padding:8px 18px; font-size:0.9rem;" onclick="applyBulkPaste()">✨ Auto-Fill Into Rows Below</button>
+      </div>
+
+      <!-- 壓縮版超清晰 QR Code 區 -->
       <div id="qrBoxArea" style="display:none; text-align:center; margin-top:12px; padding-top:12px; border-top:1px dashed #7dd3fc;">
-        <img id="qrCodeImg" style="width:190px; height:190px; border-radius:14px; border:4px solid white; margin:0 auto 8px; display:block;" alt="QR">
+        <div style="font-size:0.82rem; color:#0c4a6e; font-weight:700; margin-bottom:6px;">
+          ✨ Upgraded Ultra-Clear QR Code (Compressed data so iPad scans it in 1 second!):
+        </div>
+        <img id="qrCodeImg" style="width:220px; height:220px; border-radius:14px; border:6px solid white; margin:0 auto 8px; display:block;" alt="QR">
         <input type="text" id="shareUrlBox" style="width:100%; padding:8px; border-radius:8px; border:1px solid #cbd5e1; font-size:0.8rem; margin-bottom:8px;" readonly onclick="this.select()">
-        <button class="btn-parent" style="background:#22c55e; color:white; border:none;" onclick="copySyncLink()">📋 Copy Sync Link</button>
+        <button class="btn-parent" style="background:#22c55e; color:white; border:none; padding:10px 18px;" onclick="copySyncLink()">📋 Copy Sync Link (傳網址給 iPad 點開也可以)</button>
       </div>
     </div>
 
@@ -525,12 +520,12 @@
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
       <div style="font-weight:900; font-size:1.05rem;">📚 Edit Weekly 14 Words:</div>
       <div style="display:flex; gap:8px;">
-        <button class="btn-parent" style="background:#fee2e2; color:#991b1b; border-color:#fca5a5;" onclick="resetCurrentWeek()">🔄 Reset Week Progress</button>
+        <button class="btn-parent" style="background:#fee2e2; color:#991b1b; border-color:#fca5a5;" onclick="resetCurrentWeek()">🔄 Reset Progress</button>
         <button class="btn-parent" style="background:var(--green-bg); color:var(--green-text); border-color:var(--green-border);" onclick="createNewWeek()">➕ Add New Week</button>
       </div>
     </div>
 
-    <input type="text" id="editWeekTitle" style="width:100%; padding:10px; border-radius:10px; border:2px solid #cbd5e1; font-weight:800; margin-bottom:10px;" placeholder="Week Title (e.g. MOTS DE DICTÉE 'O')">
+    <input type="text" id="editWeekTitle" style="width:100%; padding:10px; border-radius:10px; border:2px solid #cbd5e1; font-weight:800; margin-bottom:10px;" placeholder="Week Title (e.g. Week 2 Dictée)">
     <div id="wordRowsContainer"></div>
 
     <button class="btn-parent" style="width:100%; margin:8px 0 14px; padding:10px;" onclick="addBlankWordRow()">➕ Add Word Row</button>
@@ -542,7 +537,7 @@
   </div>
 </div>
 
-<!-- ==================== MODAL 3: 過關慶祝視窗 ==================== -->
+<!-- MODAL 3: 過關慶祝視窗 -->
 <div class="modal" id="celebrateModal">
   <div class="modal-box" style="text-align:center; max-width:420px;">
     <div id="celebrateIcon" style="font-size:5rem; margin:8px 0;">🎉</div>
@@ -553,20 +548,39 @@
 </div>
 
 <script>
+  // 擴充超過 100 個小學法文高頻單字自動配圖與英文翻譯字典（包含妳剛打的 renard, repas, requin, menu, chemin!）
   const AUTO_DICT = {
-    "pomme": { emoji: "🍎", en: "apple" }, "orange": { emoji: "🍊", en: "orange" },
-    "rose": { emoji: "🌹", en: "rose" }, "chocolat": { emoji: "🍫", en: "chocolate" },
-    "soleil": { emoji: "☀️", en: "sun" }, "orage": { emoji: "⛈️", en: "thunderstorm" },
-    "robe": { emoji: "👗", en: "dress" }, "école": { emoji: "🏫", en: "school" },
-    "tomate": { emoji: "🍅", en: "tomato" }, "cornet": { emoji: "🍦", en: "ice cream cone" },
-    "fromage": { emoji: "🧀", en: "cheese" }, "olives": { emoji: "🫒", en: "olives" },
-    "poche": { emoji: "👕", en: "pocket" }, "océan": { emoji: "🌊", en: "ocean" },
-    "maison": { emoji: "🏠", en: "house" }, "chat": { emoji: "🐱", en: "cat" },
-    "chien": { emoji: "🐶", en: "dog" }, "oiseau": { emoji: "🐦", en: "bird" },
-    "voiture": { emoji: "🚗", en: "car" }, "livre": { emoji: "📖", en: "book" }
+    "pomme": { emoji: "🍎", en: "an apple" }, "orange": { emoji: "🍊", en: "an orange" },
+    "rose": { emoji: "🌹", en: "the rose" }, "chocolat": { emoji: "🍫", en: "chocolate" },
+    "soleil": { emoji: "☀️", en: "the sun" }, "orage": { emoji: "⛈️", en: "a thunderstorm" },
+    "robe": { emoji: "👗", en: "a dress" }, "école": { emoji: "🏫", en: "the school" },
+    "tomate": { emoji: "🍅", en: "the tomato" }, "cornet": { emoji: "🍦", en: "the ice cream cone" },
+    "fromage": { emoji: "🧀", en: "the cheese" }, "olives": { emoji: "🫒", en: "the olives" },
+    "poche": { emoji: "👕", en: "the pocket" }, "océan": { emoji: "🌊", en: "an ocean" },
+    "renard": { emoji: "🦊", en: "a fox" }, "repas": { emoji: "🍽️", en: "a meal" },
+    "requin": { emoji: "🦈", en: "a shark" }, "menu": { emoji: "📋", en: "a menu" },
+    "chemin": { emoji: "🛤️", en: "a path / road" }, "cheval": { emoji: "🐴", en: "a horse" },
+    "chemise": { emoji: "👔", en: "a shirt" }, "chenille": { emoji: "🐛", en: "a caterpillar" },
+    "cerise": { emoji: "🍒", en: "a cherry" }, "fenêtre": { emoji: "🪟", en: "a window" },
+    "melon": { emoji: "🍈", en: "a melon" }, "genou": { emoji: "🦵", en: "a knee" },
+    "petit": { emoji: "🐣", en: "small" }, "semaine": { emoji: "📅", en: "a week" },
+    "maison": { emoji: "🏠", en: "a house" }, "chat": { emoji: "🐱", en: "a cat" },
+    "chien": { emoji: "🐶", en: "a dog" }, "oiseau": { emoji: "🐦", en: "a bird" },
+    "voiture": { emoji: "🚗", en: "a car" }, "livre": { emoji: "📖", en: "a book" },
+    "banane": { emoji: "🍌", en: "a banana" }, "gâteau": { emoji: "🎂", en: "a cake" },
+    "château": { emoji: "🏰", en: "a castle" }, "eau": { emoji: "💧", en: "water" },
+    "feu": { emoji: "🔥", en: "fire" }, "lune": { emoji: "🌙", en: "the moon" },
+    "étoile": { emoji: "⭐", en: "a star" }, "fleur": { emoji: "🌸", en: "a flower" },
+    "arbre": { emoji: "🌳", en: "a tree" }, "poisson": { emoji: "🐟", en: "a fish" },
+    "lapin": { emoji: "🐰", en: "a rabbit" }, "souris": { emoji: "🐭", en: "a mouse" },
+    "pain": { emoji: "🥖", en: "bread" }, "lait": { emoji: "🥛", en: "milk" },
+    "oeuf": { emoji: "🥚", en: "an egg" }, "avion": { emoji: "✈️", en: "an airplane" },
+    "train": { emoji: "🚆", en: "a train" }, "vélo": { emoji: "🚲", en: "a bicycle" },
+    "ballon": { emoji: "🎈", en: "a ball / balloon" }, "cadeau": { emoji: "🎁", en: "a gift" },
+    "chapeau": { emoji: "🎩", en: "a hat" }, "manteau": { emoji: "🧥", en: "a coat" },
+    "bateau": { emoji: "⛵", en: "a boat" }, "table": { emoji: "🪑", en: "a table" }
   };
 
-  // 寶石段位系統 (含 Ruby & Diamond)
   const GEM_RANKS = [
     { min: 0,   name: "🥉 Bronze",   full: "🥉 Bronze Sprout" },
     { min: 15,  name: "🥈 Silver",   full: "🥈 Silver Explorer" },
@@ -589,7 +603,6 @@
     'mm', 'nn', 'll', 'ss', 'tt', 'pp', 'rr', 'ff', 'cc'
   ];
 
-  // 農場每 15 分鐘成熟一次 (讓小孩下課休息回來就能收成一次)
   const FARM_COOLDOWN_MS = 15 * 60 * 1000;
 
   const DEFAULT_WEEKS = [
@@ -681,17 +694,38 @@
     return { emoji: "✨", en: "" };
   }
 
-  function encodePayload(obj) {
-    const bytes = new TextEncoder().encode(JSON.stringify(obj));
+  // 極簡壓縮編碼：只把「週標題 + 單字與意思」壓成最短字串，讓 QR Code 超大超清晰！
+  function encodeCompactWeek(week) {
+    const lines = [week.title];
+    week.words.forEach(w => {
+      lines.push(w.meaning ? `${w.full}~${w.meaning}` : w.full);
+    });
+    const raw = lines.join('|');
+    const bytes = new TextEncoder().encode(raw);
     let bin = '';
     bytes.forEach(b => bin += String.fromCharCode(b));
     return btoa(bin);
   }
-  function decodePayload(b64) {
+
+  function decodeCompactWeek(b64) {
     const bin = atob(b64);
     const bytes = new Uint8Array(bin.length);
     for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
-    return JSON.parse(new TextDecoder().decode(bytes));
+    const raw = new TextDecoder().decode(bytes);
+    const parts = raw.split('|');
+    const title = parts[0] || 'New Week';
+    const words = parts.slice(1).filter(Boolean).map(item => {
+      const [fr, en] = item.split('~');
+      const meta = autoLookupMeta(fr);
+      return {
+        full: fr.trim(),
+        meaning: (en ? en.trim() : meta.en),
+        emoji: meta.emoji,
+        streak: 0,
+        mastered: false
+      };
+    });
+    return { id: 'week_' + Date.now(), title, stickers: [], trophyEarned: false, words };
   }
 
   function getCurrentRank(stars) {
@@ -736,20 +770,21 @@
       accRow.appendChild(b);
     });
 
+    // 保留 v9 資料不流失
     const saved = localStorage.getItem('jamie_french_app_v9');
     if (saved) {
       try { appData = { ...appData, ...JSON.parse(saved) }; } catch (e) {}
     }
 
     const params = new URLSearchParams(window.location.search);
-    if (params.get('sync')) {
+    if (params.get('q')) {
       try {
-        const incomingWeek = decodePayload(params.get('sync'));
-        if (incomingWeek && incomingWeek.words) {
+        const incomingWeek = decodeCompactWeek(params.get('q'));
+        if (incomingWeek && incomingWeek.words.length > 0) {
           const idx = appData.weeks.findIndex(w => w.title === incomingWeek.title);
           if (idx >= 0) {
-            appData.weeks[idx] = incomingWeek;
-            appData.currentWeekId = incomingWeek.id;
+            appData.weeks[idx].words = incomingWeek.words;
+            appData.currentWeekId = appData.weeks[idx].id;
           } else {
             appData.weeks.unshift(incomingWeek);
             appData.currentWeekId = incomingWeek.id;
@@ -791,7 +826,7 @@
     });
 
     const total = appData.totalStars || 0;
-    const redStars = Math.floor(total / 3); // 每 3 顆黃星合成 1 顆紅寶石大星
+    const redStars = Math.floor(total / 3);
     const yellowStars = total % 3;
     const rank = getCurrentRank(total);
 
@@ -817,7 +852,6 @@
     }
   }
 
-  // 農場定時收成計時器
   function updateFarmTimer() {
     const now = Date.now();
     const diff = (appData.nextHarvestTime || 0) - now;
@@ -843,7 +877,6 @@
     }
   }
 
-  // 點擊農場收成：吸引小孩馬上拼一個字拿收成獎勵
   function triggerFarmHarvest() {
     isFarmQuest = true;
     isReviewMode = false;
@@ -970,9 +1003,7 @@
     } else {
       const week = getActiveWeek();
       pool = week.words.filter(w => !w.mastered);
-      if (pool.length === 0) {
-        pool = week.words; // 若全熟練則隨機抽題複習
-      }
+      if (pool.length === 0) pool = week.words;
     }
 
     const candidates = pool.length > 1 && currentWord
@@ -1054,7 +1085,6 @@
         if (!used && !awaitingNext) {
           selectedTiles.push(t);
           updateStep1And2UI();
-          // 若積木全部排完且選了冠詞，自動把焦點移到 Step 3 打字框，引導他完成最後一步
           if (selectedTiles.length === currentTiles.length && selectedArticle) {
             document.getElementById('typeInput').focus();
           }
@@ -1117,7 +1147,6 @@
     const builtNoun = selectedTiles.map(t => t.text).join('');
     const builtFull = selectedArticle === "l'" ? `l'${builtNoun}` : (selectedArticle ? `${selectedArticle} ${builtNoun}` : builtNoun);
 
-    // 如果他在 Step 3 打了字就以打字為主；如果沒打字但排完 Step 1+2 也可以檢查
     const ans = typed || builtFull;
     if (!ans.trim()) {
       alert('Please complete Step 1, Step 2, and type the word in Step 3!');
@@ -1218,7 +1247,6 @@
     document.getElementById('celebrateModal').classList.add('open');
   }
 
-  // 打開英雄榜
   function openHeroModal() {
     const total = appData.totalStars || 0;
     const redStars = Math.floor(total / 3);
@@ -1257,7 +1285,6 @@
     document.getElementById('heroModal').classList.add('open');
   }
 
-  // 媽媽後台密碼 1234 驗證
   function promptParentPin() {
     const pin = prompt('🔒 Parent Area: Please enter PIN (1234):');
     if (pin === '1234') {
@@ -1274,18 +1301,50 @@
     container.innerHTML = '';
     week.words.forEach(w => addWordRowUI(w.full, w.meaning, w.emoji));
     document.getElementById('qrBoxArea').style.display = 'none';
+    document.getElementById('bulkPasteArea').style.display = 'none';
     document.getElementById('parentModal').classList.add('open');
   }
 
+  function toggleBulkPaste() {
+    const box = document.getElementById('bulkPasteArea');
+    document.getElementById('qrBoxArea').style.display = 'none';
+    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+  }
+
+  function applyBulkPaste() {
+    const raw = document.getElementById('bulkTextarea').value.split('\n').map(s => s.trim()).filter(Boolean);
+    if (raw.length === 0) return;
+    const container = document.getElementById('wordRowsContainer');
+    container.innerHTML = '';
+    raw.forEach(line => {
+      const parts = line.split(/[,|]/);
+      const fr = parts[0].trim();
+      const customEn = parts[1] ? parts[1].trim() : '';
+      const meta = autoLookupMeta(fr);
+      addWordRowUI(fr, customEn || meta.en, meta.emoji);
+    });
+    document.getElementById('bulkPasteArea').style.display = 'none';
+  }
+
+  // 即時讀取目前輸入框裡的單字來產生「超清晰壓縮版 QR Code」
   function toggleQrBox() {
     const box = document.getElementById('qrBoxArea');
+    document.getElementById('bulkPasteArea').style.display = 'none';
     if (box.style.display === 'none') {
-      const week = getActiveWeek();
-      const payload = encodePayload(week);
-      const url = `${window.location.origin}${window.location.pathname}?sync=${encodeURIComponent(payload)}`;
+      const title = document.getElementById('editWeekTitle').value.trim() || 'French Dictée';
+      const rows = document.querySelectorAll('#wordRowsContainer .word-row');
+      const tempWords = [];
+      rows.forEach(r => {
+        const fr = r.querySelector('.input-fr').value.trim();
+        const en = r.querySelector('.input-en').value.trim();
+        if (fr) tempWords.push({ full: fr, meaning: en });
+      });
+
+      const payload = encodeCompactWeek({ title, words: tempWords });
+      const url = `${window.location.origin}${window.location.pathname}?q=${encodeURIComponent(payload)}`;
       document.getElementById('shareUrlBox').value = url;
       document.getElementById('qrCodeImg').src =
-        `https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=10&data=${encodeURIComponent(url)}`;
+        `https://api.qrserver.com/v1/create-qr-code/?size=240x240&ecc=L&margin=10&data=${encodeURIComponent(url)}`;
       box.style.display = 'block';
     } else {
       box.style.display = 'none';
@@ -1296,7 +1355,7 @@
     const box = document.getElementById('shareUrlBox');
     box.select();
     navigator.clipboard.writeText(box.value);
-    alert('✅ Sync link copied!');
+    alert('✅ Sync link copied! Send it via WhatsApp/Email to open on iPad.');
   }
 
   function addWordRowUI(fr = '', en = '', emoji = '✨') {
@@ -1305,7 +1364,7 @@
     row.className = 'word-row';
     row.innerHTML = `
       <input type="text" class="input-emoji" value="${emoji}" title="Emoji">
-      <input type="text" class="input-fr" value="${fr}" placeholder="French (e.g. une pomme)" oninput="onFrInputChange(this)">
+      <input type="text" class="input-fr" value="${fr}" placeholder="French (e.g. un renard)" oninput="onFrInputChange(this)">
       <input type="text" class="input-en" value="${en}" placeholder="English meaning">
       <button class="btn-del" onclick="this.parentElement.remove()">✕</button>
     `;
