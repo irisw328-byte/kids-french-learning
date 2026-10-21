@@ -48,32 +48,32 @@
       padding-bottom: 14px; border-bottom: 2px dashed #cbd5e1;
     }
     .brand-box { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-    .brand-title { font-size: 1.35rem; font-weight: 900; color: var(--blue-text); margin: 0; }
+    .brand-title { font-size: 1.45rem; font-weight: 900; color: var(--blue-text); margin: 0; }
     .week-selector {
       background: var(--purple-bg); color: var(--purple-text);
       border: 2px solid var(--purple-border); padding: 7px 12px; border-radius: 14px;
-      font-weight: 800; font-size: 0.85rem; cursor: pointer; outline: none;
+      font-weight: 800; font-size: 0.9rem; cursor: pointer; outline: none;
     }
 
-    .top-actions { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+    .top-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
     
     .btn-hero {
       background: var(--yellow-bg); color: var(--yellow-text);
-      border: 2px solid var(--yellow-border); padding: 6px 12px; border-radius: 99px;
-      font-weight: 900; font-size: 0.88rem; cursor: pointer;
-      display: flex; align-items: center; gap: 4px; box-shadow: 0 3px 0 #eab308;
+      border: 2px solid var(--yellow-border); padding: 8px 14px; border-radius: 99px;
+      font-weight: 900; font-size: 0.95rem; cursor: pointer;
+      display: flex; align-items: center; gap: 6px; box-shadow: 0 3px 0 #eab308;
     }
     .btn-hero:active { transform: translateY(2px); box-shadow: 0 1px 0 #eab308; }
 
     .btn-profile-badge {
       background: var(--blue-bg); color: var(--blue-text);
-      border: 2px solid var(--blue-border); padding: 6px 12px; border-radius: 99px;
-      font-weight: 900; font-size: 0.88rem; display: flex; align-items: center; gap: 4px; cursor: pointer;
+      border: 2px solid var(--blue-border); padding: 8px 14px; border-radius: 99px;
+      font-weight: 900; font-size: 0.9rem; display: flex; align-items: center; gap: 5px; cursor: pointer;
     }
 
     .btn-parent {
       background: #f1f5f9; color: #475569; border: 2px solid #cbd5e1;
-      padding: 6px 10px; border-radius: 12px; font-weight: 800; font-size: 0.8rem; cursor: pointer;
+      padding: 8px 12px; border-radius: 14px; font-weight: 800; font-size: 0.85rem; cursor: pointer;
     }
 
     .dashboard-grid {
@@ -142,7 +142,7 @@
     }
     .btn-back:active { transform: scale(0.96); }
 
-    /* HOME PAGE (色彩繽紛的 2x2 排版) */
+    /* HOME PAGE (色彩繽紛的 5 大功能方格 - 改為彈性網格) */
     .home-welcome-card {
       background: linear-gradient(135deg, #e0f2fe, #f3e8ff);
       border: 3px solid #bae6fd; border-radius: 26px; padding: 22px; text-align: center;
@@ -168,6 +168,9 @@
 
     .card-puzzle { background: #f3e8ff; border-color: #d8b4fe; }
     .card-puzzle .home-card-title { color: #6b21a8; }
+
+    .card-speed { background: #ffe4e6; border-color: #fda4af; }
+    .card-speed .home-card-title { color: #e11d48; }
 
     .card-practice { background: #dcfce7; border-color: #86efac; }
     .card-practice .home-card-title { color: #15803d; }
@@ -206,7 +209,7 @@
     .fc-btn-listen { background: var(--blue-bg); color: var(--blue-text); }
     .fc-btn-spell { background: #22c55e; color: white; box-shadow: 0 3px 0 #15803d; }
 
-    /* Word Puzzle 頁面 (修復：輸入字體改成鮮明高對比配色) */
+    /* Word Puzzle */
     .puzzle-board {
       background: linear-gradient(135deg, #faf5ff, #f3e8ff);
       border: 3px solid #c084fc; border-radius: 24px; padding: 20px; text-align: center;
@@ -221,6 +224,23 @@
       box-shadow: 0 4px 10px rgba(107,33,168,0.08); user-select: none;
     }
     .puzzle-cell.selected { background: #7e22ce; color: white; border-color: #581c87; transform: scale(0.95); }
+
+    /* Speed Listening Match 頁面樣式 */
+    .speed-board {
+      background: linear-gradient(135deg, #fff1f2, #ffe4e6);
+      border: 3px solid #fda4af; border-radius: 24px; padding: 22px; text-align: center;
+    }
+    .speed-options-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; max-width: 480px; margin: 20px auto;
+    }
+    .speed-card {
+      background: white; border: 3px solid #fbcfe8; border-radius: 20px; padding: 20px;
+      text-align: center; cursor: pointer; transition: transform 0.1s;
+      box-shadow: 0 6px 16px rgba(225,29,72,0.06);
+    }
+    .speed-card:hover { transform: scale(1.03); border-color: #e11d48; }
+    .speed-card-emoji { font-size: 4rem; margin-bottom: 6px; }
+    .speed-card-text { font-size: 1.1rem; font-weight: 900; color: #9f1239; }
 
     /* Spelling Quiz */
     .quiz-top-card {
@@ -252,7 +272,10 @@
 
     .step-section {
       border-radius: 24px; padding: 18px 20px; margin-bottom: 16px;
-      border: 3px solid transparent;
+      border: 3px solid transparent; transition: opacity 0.3s;
+    }
+    .step-section.locked {
+      opacity: 0.35; pointer-events: none; filter: grayscale(50%);
     }
     .step-header {
       font-size: 1.25rem; font-weight: 900; margin-bottom: 12px;
@@ -390,7 +413,6 @@
     </div>
   </header>
 
-  <!-- 放大版草莓農場看板 -->
   <div class="dashboard-grid" id="dashboardGrid">
     <div class="farm-box">
       <div class="farm-info">
@@ -417,7 +439,7 @@
     <button class="btn-exit-big" onclick="exitSpecialMode()">❌ Exit</button>
   </div>
 
-  <!-- ==================== VIEW 0: HOME PAGE (色彩繽紛的 2x2 排版) ==================== -->
+  <!-- ==================== VIEW 0: HOME PAGE (5 大色彩方格) ==================== -->
   <div class="view-section active" id="viewHome">
     <div class="home-welcome-card">
       <div style="font-size:3.5rem; margin-bottom:6px;">🌟🎒🚀</div>
@@ -442,15 +464,22 @@
         <div class="home-card-desc">Play letter grid matching & win stars</div>
       </div>
 
-      <!-- 3: Practice all for extra stars! (粉綠色) -->
+      <!-- 3: Speed Listening Match (新功能！粉紅色) -->
+      <div class="home-card-btn card-speed" onclick="switchView('speed')">
+        <div class="home-card-icon">⚡</div>
+        <div class="home-card-title">Speed Listening Match</div>
+        <div class="home-card-desc">Listen to audio & pick the correct image fast</div>
+      </div>
+
+      <!-- 4: Practice all for extra stars! (粉綠色) -->
       <div class="home-card-btn card-practice" onclick="startReviewMode()">
         <div class="home-card-icon">🍀</div>
         <div class="home-card-title">Practice all for extra stars!</div>
         <div class="home-card-desc">Review pass weeks' words for 2x stars</div>
       </div>
 
-      <!-- 4: All Words (粉蜜桃色) -->
-      <div class="home-card-btn card-all" onclick="switchView('viewAll')">
+      <!-- 5: All Words (粉蜜桃色) -->
+      <div class="home-card-btn card-all" onclick="switchView('viewAll')" style="grid-column: span 2;">
         <div class="home-card-icon">📚</div>
         <div class="home-card-title">All Words</div>
         <div class="home-card-desc">View all learned words from all weeks</div>
@@ -469,6 +498,23 @@
     <div class="study-grid" id="studyGrid"></div>
   </div>
 
+  <!-- ==================== VIEW 1.2: SPEED LISTENING MATCH (新增加強聽力訓練) ==================== -->
+  <div class="view-section" id="viewSpeed">
+    <div class="nav-back-row">
+      <button class="btn-back" onclick="switchView('home')">⬅️ Back to Home</button>
+      <h2 style="margin:0; font-size:1.25rem; color:#e11d48;">
+        ⚡ Speed Listening Match (Listen & tap the correct picture!)
+      </h2>
+    </div>
+    <div class="speed-board">
+      <div style="margin-bottom:12px;">
+        <button class="btn-audio audio-normal" style="font-size:1.2rem; padding:16px 28px;" onclick="speakSpeedTarget()">🔊 Listen Again</button>
+      </div>
+      <div id="speedPromptText" style="font-size:1.1rem; font-weight:900; color:#9f1239; margin-bottom:10px;"></div>
+      <div class="speed-options-grid" id="speedOptionsGrid"></div>
+    </div>
+  </div>
+
   <!-- ==================== VIEW 1.5: ALL WORDS ==================== -->
   <div class="view-section" id="viewAllWords">
     <div class="nav-back-row">
@@ -480,7 +526,7 @@
     <div class="study-grid" id="allWordsGrid"></div>
   </div>
 
-  <!-- ==================== VIEW 1.8: WORD PUZZLE (修復：支援點錯可取消重選 ＆ 高對比文字顯示) ==================== -->
+  <!-- ==================== VIEW 1.8: WORD PUZZLE ==================== -->
   <div class="view-section" id="viewPuzzle">
     <div class="nav-back-row">
       <button class="btn-back" onclick="switchView('home')">⬅️ Back to Home</button>
@@ -491,14 +537,13 @@
     <div class="puzzle-board">
       <div id="puzzlePrompt" style="font-size:1.3rem; font-weight:900; color:#581c87; margin-bottom:8px;"></div>
       <div style="font-size:0.85rem; font-weight:800; color:var(--text-muted); margin-bottom:6px;">Tap letters in correct order. (Tap a selected letter again to unselect!)</div>
-      <!-- 高對比字體區塊：深紫色背景 + 超大白字 -->
       <div id="puzzleCurrentForm" style="background:#581c87; color:#ffffff; font-size:1.6rem; font-weight:900; padding:10px; border-radius:14px; min-height:50px; margin-bottom:12px; letter-spacing:3px; display:flex; align-items:center; justify-content:center;">_</div>
       <div class="puzzle-grid" id="puzzleGrid"></div>
       <button class="btn-submit-quiz" style="margin-top:16px; background:#9333ea; box-shadow:0 4px 0 #581c87;" onclick="initPuzzleGame()">🔄 New Puzzle</button>
     </div>
   </div>
 
-  <!-- ==================== VIEW 2: Spelling Quiz ==================== -->
+  <!-- ==================== VIEW 2: Spelling Quiz (已修復：強制 Step 3 盲打防作弊) ==================== -->
   <div class="view-section" id="viewQuiz">
     <div class="nav-back-row">
       <button class="btn-back" onclick="switchView('home')">⬅️ Back to Home</button>
@@ -533,7 +578,7 @@
     </div>
 
     <!-- STEP 2: 藍色 (Put in order) -->
-    <div class="step-section step-2-box" id="step2Box">
+    <div class="step-section step-2-box locked" id="step2Box">
       <div class="step-header">
         <div><span class="step-badge">STEP 2</span> Put in order</div>
         <span style="font-size:0.85rem; font-weight:800;">(Tap placed block to undo)</span>
@@ -545,8 +590,8 @@
       <div class="tile-pool" id="poolTiles"></div>
     </div>
 
-    <!-- STEP 3: 紫色 (Type the full word) -->
-    <div class="step-section step-3-box" id="step3Box">
+    <!-- STEP 3: 紫色 (Type the full word - 必須親手打字才能拿星星) -->
+    <div class="step-section step-3-box locked" id="step3Box">
       <div class="step-header">
         <div><span class="step-badge">STEP 3</span> Type the full word</div>
       </div>
@@ -559,7 +604,7 @@
   </div>
 </div>
 
-<!-- MODAL 1: 英雄榜 (Jamie's Stars & Trophy) -->
+<!-- MODAL 1: 英雄榜 -->
 <div class="modal" id="heroModal">
   <div class="modal-box">
     <div class="modal-top">
@@ -588,15 +633,15 @@
   </div>
 </div>
 
-<!-- MODAL 2: 媽媽專屬後台 (支援由空白開始輸入名字、刪除玩家、全英文介面) -->
+<!-- MODAL 2: 媽媽專屬後台 (支援資料庫匯出/匯入備份防歸零) -->
 <div class="modal" id="parentModal">
   <div class="modal-box">
     <div class="modal-top">
-      <h2 style="margin:0; color:var(--blue-text);">🔒 Parent Admin (Profiles & All Weeks)</h2>
+      <h2 style="margin:0; color:var(--blue-text);">🔒 Parent Admin (Profiles, Words & Backup)</h2>
       <button class="btn-back" style="padding:6px 14px;" onclick="closeModal('parentModal')">⬅️ Back</button>
     </div>
 
-    <!-- 玩家設定與刪除區塊 (寬度放大，不再跑版) -->
+    <!-- 玩家管理區 -->
     <div style="background:var(--purple-bg); border:2px solid var(--purple-border); border-radius:18px; padding:14px; margin-bottom:16px;">
       <div style="font-weight:900; color:var(--purple-text); margin-bottom:6px;">👤 Player Profiles Management:</div>
       <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:8px;">
@@ -607,30 +652,56 @@
       </div>
     </div>
 
+    <!-- 備份與資料庫匯出/匯入 (防歸零絕招) -->
+    <div style="background:var(--green-bg); border:2px solid var(--green-border); border-radius:18px; padding:14px; margin-bottom:16px;">
+      <div style="font-weight:900; color:var(--green-text); margin-bottom:6px;">💾 Data Backup & Restore (防止資料歸零):</div>
+      <div style="font-size:0.82rem; color:#166534; font-weight:700; margin-bottom:8px;">
+        Export your data code to backup all words and stars. Import it anytime to restore!
+      </div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <button class="btn-submit-quiz" style="padding:8px 14px; font-size:0.85rem; background:#16a34a;" onclick="exportFullAppData()">📤 Export Backup Code</button>
+        <button class="btn-submit-quiz" style="padding:8px 14px; font-size:0.85rem; background:#0284c7;" onclick="toggleImportBackupBox()">📥 Import Backup Code</button>
+      </div>
+      <div id="importBackupArea" style="display:none; margin-top:10px; padding-top:10px; border-top:1px dashed #86efac;">
+        <textarea id="importBackupText" style="width:100%; height:90px; border-radius:8px; padding:8px; border:2px solid #86efac; font-size:0.75rem;" placeholder="Paste backup code here..."></textarea>
+        <button class="btn-parent" style="margin-top:4px; background:#16a34a; color:white; border:none;" onclick="importFullAppData()">💾 Restore Data Now</button>
+      </div>
+    </div>
+
     <div style="background:var(--blue-bg); border:2px solid var(--blue-border); border-radius:18px; padding:14px; margin-bottom:16px;">
       <div style="font-weight:900; color:var(--blue-text); margin-bottom:6px;">📲 Sync Words to iPad:</div>
       <div style="display:flex; gap:8px; flex-wrap:wrap;">
-        <button class="btn-submit-quiz" style="padding:8px 14px; font-size:0.85rem; background:#7e22ce;" onclick="toggleBulkPaste()">📋 Quick Paste 14 Words</button>
+        <button class="btn-submit-quiz" style="padding:8px 14px; font-size:0.85rem; background:#7e22ce;" onclick="toggleBulkPaste()">📋 Quick Paste Words</button>
         <button class="btn-submit-quiz" style="padding:8px 14px; font-size:0.85rem; background:#0284c7;" onclick="toggleSyncCodeBox()">🔑 Copy / Paste Sync Code</button>
       </div>
 
       <div id="bulkPasteArea" style="display:none; margin-top:12px; padding-top:12px; border-top:1px dashed #7dd3fc;">
         <div style="font-size:0.82rem; color:#0c4a6e; margin-bottom:6px; font-weight:700;">Type or paste words below (one word per line):</div>
-        <textarea id="bulkTextarea" style="width:100%; height:130px; border-radius:10px; padding:10px; border:2px solid #7dd3fc; font-weight:700;" placeholder="un renard&#10;un repas&#10;un requin"></textarea>
+        <textarea id="bulkTextarea" style="width:100%; height:110px; border-radius:10px; padding:10px; border:2px solid #7dd3fc; font-weight:700;" placeholder="un renard&#10;un repas&#10;un requin"></textarea>
         <button class="btn-submit-quiz" style="margin-top:6px; padding:8px 18px; font-size:0.9rem; background:#16a34a;" onclick="applyBulkPaste()">✨ Auto-Fill Into Rows Below</button>
       </div>
 
       <div id="syncCodeArea" style="display:none; margin-top:12px; padding-top:12px; border-top:1px dashed #7dd3fc;">
-        <div style="font-size:0.82rem; color:#0c4a6e; font-weight:800; margin-bottom:4px;">Step A (On Computer): Copy Sync Code:</div>
+        <div style="font-size:0.82rem; color:#0c4a6e; font-weight:800; margin-bottom:4px;">Step A: Copy Sync Code:</div>
         <div style="display:flex; gap:6px; margin-bottom:10px;">
           <input type="text" id="exportCodeBox" style="flex:1; padding:8px; border-radius:8px; border:1px solid #cbd5e1; font-size:0.8rem;" readonly onclick="this.select()">
           <button class="btn-parent" style="background:#0284c7; color:white; border:none;" onclick="copyExportCode()">📋 Copy Code</button>
         </div>
-        <div style="font-size:0.82rem; color:#0c4a6e; font-weight:800; margin-bottom:4px;">Step B (On iPad App): Paste Code & Import:</div>
+        <div style="font-size:0.82rem; color:#0c4a6e; font-weight:800; margin-bottom:4px;">Step B: Paste Code & Import:</div>
         <div style="display:flex; gap:6px;">
           <input type="text" id="importCodeBox" style="flex:1; padding:8px; border-radius:8px; border:2px solid #7e22ce; font-size:0.85rem;" placeholder="Paste Sync Code here...">
           <button class="btn-parent" style="background:#16a34a; color:white; border:none;" onclick="importFromSyncCode()">📥 Import Now</button>
         </div>
+      </div>
+    </div>
+
+    <!-- 獎勵權限管理 (Reward Management: 媽媽可手動調整星星) -->
+    <div style="background:var(--yellow-bg); border:2px solid var(--yellow-border); border-radius:18px; padding:14px; margin-bottom:16px;">
+      <div style="font-weight:900; color:var(--yellow-text); margin-bottom:6px;">⭐ Reward Management (Bonus Stars):</div>
+      <div style="font-size:0.82rem; color:#854d0e; font-weight:700; margin-bottom:6px;">Manually add or adjust stars for active player:</div>
+      <div style="display:flex; gap:8px; align-items:center;">
+        <input type="number" id="manualStarInput" style="width:100px; padding:8px; border-radius:8px; border:1px solid #eab308; font-weight:900;" value="5">
+        <button class="btn-parent" style="background:#ca8a04; color:white; border:none;" onclick="addManualStars()">⭐ Add Bonus Stars</button>
       </div>
     </div>
 
@@ -751,7 +822,7 @@
   ];
 
   let appData = {
-    currentProfile: "", // 預設空白，由媽媽自行新增
+    currentProfile: "",
     profiles: {},
     currentWeekId: "week_o",
     nextHarvestTime: 0
@@ -770,6 +841,10 @@
   let puzzleLetters = [];
   let puzzleTargetWord = null;
   let puzzleSelectedIndices = [];
+
+  // Speed Listening Match state
+  let speedTargetWord = null;
+  let speedOptions = [];
 
   function getActiveProfileData() {
     if (!appData.profiles || Object.keys(appData.profiles).length === 0) {
@@ -910,7 +985,7 @@
       artBar.appendChild(b);
     });
 
-    const saved = localStorage.getItem('jamie_french_app_v16');
+    const saved = localStorage.getItem('jamie_french_app_v18');
     if (saved) {
       try { appData = { ...appData, ...JSON.parse(saved) }; } catch (e) {}
     }
@@ -921,6 +996,8 @@
         "Jamie": { totalStars: 0, allStickers: [], starHistory: [], weeks: JSON.parse(JSON.stringify(DEFAULT_WEEKS)) }
       };
       appData.currentProfile = "Jamie";
+    } else if (!appData.currentProfile) {
+      appData.currentProfile = pNames[0];
     }
 
     const params = new URLSearchParams(window.location.search);
@@ -947,7 +1024,7 @@
   }
 
   function saveAppData() {
-    localStorage.setItem('jamie_french_app_v16', JSON.stringify(appData));
+    localStorage.setItem('jamie_french_app_v18', JSON.stringify(appData));
     renderHeaderAndRewards();
     renderStudyGrid();
   }
@@ -1034,12 +1111,15 @@
     }
     document.getElementById('viewHome').classList.toggle('active', view === 'home');
     document.getElementById('viewStudy').classList.toggle('active', view === 'study');
+    document.getElementById('viewSpeed').classList.toggle('active', view === 'speed');
     document.getElementById('viewAllWords').classList.toggle('active', view === 'viewAll');
     document.getElementById('viewPuzzle').classList.toggle('active', view === 'puzzle');
     document.getElementById('viewQuiz').classList.toggle('active', view === 'quiz');
 
     if (view === 'study') {
       renderStudyGrid();
+    } else if (view === 'speed') {
+      initSpeedGame();
     } else if (view === 'viewAll') {
       renderAllWordsGrid();
     } else if (view === 'puzzle') {
@@ -1070,6 +1150,64 @@
       `;
       grid.appendChild(card);
     });
+  }
+
+  // Speed Listening Match 遊戲邏輯 (參考市面 App 的強效聽力訓練)
+  function initSpeedGame() {
+    const week = getActiveWeek();
+    const pool = week.words;
+    if (pool.length < 2) {
+      alert('Need at least 2 words in this week to play Speed Match!');
+      switchView('home');
+      return;
+    }
+    // 隨機選一個目標字
+    speedTargetWord = pool[Math.floor(Math.random() * pool.length)];
+    speakWordText(speedTargetWord.full);
+
+    document.getElementById('speedPromptText').textContent = `Listen carefully & tap the matching picture for: "${speedTargetWord.full}"`;
+
+    // 準備 4 個選項卡片 (1個正確 + 3個隨機干擾)
+    let options = [speedTargetWord];
+    while (options.length < 4 && options.length < pool.length) {
+      const randW = pool[Math.floor(Math.random() * pool.length)];
+      if (!options.includes(randW)) options.push(randW);
+    }
+    // 洗牌
+    for (let i = options.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [options[i], options[j]] = [options[j], options[i]];
+    }
+    speedOptions = options;
+
+    const grid = document.getElementById('speedOptionsGrid');
+    grid.innerHTML = '';
+    speedOptions.forEach(opt => {
+      const card = document.createElement('div');
+      card.className = 'speed-card';
+      card.innerHTML = `
+        <div class="speed-card-emoji">${opt.emoji || '✨'}</div>
+        <div class="speed-card-text">${opt.meaning}</div>
+      `;
+      card.onclick = () => checkSpeedAnswer(opt);
+      grid.appendChild(card);
+    });
+  }
+
+  function speakSpeedTarget() {
+    if (speedTargetWord) speakWordText(speedTargetWord.full);
+  }
+
+  function checkSpeedAnswer(selectedOpt) {
+    if (selectedOpt.full === speedTargetWord.full) {
+      addStars(1, `⚡ Speed Match ("${speedTargetWord.full}")`);
+      showCelebration('⚡', 'LIGHTNING FAST!', `Correct! That was "${speedTargetWord.full}". You earned +1 ⭐!`);
+      saveAppData();
+      setTimeout(initSpeedGame, 1500);
+    } else {
+      alert('❌ Not quite! Listen again and try another card.');
+      speakWordText(speedTargetWord.full);
+    }
   }
 
   function renderAllWordsGrid() {
@@ -1234,6 +1372,10 @@
     document.getElementById('phonicsHintBox').style.display = 'none';
     document.getElementById('checkBtn').textContent = '✅ Check Answer';
 
+    // 防作弊核心：重設關卡解鎖狀態，Step 1 允許點選，Step 2 與 Step 3 鎖定
+    document.getElementById('step2Box').classList.add('locked');
+    document.getElementById('step3Box').classList.add('locked');
+
     if (specificTestWord) {
       currentWord = specificTestWord;
       renderCurrentWord();
@@ -1298,9 +1440,17 @@
     document.querySelectorAll('.art-chip').forEach(b => {
       b.classList.toggle('selected', b.textContent === selectedArticle);
     });
-    document.getElementById('step1Check').textContent = selectedArticle ? '✅' : '';
-    document.getElementById('artPreview').textContent =
-      selectedArticle ? (selectedArticle === "l'" ? "l'" : selectedArticle + " ") : "___ ";
+
+    const { article } = splitFrenchArticle(currentWord.full);
+    if (selectedArticle && selectedArticle.toLowerCase() === article.toLowerCase()) {
+      document.getElementById('step1Check').textContent = '✅';
+      document.getElementById('step2Box').classList.remove('locked');
+    } else {
+      document.getElementById('step1Check').textContent = selectedArticle ? '❌ Try again' : '';
+      document.getElementById('step2Box').classList.add('locked');
+      document.getElementById('step3Box').classList.add('locked');
+      return;
+    }
 
     const tray = document.getElementById('trayTiles');
     const pool = document.getElementById('poolTiles');
@@ -1330,8 +1480,14 @@
         if (!used && !awaitingNext) {
           selectedTiles.push(t);
           updateStep1And2UI();
-          if (selectedTiles.length === currentTiles.length && selectedArticle) {
+
+          const { noun } = splitFrenchArticle(currentWord.full);
+          const builtNoun = selectedTiles.map(x => x.text).join('');
+          if (builtNoun === noun) {
+            document.getElementById('step3Box').classList.remove('locked');
             document.getElementById('typeInput').focus();
+          } else {
+            document.getElementById('step3Box').classList.add('locked');
           }
         }
       };
@@ -1343,6 +1499,7 @@
     if (selectedTiles.length > 0 && !awaitingNext) {
       selectedTiles.pop();
       updateStep1And2UI();
+      document.getElementById('step3Box').classList.add('locked');
     }
   }
 
@@ -1352,22 +1509,11 @@
     speakCurrent(0.55);
   }
 
-  function speakCurrent(rate = 0.9) {
-    if (!currentWord || !('speechSynthesis' in window)) return;
-    window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(currentWord.full);
-    u.lang = 'fr-CA';
-    u.rate = rate;
-    const voices = window.speechSynthesis.getVoices();
-    const fr = voices.find(v => v.lang.includes('fr-CA')) || voices.find(v => v.lang.includes('fr'));
-    if (fr) u.voice = fr;
-    window.speechSynthesis.speak(u);
-  }
-
   function norm(s) {
     return s.trim().replace(/\s+/g, ' ').replace(/’/g, "'").toLowerCase();
   }
 
+  // 防作弊核心：強制檢查 Step 3 必須親手盲打正確才能過關拿到星星！
   function checkUserAnswer() {
     if (awaitingNext) {
       if (specificTestWord || isFarmQuest) {
@@ -1380,19 +1526,16 @@
     if (!currentWord) return;
 
     const typed = document.getElementById('typeInput').value.trim();
-    const builtNoun = selectedTiles.map(t => t.text).join('');
-    const builtFull = selectedArticle === "l'" ? `l'${builtNoun}` : (selectedArticle ? `${selectedArticle} ${builtNoun}` : builtNoun);
-
-    const ans = typed || builtFull;
-    if (!ans.trim()) {
-      alert('Please complete Step 1, Step 2, and type the word in Step 3!');
+    if (!typed) {
+      alert('🔒 Step 3 is required! You must type the full word by yourself to earn stars.');
+      document.getElementById('typeInput').focus();
       return;
     }
 
     const target = currentWord.full;
     const fb = document.getElementById('feedbackBox');
 
-    if (norm(ans) === norm(target)) {
+    if (norm(typed) === norm(target)) {
       let starEarned = 1;
       let logReason = `Spelled "${target}"`;
 
@@ -1433,7 +1576,7 @@
       if (!isReviewMode) currentWord.streak = 0;
       saveAppData();
 
-      const uTrim = ans.trim();
+      const uTrim = typed;
       let diff = '';
       const maxL = Math.max(uTrim.length, target.length);
       for (let i = 0; i < maxL; i++) {
@@ -1525,7 +1668,7 @@
   }
 
   function promptParentPin() {
-    const pin = prompt('🔒 Parent Admin: Please enter PIN (1234):');
+    const pin = prompt('🔒 Parent Area: Please enter PIN (1234):');
     if (pin === '1234') {
       openParentModal();
     } else if (pin !== null) {
@@ -1543,6 +1686,7 @@
     week.words.forEach(w => addWordRowUI(w.full, w.meaning, w.emoji));
     document.getElementById('syncCodeArea').style.display = 'none';
     document.getElementById('bulkPasteArea').style.display = 'none';
+    document.getElementById('importBackupArea').style.display = 'none';
     document.getElementById('parentModal').dataset.isNew = 'false';
     document.getElementById('parentModal').classList.add('open');
   }
@@ -1593,6 +1737,52 @@
       renderHeaderAndRewards();
       renderStudyGrid();
       alert(`✅ Profile deleted. Switched to ${appData.currentProfile}`);
+    }
+  }
+
+  // 匯出完整備份 (防歸零絕招)
+  function exportFullAppData() {
+    const raw = JSON.stringify(appData);
+    const b64 = btoa(unescape(encodeURIComponent(raw)));
+    prompt('📋 Copy this full backup code and save it in your notes. You can restore everything anytime!', b64);
+  }
+
+  function toggleImportBackupBox() {
+    const box = document.getElementById('importBackupArea');
+    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+  }
+
+  // 匯入完整備份
+  function importFullAppData() {
+    const text = document.getElementById('importBackupText').value.trim();
+    if (!text) {
+      alert('Please paste your backup code first!');
+      return;
+    }
+    try {
+      const raw = decodeURIComponent(escape(atob(text)));
+      const parsed = JSON.parse(raw);
+      if (parsed && parsed.profiles) {
+        appData = parsed;
+        saveAppData();
+        closeModal('parentModal');
+        switchView('home');
+        alert('🎉 Successfully restored all player data, words, and stars!');
+      } else {
+        alert('❌ Invalid backup code format.');
+      }
+    } catch (e) {
+      alert('❌ Failed to decode backup code.');
+    }
+  }
+
+  // 媽媽手動獎勵加星
+  function addManualStars() {
+    const val = parseInt(document.getElementById('manualStarInput').value) || 0;
+    if (val !== 0) {
+      addStars(val, `🎁 Bonus from Mom`);
+      saveAppData();
+      alert(`⭐ Successfully added ${val} stars to ${appData.currentProfile}!`);
     }
   }
 
@@ -1748,7 +1938,7 @@
     });
 
     if (newWords.length === 0) {
-      alert('Please enter at least one word!');
+      alert('Please enter at least one word! Cannot save empty list.');
       return;
     }
 
