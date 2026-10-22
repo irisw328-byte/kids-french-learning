@@ -142,7 +142,7 @@
     }
     .btn-back:active { transform: scale(0.96); }
 
-    /* HOME PAGE (色彩繽紛的 5 大功能方格 - 改為彈性網格) */
+    /* HOME PAGE */
     .home-welcome-card {
       background: linear-gradient(135deg, #e0f2fe, #f3e8ff);
       border: 3px solid #bae6fd; border-radius: 26px; padding: 22px; text-align: center;
@@ -225,7 +225,7 @@
     }
     .puzzle-cell.selected { background: #7e22ce; color: white; border-color: #581c87; transform: scale(0.95); }
 
-    /* Speed Listening Match 頁面樣式 */
+    /* Speed Match */
     .speed-board {
       background: linear-gradient(135deg, #fff1f2, #ffe4e6);
       border: 3px solid #fda4af; border-radius: 24px; padding: 22px; text-align: center;
@@ -312,10 +312,11 @@
     }
     .art-preview { font-size: 1.5rem; font-weight: 900; color: #16a34a; margin-right: 6px; }
     .tile-pool { display: flex; flex-wrap: wrap; gap: 10px; min-height: 54px; }
+    /* Step 2 變成法文音節/拼讀積木塊 */
     .tile {
       min-width: 52px; height: 52px; padding: 0 16px; border-radius: 14px;
       background: white; border: 2px solid #0284c7; border-bottom-width: 5px;
-      font-size: 1.4rem; font-weight: 900; color: #0369a1;
+      font-size: 1.3rem; font-weight: 900; color: #0369a1;
       display: flex; align-items: center; justify-content: center;
       cursor: pointer; user-select: none;
     }
@@ -450,35 +451,35 @@
     </div>
 
     <div class="home-grid">
-      <!-- 1: This Week's New Words (粉藍色) -->
+      <!-- 1: This Week's New Words -->
       <div class="home-card-btn card-study" onclick="switchView('study')">
         <div class="home-card-icon">📖</div>
         <div class="home-card-title">This Week's New Words</div>
         <div class="home-card-desc">Study flashcards & test word by word</div>
       </div>
 
-      <!-- 2: Word Puzzle Game (粉紫色) -->
+      <!-- 2: Word Puzzle Game -->
       <div class="home-card-btn card-puzzle" onclick="switchView('puzzle')">
         <div class="home-card-icon">🧩</div>
         <div class="home-card-title">Word Puzzle Game</div>
         <div class="home-card-desc">Play letter grid matching & win stars</div>
       </div>
 
-      <!-- 3: Speed Listening Match (新功能！粉紅色) -->
+      <!-- 3: Speed Listening Match (新增加強聽力訓練) -->
       <div class="home-card-btn card-speed" onclick="switchView('speed')">
         <div class="home-card-icon">⚡</div>
         <div class="home-card-title">Speed Listening Match</div>
         <div class="home-card-desc">Listen to audio & pick the correct image fast</div>
       </div>
 
-      <!-- 4: Practice all for extra stars! (粉綠色) -->
+      <!-- 4: Practice all for extra stars! -->
       <div class="home-card-btn card-practice" onclick="startReviewMode()">
         <div class="home-card-icon">🍀</div>
         <div class="home-card-title">Practice all for extra stars!</div>
         <div class="home-card-desc">Review pass weeks' words for 2x stars</div>
       </div>
 
-      <!-- 5: All Words (粉蜜桃色) -->
+      <!-- 5: All Words -->
       <div class="home-card-btn card-all" onclick="switchView('viewAll')" style="grid-column: span 2;">
         <div class="home-card-icon">📚</div>
         <div class="home-card-title">All Words</div>
@@ -498,7 +499,7 @@
     <div class="study-grid" id="studyGrid"></div>
   </div>
 
-  <!-- ==================== VIEW 1.2: SPEED LISTENING MATCH (新增加強聽力訓練) ==================== -->
+  <!-- ==================== VIEW 1.2: SPEED LISTENING MATCH ==================== -->
   <div class="view-section" id="viewSpeed">
     <div class="nav-back-row">
       <button class="btn-back" onclick="switchView('home')">⬅️ Back to Home</button>
@@ -543,7 +544,7 @@
     </div>
   </div>
 
-  <!-- ==================== VIEW 2: Spelling Quiz (已修復：強制 Step 3 盲打防作弊) ==================== -->
+  <!-- ==================== VIEW 2: Spelling Quiz (已修復：強固音訊發音＋強制盲打防作弊) ==================== -->
   <div class="view-section" id="viewQuiz">
     <div class="nav-back-row">
       <button class="btn-back" onclick="switchView('home')">⬅️ Back to Home</button>
@@ -577,7 +578,7 @@
       <div class="article-bar" id="articleBar"></div>
     </div>
 
-    <!-- STEP 2: 藍色 (Put in order) -->
+    <!-- STEP 2: 藍色 (Put in order - 音節積木) -->
     <div class="step-section step-2-box locked" id="step2Box">
       <div class="step-header">
         <div><span class="step-badge">STEP 2</span> Put in order</div>
@@ -590,7 +591,7 @@
       <div class="tile-pool" id="poolTiles"></div>
     </div>
 
-    <!-- STEP 3: 紫色 (Type the full word - 必須親手打字才能拿星星) -->
+    <!-- STEP 3: 紫色 (Type the full word - 強制盲打) -->
     <div class="step-section step-3-box locked" id="step3Box">
       <div class="step-header">
         <div><span class="step-badge">STEP 3</span> Type the full word</div>
@@ -671,37 +672,27 @@
     <div style="background:var(--blue-bg); border:2px solid var(--blue-border); border-radius:18px; padding:14px; margin-bottom:16px;">
       <div style="font-weight:900; color:var(--blue-text); margin-bottom:6px;">📲 Sync Words to iPad:</div>
       <div style="display:flex; gap:8px; flex-wrap:wrap;">
-        <button class="btn-submit-quiz" style="padding:8px 14px; font-size:0.85rem; background:#7e22ce;" onclick="toggleBulkPaste()">📋 Quick Paste Words</button>
+        <button class="btn-submit-quiz" style="padding:8px 14px; font-size:0.85rem; background:#7e22ce;" onclick="toggleBulkPaste()">📋 Quick Paste 14 Words</button>
         <button class="btn-submit-quiz" style="padding:8px 14px; font-size:0.85rem; background:#0284c7;" onclick="toggleSyncCodeBox()">🔑 Copy / Paste Sync Code</button>
       </div>
 
       <div id="bulkPasteArea" style="display:none; margin-top:12px; padding-top:12px; border-top:1px dashed #7dd3fc;">
         <div style="font-size:0.82rem; color:#0c4a6e; margin-bottom:6px; font-weight:700;">Type or paste words below (one word per line):</div>
-        <textarea id="bulkTextarea" style="width:100%; height:110px; border-radius:10px; padding:10px; border:2px solid #7dd3fc; font-weight:700;" placeholder="un renard&#10;un repas&#10;un requin"></textarea>
+        <textarea id="bulkTextarea" style="width:100%; height:130px; border-radius:10px; padding:10px; border:2px solid #7dd3fc; font-weight:700;" placeholder="un renard&#10;un repas&#10;un requin"></textarea>
         <button class="btn-submit-quiz" style="margin-top:6px; padding:8px 18px; font-size:0.9rem; background:#16a34a;" onclick="applyBulkPaste()">✨ Auto-Fill Into Rows Below</button>
       </div>
 
       <div id="syncCodeArea" style="display:none; margin-top:12px; padding-top:12px; border-top:1px dashed #7dd3fc;">
-        <div style="font-size:0.82rem; color:#0c4a6e; font-weight:800; margin-bottom:4px;">Step A: Copy Sync Code:</div>
+        <div style="font-size:0.82rem; color:#0c4a6e; font-weight:800; margin-bottom:4px;">Step A (On Computer): Copy Sync Code:</div>
         <div style="display:flex; gap:6px; margin-bottom:10px;">
           <input type="text" id="exportCodeBox" style="flex:1; padding:8px; border-radius:8px; border:1px solid #cbd5e1; font-size:0.8rem;" readonly onclick="this.select()">
           <button class="btn-parent" style="background:#0284c7; color:white; border:none;" onclick="copyExportCode()">📋 Copy Code</button>
         </div>
-        <div style="font-size:0.82rem; color:#0c4a6e; font-weight:800; margin-bottom:4px;">Step B: Paste Code & Import:</div>
+        <div style="font-size:0.82rem; color:#0c4a6e; font-weight:800; margin-bottom:4px;">Step B (On iPad App): Paste Code & Import:</div>
         <div style="display:flex; gap:6px;">
           <input type="text" id="importCodeBox" style="flex:1; padding:8px; border-radius:8px; border:2px solid #7e22ce; font-size:0.85rem;" placeholder="Paste Sync Code here...">
           <button class="btn-parent" style="background:#16a34a; color:white; border:none;" onclick="importFromSyncCode()">📥 Import Now</button>
         </div>
-      </div>
-    </div>
-
-    <!-- 獎勵權限管理 (Reward Management: 媽媽可手動調整星星) -->
-    <div style="background:var(--yellow-bg); border:2px solid var(--yellow-border); border-radius:18px; padding:14px; margin-bottom:16px;">
-      <div style="font-weight:900; color:var(--yellow-text); margin-bottom:6px;">⭐ Reward Management (Bonus Stars):</div>
-      <div style="font-size:0.82rem; color:#854d0e; font-weight:700; margin-bottom:6px;">Manually add or adjust stars for active player:</div>
-      <div style="display:flex; gap:8px; align-items:center;">
-        <input type="number" id="manualStarInput" style="width:100px; padding:8px; border-radius:8px; border:1px solid #eab308; font-weight:900;" value="5">
-        <button class="btn-parent" style="background:#ca8a04; color:white; border:none;" onclick="addManualStars()">⭐ Add Bonus Stars</button>
       </div>
     </div>
 
@@ -822,8 +813,10 @@
   ];
 
   let appData = {
-    currentProfile: "",
-    profiles: {},
+    currentProfile: "Jamie",
+    profiles: {
+      "Jamie": { totalStars: 0, allStickers: [], starHistory: [], weeks: JSON.parse(JSON.stringify(DEFAULT_WEEKS)) }
+    },
     currentWeekId: "week_o",
     nextHarvestTime: 0
   };
@@ -842,7 +835,6 @@
   let puzzleTargetWord = null;
   let puzzleSelectedIndices = [];
 
-  // Speed Listening Match state
   let speedTargetWord = null;
   let speedOptions = [];
 
@@ -1152,7 +1144,6 @@
     });
   }
 
-  // Speed Listening Match 遊戲邏輯 (參考市面 App 的強效聽力訓練)
   function initSpeedGame() {
     const week = getActiveWeek();
     const pool = week.words;
@@ -1161,19 +1152,16 @@
       switchView('home');
       return;
     }
-    // 隨機選一個目標字
     speedTargetWord = pool[Math.floor(Math.random() * pool.length)];
     speakWordText(speedTargetWord.full);
 
     document.getElementById('speedPromptText').textContent = `Listen carefully & tap the matching picture for: "${speedTargetWord.full}"`;
 
-    // 準備 4 個選項卡片 (1個正確 + 3個隨機干擾)
     let options = [speedTargetWord];
     while (options.length < 4 && options.length < pool.length) {
       const randW = pool[Math.floor(Math.random() * pool.length)];
       if (!options.includes(randW)) options.push(randW);
     }
-    // 洗牌
     for (let i = options.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [options[i], options[j]] = [options[j], options[i]];
@@ -1372,7 +1360,6 @@
     document.getElementById('phonicsHintBox').style.display = 'none';
     document.getElementById('checkBtn').textContent = '✅ Check Answer';
 
-    // 防作弊核心：重設關卡解鎖狀態，Step 1 允許點選，Step 2 與 Step 3 鎖定
     document.getElementById('step2Box').classList.add('locked');
     document.getElementById('step3Box').classList.add('locked');
 
@@ -1938,7 +1925,7 @@
     });
 
     if (newWords.length === 0) {
-      alert('Please enter at least one word! Cannot save empty list.');
+      alert('Please enter at least one word!');
       return;
     }
 
