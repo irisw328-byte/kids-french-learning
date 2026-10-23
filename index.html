@@ -48,7 +48,7 @@
       padding-bottom: 14px; border-bottom: 2px dashed #cbd5e1;
     }
     .brand-box { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-    .brand-title { font-size: 1.45rem; font-weight: 900; color: var(--blue-text); margin: 0; }
+    .brand-title { font-size: 1.45rem; font-weight: 900; color: var(--blue-text); margin: 0; cursor: pointer; }
     .week-selector {
       background: var(--purple-bg); color: var(--purple-text);
       border: 2px solid var(--purple-border); padding: 7px 12px; border-radius: 14px;
@@ -73,8 +73,10 @@
 
     .btn-parent {
       background: #f1f5f9; color: #475569; border: 2px solid #cbd5e1;
-      padding: 8px 12px; border-radius: 14px; font-weight: 800; font-size: 0.85rem; cursor: pointer;
+      padding: 8px 14px; border-radius: 14px; font-weight: 800; font-size: 0.88rem; cursor: pointer;
+      transition: background 0.15s;
     }
+    .btn-parent:hover { background: #e2e8f0; }
 
     .dashboard-grid {
       display: grid; grid-template-columns: 1fr 1.3fr; gap: 14px; margin-bottom: 18px;
@@ -181,7 +183,7 @@
     .card-all { background: #ffedd5; border-color: #fdba74; }
     .card-all .home-card-title { color: #c2410c; }
 
-    /* 閃卡頁 */
+    /* Study Cards */
     .study-grid {
       display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px;
     }
@@ -232,7 +234,7 @@
       border: 2px solid #86efac; border-radius: 12px; outline: none; color: #14532d; background: #f8fafc;
     }
     .writing-input:focus { background: white; border-color: #16a34a; }
-    .writing-status { font-weight: 900; font-size: 1.3rem; min-width: 32px; text-align: center; }
+    .writing-status { font-weight: 900; font-size: 1.1rem; min-width: 36px; text-align: center; }
 
     /* Word Puzzle */
     .puzzle-board {
@@ -372,17 +374,38 @@
     /* Modals */
     .modal {
       display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.55);
-      align-items: center; justify-content: center; padding: 14px; z-index: 100;
+      align-items: center; justify-content: center; padding: 14px; z-index: 1000;
     }
     .modal.open { display: flex; }
     .modal-box {
-      background: white; width: 100%; max-width: 660px; border-radius: 28px;
+      background: white; width: 100%; max-width: 680px; border-radius: 28px;
       padding: 24px; max-height: 92vh; overflow-y: auto; border: 3px solid #cbd5e1;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.25);
     }
     .modal-top {
       display: flex; justify-content: space-between; align-items: center;
       margin-bottom: 14px; padding-bottom: 10px; border-bottom: 2px dashed #e2e8f0;
     }
+
+    /* 漂亮 PIN 碼小視窗與數字鍵盤 */
+    .pin-dots {
+      display: flex; justify-content: center; gap: 12px; margin: 14px 0 18px;
+    }
+    .pin-dot {
+      width: 48px; height: 54px; border-radius: 14px; border: 3px solid #cbd5e1;
+      background: #f8fafc; font-size: 1.8rem; font-weight: 900; color: var(--blue-text);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .pin-dot.filled { border-color: #0284c7; background: #e0f2fe; }
+    .pin-pad {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 260px; margin: 0 auto 14px;
+    }
+    .pin-key {
+      padding: 14px 0; font-size: 1.35rem; font-weight: 900; border-radius: 16px;
+      border: 2px solid #cbd5e1; background: #f8fafc; color: #1e293b; cursor: pointer;
+      box-shadow: 0 3px 0 #cbd5e1; user-select: none;
+    }
+    .pin-key:active { transform: translateY(2px); box-shadow: 0 1px 0 #cbd5e1; background: #e0f2fe; }
 
     .rank-ladder {
       display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
@@ -424,18 +447,17 @@
 <div class="container">
   <header>
     <div class="brand-box">
-      <h1 class="brand-title">🇫🇷 Jamie's French Quiz</h1>
+      <h1 class="brand-title" onclick="switchView('home')">🇫🇷 Jamie's French Quiz</h1>
       <select class="week-selector" id="weekSelect" onchange="switchWeek(this.value)"></select>
     </div>
     <div class="top-actions">
       <button class="btn-profile-badge" onclick="openHeroModal()" title="Current Player">
-        👦🏻 <span id="currentProfileName">Player</span>
+        👦🏻 <span id="currentProfileName">Jamie</span>
       </button>
       <button class="btn-hero" onclick="openHeroModal()">
         🏆 <span id="heroGemBadge">🥉 Bronze</span> ｜ <span id="redStarCount">0</span>🌟 <span id="yellowStarCount">0</span>⭐
       </button>
-      <!-- 極速直通車：點擊 Parent 按鈕直接開啟後台管理，絕不卡死 -->
-      <button class="btn-parent" onclick="openParentModalDirect()">🔒 Parent</button>
+      <button class="btn-parent" onclick="openPinModal()">🔒 Parent</button>
     </div>
   </header>
 
@@ -444,8 +466,8 @@
       <div class="farm-info">
         <div class="farm-icon" id="farmEmoji">🍓</div>
         <div>
-          <div class="farm-title" style="font-size:1.15rem; color:#14532d; font-weight:900;">Hey! Your Star Berry is Ripe!</div>
-          <div class="farm-timer" style="font-size:0.85rem; color:#166534; font-weight:800; margin-top:2px;">Spell one word to harvest extra 2 stars!</div>
+          <div class="farm-title" id="farmStatusTitle" style="font-size:1.15rem; color:#14532d; font-weight:900;">Hey! Your Star Berry is Ripe!</div>
+          <div class="farm-timer" id="farmTimerText" style="font-size:0.85rem; color:#166534; font-weight:800; margin-top:2px;">Spell one word to harvest extra 2 stars!</div>
         </div>
       </div>
       <button class="btn-harvest" id="harvestBtn" onclick="triggerFarmHarvest()">🌾 Harvest</button>
@@ -514,7 +536,7 @@
     </div>
   </div>
 
-  <!-- ==================== VIEW 1: 學習閃卡頁 ==================== -->
+  <!-- ==================== VIEW 1: STUDY FLASHCARDS ==================== -->
   <div class="view-section" id="viewStudy">
     <div class="nav-back-row">
       <button class="btn-back" onclick="switchView('home')">⬅️ Back to Home</button>
@@ -589,7 +611,7 @@
     </div>
   </div>
 
-  <!-- ==================== VIEW 2: Spelling Quiz ==================== -->
+  <!-- ==================== VIEW 2: SPELLING QUIZ ==================== -->
   <div class="view-section" id="viewQuiz">
     <div class="nav-back-row">
       <button class="btn-back" onclick="switchView('home')">⬅️ Back to Home</button>
@@ -614,7 +636,7 @@
       <div class="phonics-reveal" id="phonicsHintBox"></div>
     </div>
 
-    <!-- STEP 1: 綠色 -->
+    <!-- STEP 1: Green -->
     <div class="step-section step-1-box" id="step1Box">
       <div class="step-header">
         <div><span class="step-badge">STEP 1</span> Pick the First Word (Article)</div>
@@ -623,7 +645,7 @@
       <div class="article-bar" id="articleBar"></div>
     </div>
 
-    <!-- STEP 2: 藍色 (Put in order) -->
+    <!-- STEP 2: Blue -->
     <div class="step-section step-2-box locked" id="step2Box">
       <div class="step-header">
         <div><span class="step-badge">STEP 2</span> Put in order</div>
@@ -636,7 +658,7 @@
       <div class="tile-pool" id="poolTiles"></div>
     </div>
 
-    <!-- STEP 3: 紫色 (Type the full word) -->
+    <!-- STEP 3: Purple -->
     <div class="step-section step-3-box locked" id="step3Box">
       <div class="step-header">
         <div><span class="step-badge">STEP 3</span> Type the full word</div>
@@ -650,11 +672,11 @@
   </div>
 </div>
 
-<!-- MODAL 1: 英雄榜 -->
+<!-- ==================== MODAL 1: HERO BOARD ==================== -->
 <div class="modal" id="heroModal">
   <div class="modal-box">
     <div class="modal-top">
-      <h2 style="margin:0; color:#854d0e;">🏆 Jamie's Stars & Trophy</h2>
+      <h2 style="margin:0; color:#854d0e;" id="heroModalTitle">🏆 Jamie's Stars & Trophy</h2>
       <button class="btn-back" style="padding:6px 14px;" onclick="closeModal('heroModal')">⬅️ Back</button>
     </div>
 
@@ -679,85 +701,139 @@
   </div>
 </div>
 
-<!-- MODAL 2: 媽媽專屬後台 (直接點擊 Parent 按鈕秒開，完全免密碼彈窗干擾) -->
+<!-- ==================== MODAL 2: PRETTY PIN LOCK MODAL (輸入 4 碼自動秒開！) ==================== -->
+<div class="modal" id="pinModal">
+  <div class="modal-box" style="max-width:360px; text-align:center;">
+    <div class="modal-top">
+      <h2 style="margin:0; color:var(--blue-text);">🔒 Parent Access</h2>
+      <button class="btn-back" style="padding:4px 12px;" onclick="closeModal('pinModal')">✕</button>
+    </div>
+    <p style="font-weight:800; color:var(--text-muted); font-size:0.92rem; margin:6px 0;">Enter 4-digit Parent PIN:</p>
+    
+    <!-- 4 個密碼圓點顯示 -->
+    <div class="pin-dots">
+      <div class="pin-dot" id="pinDot0"></div>
+      <div class="pin-dot" id="pinDot1"></div>
+      <div class="pin-dot" id="pinDot2"></div>
+      <div class="pin-dot" id="pinDot3"></div>
+    </div>
+
+    <!-- 隱藏實體輸入框供電腦鍵盤直接敲擊，同時下方提供超好按的觸控數字鍵盤 -->
+    <input type="password" id="pinInput" style="position:absolute; opacity:0; pointer-events:none;" maxlength="4" oninput="onPinTyping(this.value)">
+
+    <div class="pin-pad">
+      <button class="pin-key" onclick="pressPinDigit('1')">1</button>
+      <button class="pin-key" onclick="pressPinDigit('2')">2</button>
+      <button class="pin-key" onclick="pressPinDigit('3')">3</button>
+      <button class="pin-key" onclick="pressPinDigit('4')">4</button>
+      <button class="pin-key" onclick="pressPinDigit('5')">5</button>
+      <button class="pin-key" onclick="pressPinDigit('6')">6</button>
+      <button class="pin-key" onclick="pressPinDigit('7')">7</button>
+      <button class="pin-key" onclick="pressPinDigit('8')">8</button>
+      <button class="pin-key" onclick="pressPinDigit('9')">9</button>
+      <button class="pin-key" style="background:#fee2e2; color:#b91c1c; border-color:#fca5a5;" onclick="clearPinDigits()">C</button>
+      <button class="pin-key" onclick="pressPinDigit('0')">0</button>
+      <button class="pin-key" style="background:#e0f2fe; color:#0369a1; border-color:#7dd3fc;" onclick="backspacePinDigit()">⌫</button>
+    </div>
+    <div id="pinErrorMsg" style="color:#e11d48; font-weight:900; font-size:0.9rem; min-height:22px;"></div>
+  </div>
+</div>
+
+<!-- ==================== MODAL 3: PARENT ADMIN PANEL ==================== -->
 <div class="modal" id="parentModal">
   <div class="modal-box">
     <div class="modal-top">
-      <h2 style="margin:0; color:var(--blue-text);">🔒 Parent Admin (Profiles, Words & Backup)</h2>
+      <h2 style="margin:0; color:var(--blue-text);">🔒 Parent Admin (Profiles, Rewards & Words)</h2>
       <button class="btn-back" style="padding:6px 14px;" onclick="closeModal('parentModal')">⬅️ Back</button>
     </div>
 
-    <!-- 玩家管理區 -->
+    <!-- 1. Reward Management (放在最上面，方便媽媽隨時調整星星、貼紙與獎盃) -->
+    <div style="background:var(--yellow-bg); border:2px solid var(--yellow-border); border-radius:18px; padding:14px; margin-bottom:16px;">
+      <div style="font-weight:900; color:var(--yellow-text); margin-bottom:6px; font-size:1rem;">
+        ⭐ Reward Management (Current Player: <span id="rewardPlayerLabel">Jamie</span>)
+      </div>
+      <div style="font-size:0.82rem; color:#854d0e; font-weight:700; margin-bottom:10px;">
+        Restore or adjust stars, trophies, and stickers anytime:
+      </div>
+      <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:10px;">
+        <span style="font-size:0.85rem; font-weight:900; color:#713f12;">Set Exact Total Stars:</span>
+        <input type="number" id="setExactStarInput" style="width:85px; padding:8px; border-radius:8px; border:2px solid #eab308; font-weight:900; font-size:0.95rem;" value="0">
+        <button class="btn-parent" style="background:#0284c7; color:white; border:none; padding:9px 14px;" onclick="setExactStars()">✅ Set Total</button>
+        
+        <span style="font-size:0.85rem; font-weight:900; color:#713f12; margin-left:6px;">Or Add Bonus:</span>
+        <input type="number" id="manualStarInput" style="width:70px; padding:8px; border-radius:8px; border:2px solid #eab308; font-weight:900; font-size:0.95rem;" value="5">
+        <button class="btn-parent" style="background:#ca8a04; color:white; border:none; padding:9px 14px;" onclick="addManualStars()">➕ Add Stars</button>
+      </div>
+      <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+        <button class="btn-parent" style="background:#16a34a; color:white; border:none; padding:9px 14px;" onclick="addManualTrophy()">🏆 +1 Gold Trophy (+5⭐)</button>
+        <button class="btn-parent" style="background:#7e22ce; color:white; border:none; padding:9px 14px;" onclick="addManualSticker()">🎁 +1 Random Sticker (+2⭐)</button>
+        <button class="btn-parent" style="background:#fee2e2; color:#b91c1c; border-color:#fca5a5; padding:9px 12px;" onclick="removeLastSticker()">🗑️ Remove Last Sticker/Trophy</button>
+      </div>
+    </div>
+
+    <!-- 2. Player Profiles Management -->
     <div style="background:var(--purple-bg); border:2px solid var(--purple-border); border-radius:18px; padding:14px; margin-bottom:16px;">
       <div style="font-weight:900; color:var(--purple-text); margin-bottom:6px;">👤 Player Profiles Management:</div>
-      <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:8px;">
-        <select id="parentProfileSelect" style="flex:1; min-width:140px; padding:10px; border-radius:10px; border:2px solid #c084fc; font-weight:800; font-size:0.95rem; background:white;"></select>
-        <button class="btn-submit-quiz" style="padding:10px 16px; font-size:0.85rem; background:#7e22ce;" onclick="selectParentActiveProfile()">👉 Set Active</button>
-        <button class="btn-parent" style="background:#e0f2fe; color:#0369a1; border-color:#7dd3fc; padding:10px 14px;" onclick="addNewProfile()">➕ Add Player</button>
+      <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:10px;">
+        <select id="parentProfileSelect" style="flex:1; min-width:140px; padding:10px; border-radius:10px; border:2px solid #c084fc; font-weight:800; font-size:0.95rem; background:white;" onchange="selectParentActiveProfile()"></select>
         <button class="btn-parent" style="background:#fee2e2; color:#b91c1c; border-color:#fca5a5; padding:10px 14px;" onclick="deleteActiveProfile()">🗑️ Delete Player</button>
       </div>
+      <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+        <input type="text" id="newPlayerNameInput" style="flex:1; min-width:150px; padding:9px 12px; border-radius:10px; border:2px solid #c084fc; font-weight:800;" placeholder="Type new player name (e.g. Brother)...">
+        <button class="btn-parent" style="background:#7e22ce; color:white; border:none; padding:10px 16px;" onclick="addNewProfile()">➕ Add & Switch Player</button>
+      </div>
     </div>
 
-    <!-- 備份與還原 -->
+    <!-- 3. Data Backup & Restore -->
     <div style="background:var(--green-bg); border:2px solid var(--green-border); border-radius:18px; padding:14px; margin-bottom:16px;">
-      <div style="font-weight:900; color:var(--green-text); margin-bottom:6px;">💾 Data Backup & Restore:</div>
+      <div style="font-weight:900; color:var(--green-text); margin-bottom:6px;">💾 Full Data Backup & Restore:</div>
       <div style="font-size:0.82rem; color:#166534; font-weight:700; margin-bottom:8px;">
-        Click "Generate Backup Code" to view code below. Copy it or paste backup code to restore!
+        Click "1. Generate & Copy Backup" to copy all words & stars. Paste into the box and click "2. Restore Data" anytime!
       </div>
-      <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
-        <button class="btn-submit-quiz" style="padding:8px 14px; font-size:0.85rem; background:#16a34a;" onclick="generateBackupCodeText()">📤 Generate Backup Code</button>
-      </div>
-      <textarea id="backupCodeTextarea" style="width:100%; height:90px; border-radius:8px; padding:8px; border:2px solid #86efac; font-size:0.75rem; margin-bottom:6px;" placeholder="Click 'Generate Backup Code' or paste backup code here..."></textarea>
-      <div style="display:flex; gap:8px;">
-        <button class="btn-parent" style="background:#0284c7; color:white; border:none;" onclick="copyBackupTextarea()">📋 Copy Code</button>
-        <button class="btn-parent" style="background:#16a34a; color:white; border:none;" onclick="importBackupFromTextarea()">💾 Restore Data Now</button>
+      <textarea id="backupCodeTextarea" style="width:100%; height:75px; border-radius:8px; padding:8px; border:2px solid #86efac; font-size:0.75rem; margin-bottom:8px; font-family:monospace;" placeholder="Backup code will appear here, or paste your saved backup code here..."></textarea>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <button class="btn-parent" style="background:#0284c7; color:white; border:none; padding:9px 14px;" onclick="generateAndCopyBackup()">📤 1. Generate & Copy Backup Code</button>
+        <button class="btn-parent" style="background:#16a34a; color:white; border:none; padding:9px 14px;" onclick="importBackupFromTextarea()">📥 2. Restore Data Now</button>
       </div>
     </div>
 
+    <!-- 4. Sync Words to iPad -->
     <div style="background:var(--blue-bg); border:2px solid var(--blue-border); border-radius:18px; padding:14px; margin-bottom:16px;">
-      <div style="font-weight:900; color:var(--blue-text); margin-bottom:6px;">📲 Sync Words to iPad:</div>
+      <div style="font-weight:900; color:var(--blue-text); margin-bottom:6px;">📲 Quick Add / Sync Words:</div>
       <div style="display:flex; gap:8px; flex-wrap:wrap;">
         <button class="btn-submit-quiz" style="padding:8px 14px; font-size:0.85rem; background:#7e22ce;" onclick="toggleBulkPaste()">📋 Quick Paste 14 Words</button>
-        <button class="btn-submit-quiz" style="padding:8px 14px; font-size:0.85rem; background:#0284c7;" onclick="toggleSyncCodeBox()">🔑 Copy / Paste Sync Code</button>
+        <button class="btn-submit-quiz" style="padding:8px 14px; font-size:0.85rem; background:#0284c7;" onclick="toggleSyncCodeBox()">🔑 Copy / Paste Week Sync Code</button>
       </div>
 
       <div id="bulkPasteArea" style="display:none; margin-top:12px; padding-top:12px; border-top:1px dashed #7dd3fc;">
         <div style="font-size:0.82rem; color:#0c4a6e; margin-bottom:6px; font-weight:700;">Type or paste words below (one word per line):</div>
-        <textarea id="bulkTextarea" style="width:100%; height:130px; border-radius:10px; padding:10px; border:2px solid #7dd3fc; font-weight:700;" placeholder="un renard&#10;un repas&#10;un requin"></textarea>
+        <textarea id="bulkTextarea" style="width:100%; height:120px; border-radius:10px; padding:10px; border:2px solid #7dd3fc; font-weight:700;" placeholder="un renard&#10;un repas&#10;un requin"></textarea>
         <button class="btn-submit-quiz" style="margin-top:6px; padding:8px 18px; font-size:0.9rem; background:#16a34a;" onclick="applyBulkPaste()">✨ Auto-Fill Into Rows Below</button>
       </div>
 
       <div id="syncCodeArea" style="display:none; margin-top:12px; padding-top:12px; border-top:1px dashed #7dd3fc;">
-        <div style="font-size:0.82rem; color:#0c4a6e; font-weight:800; margin-bottom:4px;">Step A (On Computer): Copy Sync Code:</div>
+        <div style="font-size:0.82rem; color:#0c4a6e; font-weight:800; margin-bottom:4px;">Step A: Copy Week Sync Code:</div>
         <div style="display:flex; gap:6px; margin-bottom:10px;">
           <input type="text" id="exportCodeBox" style="flex:1; padding:8px; border-radius:8px; border:1px solid #cbd5e1; font-size:0.8rem;" readonly onclick="this.select()">
           <button class="btn-parent" style="background:#0284c7; color:white; border:none;" onclick="copyExportCode()">📋 Copy Code</button>
         </div>
-        <div style="font-size:0.82rem; color:#0c4a6e; font-weight:800; margin-bottom:4px;">Step B (On iPad App): Paste Code & Import:</div>
+        <div style="font-size:0.82rem; color:#0c4a6e; font-weight:800; margin-bottom:4px;">Step B: Paste Week Code & Import:</div>
         <div style="display:flex; gap:6px;">
-          <input type="text" id="importCodeBox" style="flex:1; padding:8px; border-radius:8px; border:2px solid #7e22ce; font-size:0.85rem;" placeholder="Paste Sync Code here...">
-          <button class="btn-parent" style="background:#16a34a; color:white; border:none;" onclick="importFromSyncCode()">📥 Import Now</button>
+          <input type="text" id="importCodeBox" style="flex:1; padding:8px; border-radius:8px; border:2px solid #7e22ce; font-size:0.85rem;" placeholder="Paste Week Sync Code here...">
+          <button class="btn-parent" style="background:#16a34a; color:white; border:none;" onclick="importFromSyncCode()">📥 Import Week</button>
         </div>
       </div>
     </div>
 
-    <!-- 獎勵權限管理 -->
-    <div style="background:var(--yellow-bg); border:2px solid var(--yellow-border); border-radius:18px; padding:14px; margin-bottom:16px;">
-      <div style="font-weight:900; color:var(--yellow-text); margin-bottom:6px;">⭐ Reward Management (Bonus Stars & Trophies):</div>
-      <div style="font-size:0.82rem; color:#854d0e; font-weight:700; margin-bottom:6px;">Manually add stars or reward a gold trophy/sticker:</div>
-      <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:8px;">
-        <input type="number" id="manualStarInput" style="width:90px; padding:8px; border-radius:8px; border:1px solid #eab308; font-weight:900;" value="5">
-        <button class="btn-parent" style="background:#ca8a04; color:white; border:none;" onclick="addManualStars()">⭐ Add Stars</button>
-        <button class="btn-parent" style="background:#16a34a; color:white; border:none;" onclick="addManualTrophy()">🏆 Reward Trophy</button>
-        <button class="btn-parent" style="background:#7e22ce; color:white; border:none;" onclick="addManualSticker()">🎁 Reward Sticker</button>
-      </div>
-    </div>
-
+    <!-- 5. All Weeks Management -->
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
       <div style="font-weight:900; font-size:1.05rem;">📚 All Weeks Management & Set Current Week:</div>
-      <button class="btn-parent" style="background:var(--green-bg); color:var(--green-text); border-color:var(--green-border);" onclick="createNewWeek()">➕ Add New Week</button>
+      <div style="display:flex; gap:6px;">
+        <button class="btn-parent" style="background:#ffedd5; color:#c2410c; border-color:#fdba74;" onclick="resetCurrentWeek()">🔄 Reset Week Progress</button>
+        <button class="btn-parent" style="background:var(--green-bg); color:var(--green-text); border-color:var(--green-border);" onclick="createNewWeek()">➕ Add New Week</button>
+      </div>
     </div>
-    <div id="allWeeksListAdmin" style="background:#f8fafc; border-radius:14px; padding:10px; border:2px solid #cbd5e1; margin-bottom:14px; max-height:160px; overflow-y:auto;"></div>
+    <div id="allWeeksListAdmin" style="background:#f8fafc; border-radius:14px; padding:10px; border:2px solid #cbd5e1; margin-bottom:14px; max-height:180px; overflow-y:auto;"></div>
 
     <input type="text" id="editWeekTitle" style="width:100%; padding:10px; border-radius:10px; border:2px solid #cbd5e1; font-weight:800; margin-bottom:10px;" placeholder="Week Title">
     <div id="wordRowsContainer"></div>
@@ -771,7 +847,7 @@
   </div>
 </div>
 
-<!-- MODAL 3: 過關慶祝視窗 -->
+<!-- ==================== MODAL 4: CELEBRATION ==================== -->
 <div class="modal" id="celebrateModal">
   <div class="modal-box" style="text-align:center; max-width:420px;">
     <div id="celebrateIcon" style="font-size:5rem; margin:8px 0;">🎉</div>
@@ -831,7 +907,6 @@
 
   const STICKER_POOL = ["🦖", "🚀", "🏎️", "🤖", "🦁", "🦈", "🎮", "🛸", "⚡", "🐉", "🍕", "🎸", "🛹", "🥷", "👾", "☄️", "🛡️"];
   const ARTICLES = ["un", "une", "le", "la", "l'", "les", "du", "des"];
-  const ACCENTS = ['é', 'è', 'ê', 'à', 'â', 'ô', 'î', 'û', 'ù', 'ç', 'œ', "'"];
 
   const FRENCH_DIGRAPHS = [
     'eaux', 'eau', 'oient', 'ouille', 'euil', 'eil', 'ail', 'ille',
@@ -843,6 +918,7 @@
   ];
 
   const FARM_COOLDOWN_MS = 15 * 60 * 1000;
+  const STORAGE_KEY = 'jamie_french_master_db';
 
   const DEFAULT_WEEKS = [
     {
@@ -895,6 +971,54 @@
   let speedTargetWord = null;
   let speedOptions = [];
 
+  let currentPinBuffer = "";
+  window._activeUtterance = null; // 防止語音物件被瀏覽器垃圾回收導致沒聲音
+
+  // 自動跨版本資料救援：尋找舊版資料並合併，絕不丟失單字與星星
+  function loadAndMigrateData() {
+    const masterSaved = localStorage.getItem(STORAGE_KEY);
+    if (masterSaved) {
+      try {
+        const parsed = JSON.parse(masterSaved);
+        if (parsed && parsed.profiles) {
+          appData = { ...appData, ...parsed };
+          return;
+        }
+      } catch (e) {}
+    }
+
+    const legacyKeys = [
+      'jamie_french_app_v22', 'jamie_french_app_v21', 'jamie_french_app_v20',
+      'jamie_french_app_v19', 'jamie_french_app_v18', 'jamie_french_app_v17',
+      'jamie_french_app_v16', 'jamie_french_app_v15', 'jamie_french_app_v14',
+      'jamie_french_app_v13', 'jamie_french_app_v12', 'jamie_french_app_v11',
+      'jamie_french_app_v10', 'jamie_french_app_v9', 'jamie_french_app_v8'
+    ];
+
+    for (const k of legacyKeys) {
+      const raw = localStorage.getItem(k);
+      if (raw) {
+        try {
+          const old = JSON.parse(raw);
+          if (old && old.profiles && Object.keys(old.profiles).length > 0) {
+            appData = { ...appData, ...old };
+            break;
+          } else if (old && old.weeks && old.weeks.length > 0) {
+            appData.profiles["Jamie"] = {
+              totalStars: old.totalStars || 0,
+              allStickers: old.allStickers || [],
+              starHistory: old.starHistory || [],
+              weeks: old.weeks
+            };
+            appData.currentWeekId = old.currentWeekId || old.weeks[0].id;
+            break;
+          }
+        } catch (e) {}
+      }
+    }
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+  }
+
   function getActiveProfileData() {
     if (!appData.profiles || Object.keys(appData.profiles).length === 0) {
       appData.profiles = {
@@ -905,7 +1029,11 @@
     if (!appData.profiles[appData.currentProfile]) {
       appData.currentProfile = Object.keys(appData.profiles)[0];
     }
-    return appData.profiles[appData.currentProfile];
+    const p = appData.profiles[appData.currentProfile];
+    if (!p.weeks || p.weeks.length === 0) p.weeks = JSON.parse(JSON.stringify(DEFAULT_WEEKS));
+    if (!p.allStickers) p.allStickers = [];
+    if (!p.starHistory) p.starHistory = [];
+    return p;
   }
 
   function splitIntoPhonics(noun) {
@@ -1010,7 +1138,7 @@
 
   function addStars(amount, reason) {
     const pData = getActiveProfileData();
-    pData.totalStars = (pData.totalStars || 0) + amount;
+    pData.totalStars = Math.max(0, (pData.totalStars || 0) + amount);
     if (!pData.starHistory) pData.starHistory = [];
     const now = new Date();
     const timeStr = now.toLocaleDateString([], { month: 'short', day: 'numeric' }) + ' ' +
@@ -1021,6 +1149,7 @@
 
   function initUI() {
     const artBar = document.getElementById('articleBar');
+    artBar.innerHTML = '';
     ARTICLES.forEach(art => {
       const b = document.createElement('button');
       b.className = 'art-chip';
@@ -1034,20 +1163,7 @@
       artBar.appendChild(b);
     });
 
-    const saved = localStorage.getItem('jamie_french_app_v22');
-    if (saved) {
-      try { appData = { ...appData, ...JSON.parse(saved) }; } catch (e) {}
-    }
-
-    const pNames = Object.keys(appData.profiles || {});
-    if (pNames.length === 0) {
-      appData.profiles = {
-        "Jamie": { totalStars: 0, allStickers: [], starHistory: [], weeks: JSON.parse(JSON.stringify(DEFAULT_WEEKS)) }
-      };
-      appData.currentProfile = "Jamie";
-    } else if (!appData.currentProfile || !appData.profiles[appData.currentProfile]) {
-      appData.currentProfile = pNames[0];
-    }
+    loadAndMigrateData();
 
     const params = new URLSearchParams(window.location.search);
     if (params.get('q')) {
@@ -1073,14 +1189,15 @@
   }
 
   function saveAppData() {
-    localStorage.setItem('jamie_french_app_v22', JSON.stringify(appData));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
     renderHeaderAndRewards();
     renderStudyGrid();
   }
 
   function renderHeaderAndRewards() {
     const pData = getActiveProfileData();
-    document.getElementById('currentProfileName').textContent = appData.currentProfile || "No Player";
+    const pName = appData.currentProfile || "Jamie";
+    document.getElementById('currentProfileName').textContent = pName;
 
     const week = getActiveWeek();
     const sel = document.getElementById('weekSelect');
@@ -1126,12 +1243,15 @@
     const diff = (appData.nextHarvestTime || 0) - now;
     const btn = document.getElementById('harvestBtn');
     const timer = document.getElementById('farmTimerText');
+    const title = document.getElementById('farmStatusTitle');
 
     if (diff <= 0) {
-      timer.textContent = 'Spell 1 word to harvest +2⭐!';
+      title.textContent = 'Hey! Your Star Berry is Ripe!';
+      timer.textContent = 'Spell one word to harvest extra 2 stars!';
       btn.disabled = false;
       btn.textContent = '🌾 Harvest';
     } else {
+      title.textContent = 'Growing Star Berry...';
       const mins = Math.floor(diff / 60000);
       const secs = Math.floor((diff % 60000) / 1000);
       timer.textContent = `Ready in ${mins}m ${secs}s`;
@@ -1215,12 +1335,12 @@
         <div class="writing-row-left">
           <div class="writing-row-emoji">${w.emoji || '✨'}</div>
           <div>
-            <div class="writing-row-title">Word ${idx + 1}</div>
+            <div class="writing-row-title">Word ${idx + 1} (${w.meaning || 'Listen'})</div>
             <button class="fc-btn fc-btn-listen" style="margin-top:4px;" onclick="speakWordText('${w.full.replace(/'/g, "\\'")}')">🔊 Listen</button>
           </div>
         </div>
         <div class="writing-row-right">
-          <input type="text" class="writing-input" id="writingInput_${idx}" placeholder="Type spelling here..." autocomplete="off" autocapitalize="none" spellcheck="false" data-target="${w.full}">
+          <input type="text" class="writing-input" id="writingInput_${idx}" placeholder="Type full French word..." autocomplete="off" autocapitalize="none" spellcheck="false" data-target="${w.full}">
           <div class="writing-status" id="writingStatus_${idx}"></div>
         </div>
       `;
@@ -1238,23 +1358,25 @@
       const status = document.getElementById(`writingStatus_${idx}`);
       const userVal = inp.value.trim();
       if (norm(userVal) === norm(w.full)) {
-        status.textContent = '✅';
+        status.innerHTML = '✅';
+        inp.style.borderColor = '#22c55e';
         correctCount++;
       } else {
-        status.textContent = '❌';
+        status.innerHTML = `<span style="color:#e11d48; font-size:0.9rem;">❌ ${w.full}</span>`;
+        inp.style.borderColor = '#f43f5e';
         allCorrect = false;
       }
     });
 
     if (correctCount > 0) {
-      addStars(correctCount, `📝 Writing Quiz (${correctCount} correct)`);
+      addStars(correctCount, `📝 Writing Quiz (${correctCount}/${week.words.length})`);
       saveAppData();
     }
 
     if (allCorrect) {
       showCelebration('🏆', 'PERFECT DICTÉE!', `Amazing! You got all ${week.words.length} words correct on your writing quiz! You earned +${correctCount} ⭐!`);
     } else {
-      alert(`You got ${correctCount} out of ${week.words.length} correct! Check the red ❌ marks and practice those words.`);
+      alert(`You got ${correctCount} out of ${week.words.length} correct! Earned +${correctCount} ⭐. Review the red corrections and try again!`);
     }
   }
 
@@ -1269,10 +1391,12 @@
     speedTargetWord = pool[Math.floor(Math.random() * pool.length)];
     speakWordText(speedTargetWord.full);
 
-    document.getElementById('speedPromptText').textContent = `Listen carefully & tap the matching picture for: "${speedTargetWord.full}"`;
+    document.getElementById('speedPromptText').textContent = `Listen carefully & tap the matching picture!`;
 
     let options = [speedTargetWord];
-    while (options.length < 4 && options.length < pool.length) {
+    let guard = 0;
+    while (options.length < 4 && options.length < pool.length && guard < 50) {
+      guard++;
       const randW = pool[Math.floor(Math.random() * pool.length)];
       if (!options.includes(randW)) options.push(randW);
     }
@@ -1289,7 +1413,7 @@
       card.className = 'speed-card';
       card.innerHTML = `
         <div class="speed-card-emoji">${opt.emoji || '✨'}</div>
-        <div class="speed-card-text">${opt.meaning}</div>
+        <div class="speed-card-text">${opt.meaning || opt.full}</div>
       `;
       card.onclick = () => checkSpeedAnswer(opt);
       grid.appendChild(card);
@@ -1305,10 +1429,10 @@
       addStars(1, `⚡ Speed Match ("${speedTargetWord.full}")`);
       showCelebration('⚡', 'LIGHTNING FAST!', `Correct! That was "${speedTargetWord.full}". You earned +1 ⭐!`);
       saveAppData();
-      setTimeout(initSpeedGame, 1500);
+      setTimeout(initSpeedGame, 1200);
     } else {
-      alert('❌ Not quite! Listen again and try another card.');
       speakWordText(speedTargetWord.full);
+      alert('❌ Not quite! Listen again and try another card.');
     }
   }
 
@@ -1340,9 +1464,8 @@
   }
 
   function initPuzzleGame() {
-    const pData = getActiveProfileData();
-    let allPool = [];
-    pData.weeks.forEach(w => w.words.forEach(wd => allPool.push(wd)));
+    const week = getActiveWeek();
+    const allPool = week.words;
     if (allPool.length === 0) {
       alert('No words available for puzzle!');
       switchView('home');
@@ -1403,7 +1526,7 @@
       addStars(2, `🧩 Word Puzzle ("${puzzleTargetWord}")`);
       showCelebration('🧩', 'PUZZLE SOLVED!', `Great job finding "${puzzleTargetWord}"! You earned +2 ⭐!`);
       saveAppData();
-      setTimeout(initPuzzleGame, 1500);
+      setTimeout(initPuzzleGame, 1300);
     }
   }
 
@@ -1449,16 +1572,27 @@
     switchView('home');
   }
 
-  function speakWordText(text) {
-    if (!('speechSynthesis' in window)) return;
-    window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = 'fr-CA';
-    u.rate = 0.9;
-    const voices = window.speechSynthesis.getVoices();
-    const fr = voices.find(v => v.lang.includes('fr-CA')) || voices.find(v => v.lang.includes('fr'));
-    if (fr) u.voice = fr;
-    window.speechSynthesis.speak(u);
+  // 強效防卡死法文發音引擎
+  function speakWordText(text, rate = 0.9) {
+    if (!('speechSynthesis' in window) || !text) return;
+    try {
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.resume();
+      const u = new SpeechSynthesisUtterance(text);
+      window._activeUtterance = u;
+      u.lang = 'fr-CA';
+      u.rate = rate;
+      const voices = window.speechSynthesis.getVoices() || [];
+      const frVoice = voices.find(v => v.lang && v.lang.toLowerCase().includes('fr-ca')) ||
+                      voices.find(v => v.lang && v.lang.toLowerCase().includes('fr'));
+      if (frVoice) u.voice = frVoice;
+      window.speechSynthesis.speak(u);
+    } catch (e) {}
+  }
+
+  function speakCurrent(rate = 0.9) {
+    if (!currentWord) return;
+    speakWordText(currentWord.full, rate);
   }
 
   function switchWeek(weekId) {
@@ -1466,6 +1600,9 @@
     appData.currentWeekId = weekId;
     saveAppData();
     if (currentView === 'quiz') pickNextQuestion();
+    if (currentView === 'writingQuiz') initWritingQuiz();
+    if (currentView === 'speed') initSpeedGame();
+    if (currentView === 'puzzle') initPuzzleGame();
   }
 
   function pickNextQuestion() {
@@ -1480,7 +1617,7 @@
     if (specificTestWord) {
       currentWord = specificTestWord;
       renderCurrentWord();
-      setTimeout(() => speakCurrent(0.9), 200);
+      setTimeout(() => speakCurrent(0.9), 150);
       return;
     }
 
@@ -1500,7 +1637,7 @@
     currentWord = candidates[Math.floor(Math.random() * candidates.length)];
 
     renderCurrentWord();
-    setTimeout(() => speakCurrent(0.9), 200);
+    setTimeout(() => speakCurrent(0.9), 150);
   }
 
   function renderCurrentWord() {
@@ -1509,7 +1646,7 @@
 
     document.getElementById('quizMasteryBadge').textContent =
       isFarmQuest ? '🌾 Farm Harvest Challenge (+2⭐)' :
-      (isReviewMode ? '🍀 Practice All Mode (+2⭐)' : `Word Mastery: ${'🟢'.repeat(currentWord.streak)}${'⚪'.repeat(2 - currentWord.streak)}`);
+      (isReviewMode ? '🍀 Practice All Mode (+2⭐)' : `Word Mastery: ${'🟢'.repeat(currentWord.streak)}${'⚪'.repeat(Math.max(0, 2 - currentWord.streak))}`);
 
     document.getElementById('wordEmoji').textContent = currentWord.emoji || '✨';
     document.getElementById('wordMeaning').textContent = currentWord.meaning || 'Listen & spell in French';
@@ -1543,11 +1680,13 @@
     });
 
     const { article } = splitFrenchArticle(currentWord.full);
-    if (selectedArticle && selectedArticle.toLowerCase() === article.toLowerCase()) {
+    if (!article || (selectedArticle && selectedArticle.toLowerCase() === article.toLowerCase())) {
       document.getElementById('step1Check').textContent = '✅';
+      document.getElementById('artPreview').textContent = article ? (article === "l'" ? "l'" : article + " ") : "";
       document.getElementById('step2Box').classList.remove('locked');
     } else {
       document.getElementById('step1Check').textContent = selectedArticle ? '❌ Try again' : '';
+      document.getElementById('artPreview').textContent = '___ ';
       document.getElementById('step2Box').classList.add('locked');
       document.getElementById('step3Box').classList.add('locked');
       return;
@@ -1579,12 +1718,13 @@
       el.textContent = t.text;
       el.onclick = () => {
         if (!used && !awaitingNext) {
+          speakWordText(t.text, 0.85);
           selectedTiles.push(t);
           updateStep1And2UI();
 
           const { noun } = splitFrenchArticle(currentWord.full);
           const builtNoun = selectedTiles.map(x => x.text).join('');
-          if (builtNoun === noun) {
+          if (builtNoun.toLowerCase() === noun.toLowerCase()) {
             document.getElementById('step3Box').classList.remove('locked');
             document.getElementById('typeInput').focus();
           } else {
@@ -1610,18 +1750,6 @@
     speakCurrent(0.55);
   }
 
-  function speakCurrent(rate = 0.9) {
-    if (!currentWord || !('speechSynthesis' in window)) return;
-    window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(currentWord.full);
-    u.lang = 'fr-CA';
-    u.rate = rate;
-    const voices = window.speechSynthesis.getVoices();
-    const fr = voices.find(v => v.lang.includes('fr-CA')) || voices.find(v => v.lang.includes('fr'));
-    if (fr) u.voice = fr;
-    window.speechSynthesis.speak(u);
-  }
-
   function norm(s) {
     return s.trim().replace(/\s+/g, ' ').replace(/’/g, "'").toLowerCase();
   }
@@ -1639,7 +1767,7 @@
 
     const typed = document.getElementById('typeInput').value.trim();
     if (!typed) {
-      alert('🔒 Step 3 is required! You must type the full word by yourself to earn stars.');
+      alert('🔒 Step 3 is required! Please type the full word by yourself to earn stars.');
       document.getElementById('typeInput').focus();
       return;
     }
@@ -1747,6 +1875,7 @@
     const yellowStars = total % 3;
     const rank = getCurrentRank(total);
 
+    document.getElementById('heroModalTitle').textContent = `🏆 ${appData.currentProfile || "Jamie"}'s Stars & Trophy`;
     document.getElementById('modalRankTitle').textContent = rank.full;
     document.getElementById('modalRedStars').textContent = redStars;
     document.getElementById('modalYellowStars').textContent = yellowStars;
@@ -1771,7 +1900,7 @@
       ? logs.map(item => `
           <div class="history-item">
             <span>${item.reason} <small style="color:#94a3b8;">(${item.time})</small></span>
-            <span style="color:#ca8a04;">+${item.amount} ⭐</span>
+            <span style="color:#ca8a04;">${item.amount >= 0 ? '+' : ''}${item.amount} ⭐</span>
           </div>
         `).join('')
       : '<div style="color:#94a3b8; font-size:0.85rem;">No star history yet. Start spelling to earn stars!</div>';
@@ -1779,18 +1908,91 @@
     document.getElementById('heroModal').classList.add('open');
   }
 
-  // 完美直通車：點擊 Parent 按鈕直接打開後台管理，絕不卡死
-  function openParentModalDirect() {
+  // ==================== 漂亮 PIN 碼小視窗控制邏輯 (輸入滿 4 碼自動秒開！) ====================
+  function openPinModal() {
+    currentPinBuffer = "";
+    document.getElementById('pinErrorMsg').textContent = "";
+    document.getElementById('pinInput').value = "";
+    updatePinDotsUI();
+    document.getElementById('pinModal').classList.add('open');
+    setTimeout(() => document.getElementById('pinInput').focus(), 100);
+  }
+
+  function updatePinDotsUI() {
+    for (let i = 0; i < 4; i++) {
+      const dot = document.getElementById('pinDot' + i);
+      if (i < currentPinBuffer.length) {
+        dot.textContent = '●';
+        dot.classList.add('filled');
+      } else {
+        dot.textContent = '';
+        dot.classList.remove('filled');
+      }
+    }
+  }
+
+  function pressPinDigit(d) {
+    if (currentPinBuffer.length < 4) {
+      currentPinBuffer += d;
+      document.getElementById('pinErrorMsg').textContent = "";
+      updatePinDotsUI();
+      if (currentPinBuffer.length === 4) {
+        setTimeout(checkPinBuffer, 80);
+      }
+    }
+  }
+
+  function backspacePinDigit() {
+    currentPinBuffer = currentPinBuffer.slice(0, -1);
+    updatePinDotsUI();
+  }
+
+  function clearPinDigits() {
+    currentPinBuffer = "";
+    document.getElementById('pinErrorMsg').textContent = "";
+    updatePinDotsUI();
+  }
+
+  function onPinTyping(val) {
+    currentPinBuffer = val.replace(/[^0-9]/g, '').slice(0, 4);
+    updatePinDotsUI();
+    if (currentPinBuffer.length === 4) {
+      setTimeout(checkPinBuffer, 80);
+    }
+  }
+
+  function checkPinBuffer() {
+    if (currentPinBuffer === '1234') {
+      closeModal('pinModal');
+      openParentModal();
+    } else {
+      document.getElementById('pinErrorMsg').textContent = "❌ Wrong PIN! Try again.";
+      currentPinBuffer = "";
+      document.getElementById('pinInput').value = "";
+      updatePinDotsUI();
+    }
+  }
+
+  // ==================== 媽媽後台管理邏輯 (已徹底清除幽靈 ID 錯誤) ====================
+  function openParentModal() {
+    const pData = getActiveProfileData();
+    document.getElementById('rewardPlayerLabel').textContent = appData.currentProfile || "Jamie";
+    document.getElementById('setExactStarInput').value = pData.totalStars || 0;
+
     renderAdminWeeksList();
     renderParentProfilesList();
+
     const week = getActiveWeek();
     document.getElementById('editWeekTitle').value = week.title;
     const container = document.getElementById('wordRowsContainer');
     container.innerHTML = '';
     week.words.forEach(w => addWordRowUI(w.full, w.meaning, w.emoji));
-    document.getElementById('syncCodeArea').style.display = 'none';
-    document.getElementById('bulkPasteArea').style.display = 'none';
-    document.getElementById('importBackupArea').style.display = 'none';
+
+    const syncArea = document.getElementById('syncCodeArea');
+    if (syncArea) syncArea.style.display = 'none';
+    const bulkArea = document.getElementById('bulkPasteArea');
+    if (bulkArea) bulkArea.style.display = 'none';
+
     document.getElementById('parentModal').dataset.isNew = 'false';
     document.getElementById('parentModal').classList.add('open');
   }
@@ -1798,7 +2000,7 @@
   function renderParentProfilesList() {
     const sel = document.getElementById('parentProfileSelect');
     const pNames = Object.keys(appData.profiles || {});
-    sel.innerHTML = pNames.map(n => `<option value="${n}" ${n === appData.currentProfile ? 'selected' : ''}>${n} (${appData.profiles[n].totalStars || 0}⭐)</option>`).join('');
+    sel.innerHTML = pNames.map(n => `<option value="${n}" ${n === appData.currentProfile ? 'selected' : ''}>👦🏻 ${n} (${appData.profiles[n].totalStars || 0}⭐)</option>`).join('');
   }
 
   function selectParentActiveProfile() {
@@ -1806,24 +2008,31 @@
     if (sel.value) {
       appData.currentProfile = sel.value;
       saveAppData();
-      renderHeaderAndRewards();
-      renderStudyGrid();
-      alert(`✅ Active player set to: ${appData.currentProfile}`);
+      openParentModal();
     }
   }
 
   function addNewProfile() {
-    const name = prompt('Enter player name (e.g. Jamie or Brother):');
-    if (name && name.trim()) {
-      const clean = name.trim();
-      if (!appData.profiles[clean]) {
-        appData.profiles[clean] = { totalStars: 0, allStickers: [], starHistory: [], weeks: JSON.parse(JSON.stringify(DEFAULT_WEEKS)) };
-      }
-      appData.currentProfile = clean;
-      saveAppData();
-      renderParentProfilesList();
-      alert(`✅ Created & switched to player: ${clean}`);
+    const inp = document.getElementById('newPlayerNameInput');
+    const clean = inp.value.trim();
+    if (!clean) {
+      alert('Please type a player name first!');
+      return;
     }
+    if (!appData.profiles[clean]) {
+      const currentWeeksCopy = JSON.parse(JSON.stringify(getActiveProfileData().weeks || DEFAULT_WEEKS));
+      currentWeeksCopy.forEach(w => {
+        w.stickers = [];
+        w.trophyEarned = false;
+        w.words.forEach(wd => { wd.streak = 0; wd.mastered = false; });
+      });
+      appData.profiles[clean] = { totalStars: 0, allStickers: [], starHistory: [], weeks: currentWeeksCopy };
+    }
+    appData.currentProfile = clean;
+    inp.value = '';
+    saveAppData();
+    openParentModal();
+    alert(`✅ Added & switched to player: ${clean}`);
   }
 
   function deleteActiveProfile() {
@@ -1837,58 +2046,19 @@
       delete appData.profiles[current];
       appData.currentProfile = Object.keys(appData.profiles)[0];
       saveAppData();
-      renderParentProfilesList();
-      renderHeaderAndRewards();
-      renderStudyGrid();
-      alert(`✅ Profile deleted. Switched to ${appData.currentProfile}`);
+      openParentModal();
     }
   }
 
-  function generateBackupCodeText() {
-    const raw = JSON.stringify(appData);
-    const b64 = btoa(unescape(encodeURIComponent(raw)));
-    const ta = document.getElementById('backupCodeTextarea');
-    ta.value = b64;
-    ta.select();
-    alert('✅ Backup code generated below! Click "Copy Code" to save it.');
-  }
-
-  function copyBackupTextarea() {
-    const ta = document.getElementById('backupCodeTextarea');
-    if (!ta.value) {
-      generateBackupCodeText();
-    }
-    ta.select();
-    navigator.clipboard.writeText(ta.value);
-    alert('✅ Backup code copied to clipboard!');
-  }
-
-  function toggleImportBackupBox() {
-    const box = document.getElementById('importBackupArea');
-    box.style.display = box.style.display === 'none' ? 'block' : 'none';
-  }
-
-  function importBackupFromTextarea() {
-    const text = document.getElementById('backupCodeTextarea').value.trim();
-    if (!text) {
-      alert('Please paste your backup code first!');
-      return;
-    }
-    try {
-      const raw = decodeURIComponent(escape(atob(text)));
-      const parsed = JSON.parse(raw);
-      if (parsed && parsed.profiles) {
-        appData = parsed;
-        saveAppData();
-        closeModal('parentModal');
-        switchView('home');
-        alert('🎉 Successfully restored all player data, words, and stars!');
-      } else {
-        alert('❌ Invalid backup code format.');
-      }
-    } catch (e) {
-      alert('❌ Failed to decode backup code.');
-    }
+  // 獎勵控制台：設定確切星星總數、加星、加獎盃、加貼紙、退回貼紙
+  function setExactStars() {
+    const pData = getActiveProfileData();
+    const targetVal = Math.max(0, parseInt(document.getElementById('setExactStarInput').value) || 0);
+    const diff = targetVal - (pData.totalStars || 0);
+    addStars(diff, `🛠️ Mom adjusted total stars to ${targetVal}`);
+    saveAppData();
+    renderParentProfilesList();
+    alert(`✅ ${appData.currentProfile}'s total stars set to ${targetVal} ⭐!`);
   }
 
   function addManualStars() {
@@ -1896,15 +2066,22 @@
     if (val !== 0) {
       addStars(val, `🎁 Bonus from Mom`);
       saveAppData();
-      alert(`⭐ Successfully added ${val} stars to ${appData.currentProfile}!`);
+      document.getElementById('setExactStarInput').value = getActiveProfileData().totalStars;
+      renderParentProfilesList();
+      alert(`⭐ Added ${val} stars to ${appData.currentProfile}!`);
     }
   }
 
   function addManualTrophy() {
     const pData = getActiveProfileData();
     pData.allStickers.push('🏆');
+    const week = getActiveWeek();
+    week.trophyEarned = true;
+    if (!week.stickers.includes('🏆')) week.stickers.push('🏆');
     addStars(5, `🏆 Bonus Trophy from Mom`);
     saveAppData();
+    document.getElementById('setExactStarInput').value = pData.totalStars;
+    renderParentProfilesList();
     alert(`🏆 Awarded a Gold Trophy + 5 Stars to ${appData.currentProfile}!`);
   }
 
@@ -1912,9 +2089,76 @@
     const pData = getActiveProfileData();
     const randomSticker = STICKER_POOL[Math.floor(Math.random() * STICKER_POOL.length)];
     pData.allStickers.push(randomSticker);
-    addStars(2, `🎁 Bonus Sticker from Mom`);
+    const week = getActiveWeek();
+    week.stickers.push(randomSticker);
+    addStars(2, `🎁 Bonus Sticker (${randomSticker}) from Mom`);
     saveAppData();
+    document.getElementById('setExactStarInput').value = pData.totalStars;
+    renderParentProfilesList();
     alert(`🎁 Awarded sticker "${randomSticker}" + 2 Stars to ${appData.currentProfile}!`);
+  }
+
+  function removeLastSticker() {
+    const pData = getActiveProfileData();
+    if (pData.allStickers && pData.allStickers.length > 0) {
+      const removed = pData.allStickers.pop();
+      const week = getActiveWeek();
+      if (week.stickers.length > 0) week.stickers.pop();
+      saveAppData();
+      alert(`🗑️ Removed last sticker/trophy (${removed}).`);
+    } else {
+      alert('No stickers or trophies to remove!');
+    }
+  }
+
+  // 一鍵產生並複製完整備份碼
+  function generateAndCopyBackup() {
+    const raw = JSON.stringify(appData);
+    const b64 = btoa(unescape(encodeURIComponent(raw)));
+    const ta = document.getElementById('backupCodeTextarea');
+    ta.value = b64;
+    ta.select();
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(b64).then(() => {
+        alert('✅ Full Backup Code generated and copied to clipboard! Paste it into your Notes to keep it safe.');
+      }).catch(() => {
+        alert('✅ Backup code generated in the box! Please copy it.');
+      });
+    } else {
+      document.execCommand('copy');
+      alert('✅ Full Backup Code generated and copied!');
+    }
+  }
+
+  function importBackupFromTextarea() {
+    const text = document.getElementById('backupCodeTextarea').value.trim();
+    if (!text) {
+      alert('Please paste your backup code into the box first!');
+      return;
+    }
+    try {
+      const raw = decodeURIComponent(escape(atob(text)));
+      const parsed = JSON.parse(raw);
+      if (parsed && (parsed.profiles || parsed.weeks)) {
+        if (parsed.profiles) {
+          appData = parsed;
+        } else {
+          appData.profiles["Jamie"] = {
+            totalStars: parsed.totalStars || 0,
+            allStickers: parsed.allStickers || [],
+            starHistory: parsed.starHistory || [],
+            weeks: parsed.weeks
+          };
+        }
+        saveAppData();
+        openParentModal();
+        alert('🎉 Successfully restored all player data, words, and stars!');
+      } else {
+        alert('❌ Invalid backup code format.');
+      }
+    } catch (e) {
+      alert('❌ Failed to decode backup code. Make sure you copied the entire code.');
+    }
   }
 
   function renderAdminWeeksList() {
@@ -1924,12 +2168,13 @@
     pData.weeks.forEach(w => {
       const isCurrent = (w.id === appData.currentWeekId);
       const row = document.createElement('div');
-      row.style.cssText = 'display:flex; justify-content:space-between; align-items:center; padding:6px 8px; border-bottom:1px solid #e2e8f0; font-size:0.9rem; font-weight:800;';
+      row.style.cssText = 'display:flex; justify-content:space-between; align-items:center; padding:8px; border-bottom:1px solid #e2e8f0; font-size:0.9rem; font-weight:800; flex-wrap:wrap; gap:6px;';
       row.innerHTML = `
         <span>${w.title} (${w.words.length} words) ${isCurrent ? '⭐ [CURRENT WEEK]' : ''}</span>
         <div style="display:flex; gap:6px;">
-          ${!isCurrent ? `<button class="btn-parent" style="padding:4px 8px; background:#dcfce7; color:#15803d;" onclick="setAsCurrentWeek('${w.id}')">⭐ Set as Current</button>` : ''}
-          <button class="btn-parent" style="padding:4px 8px;" onclick="loadWeekToEdit('${w.id}')">✏️ Edit</button>
+          ${!isCurrent ? `<button class="btn-parent" style="padding:5px 10px; background:#dcfce7; color:#15803d;" onclick="setAsCurrentWeek('${w.id}')">⭐ Set Current</button>` : ''}
+          <button class="btn-parent" style="padding:5px 10px;" onclick="loadWeekToEdit('${w.id}')">✏️ Edit</button>
+          ${pData.weeks.length > 1 ? `<button class="btn-parent" style="padding:5px 10px; background:#fee2e2; color:#b91c1c;" onclick="deleteWeekById('${w.id}')">🗑️</button>` : ''}
         </div>
       `;
       listEl.appendChild(row);
@@ -1940,7 +2185,18 @@
     appData.currentWeekId = id;
     saveAppData();
     renderAdminWeeksList();
-    alert('✅ Successfully set as Current Week!');
+  }
+
+  function deleteWeekById(id) {
+    const pData = getActiveProfileData();
+    if (pData.weeks.length <= 1) return;
+    const target = pData.weeks.find(w => w.id === id);
+    if (target && confirm(`🗑️ Delete "${target.title}"?`)) {
+      pData.weeks = pData.weeks.filter(w => w.id !== id);
+      if (appData.currentWeekId === id) appData.currentWeekId = pData.weeks[0].id;
+      saveAppData();
+      openParentModal();
+    }
   }
 
   function loadWeekToEdit(id) {
@@ -1952,6 +2208,7 @@
       const container = document.getElementById('wordRowsContainer');
       container.innerHTML = '';
       w.words.forEach(wd => addWordRowUI(wd.full, wd.meaning, wd.emoji));
+      document.getElementById('parentModal').dataset.isNew = 'false';
       renderAdminWeeksList();
     }
   }
@@ -2001,25 +2258,24 @@
     const box = document.getElementById('exportCodeBox');
     box.select();
     navigator.clipboard.writeText(box.value);
-    alert('✅ Sync Code copied!');
+    alert('✅ Week Sync Code copied!');
   }
 
   function importFromSyncCode() {
     const code = document.getElementById('importCodeBox').value.trim();
     if (!code) {
-      alert('Please paste the Sync Code first!');
+      alert('Please paste the Week Sync Code first!');
       return;
     }
     try {
       const incomingWeek = decodeCompactWeek(code);
       if (incomingWeek && incomingWeek.words.length > 0) {
         upsertWeek(incomingWeek);
-        closeModal('parentModal');
-        switchView('home');
+        openParentModal();
         alert(`✅ Successfully imported "${incomingWeek.title}"!`);
       }
     } catch (e) {
-      alert('❌ Invalid Sync Code.');
+      alert('❌ Invalid Week Sync Code.');
     }
   }
 
@@ -2029,7 +2285,7 @@
     row.className = 'word-row';
     row.innerHTML = `
       <input type="text" class="input-emoji" value="${emoji}" title="Emoji">
-      <input type="text" class="input-fr" value="${fr}" placeholder="French" oninput="onFrInputChange(this)">
+      <input type="text" class="input-fr" value="${fr}" placeholder="French (e.g. un renard)" oninput="onFrInputChange(this)">
       <input type="text" class="input-en" value="${en}" placeholder="English meaning">
       <button class="btn-del" onclick="this.parentElement.remove()">✕</button>
     `;
@@ -2089,7 +2345,7 @@
   }
 
   function resetCurrentWeek() {
-    if (confirm('Reset mastery progress for this week?')) {
+    if (confirm('Reset mastery progress for this week? (Stars & stickers are kept)')) {
       const week = getActiveWeek();
       week.words.forEach(w => { w.streak = 0; w.mastered = false; });
       saveAppData();
@@ -2102,6 +2358,21 @@
 
   document.getElementById('typeInput').addEventListener('keydown', e => {
     if (e.key === 'Enter') checkUserAnswer();
+  });
+
+  // 支援在 PIN 視窗直接用電腦鍵盤打 1234
+  document.addEventListener('keydown', e => {
+    const pinModalOpen = document.getElementById('pinModal').classList.contains('open');
+    if (!pinModalOpen) return;
+    if (e.key >= '0' && e.key <= '9') {
+      e.preventDefault();
+      pressPinDigit(e.key);
+    } else if (e.key === 'Backspace') {
+      e.preventDefault();
+      backspacePinDigit();
+    } else if (e.key === 'Escape') {
+      closeModal('pinModal');
+    }
   });
 
   window.speechSynthesis.onvoiceschanged = () => {};
