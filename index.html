@@ -142,7 +142,7 @@
     }
     .btn-back:active { transform: scale(0.96); }
 
-    /* HOME PAGE (5 大色彩方格) */
+    /* HOME PAGE */
     .home-welcome-card {
       background: linear-gradient(135deg, #e0f2fe, #f3e8ff);
       border: 3px solid #bae6fd; border-radius: 26px; padding: 22px; text-align: center;
@@ -434,7 +434,8 @@
       <button class="btn-hero" onclick="openHeroModal()">
         🏆 <span id="heroGemBadge">🥉 Bronze</span> ｜ <span id="redStarCount">0</span>🌟 <span id="yellowStarCount">0</span>⭐
       </button>
-      <button class="btn-parent" onclick="promptParentPin()">🔒 Parent</button>
+      <!-- 改用專屬穩定解鎖視窗的按鈕 -->
+      <button class="btn-parent" onclick="openParentModalDirect()">🔒 Parent</button>
     </div>
   </header>
 
@@ -464,7 +465,7 @@
     <button class="btn-exit-big" onclick="exitSpecialMode()">❌ Exit</button>
   </div>
 
-  <!-- ==================== VIEW 0: HOME PAGE (6 大色彩方格，包含 This Week Writing Quiz) ==================== -->
+  <!-- ==================== VIEW 0: HOME PAGE ==================== -->
   <div class="view-section active" id="viewHome">
     <div class="home-welcome-card">
       <div style="font-size:3.5rem; margin-bottom:6px;">🌟🎒🚀</div>
@@ -475,42 +476,36 @@
     </div>
 
     <div class="home-grid">
-      <!-- 1: This Week's New Words -->
       <div class="home-card-btn card-study" onclick="switchView('study')">
         <div class="home-card-icon">📖</div>
         <div class="home-card-title">This Week's New Words</div>
         <div class="home-card-desc">Study flashcards & test word by word</div>
       </div>
 
-      <!-- 2: This Week Writing Quiz (模擬學校聽寫考卷) -->
       <div class="home-card-btn card-writing" onclick="switchView('writingQuiz')">
         <div class="home-card-icon">📝</div>
         <div class="home-card-title">This Week Writing Quiz</div>
         <div class="home-card-desc">Simulate school dictée exam & practice spelling</div>
       </div>
 
-      <!-- 3: Word Puzzle Game -->
       <div class="home-card-btn card-puzzle" onclick="switchView('puzzle')">
         <div class="home-card-icon">🧩</div>
         <div class="home-card-title">Word Puzzle Game</div>
         <div class="home-card-desc">Play letter grid matching & win stars</div>
       </div>
 
-      <!-- 4: Speed Listening Match -->
       <div class="home-card-btn card-speed" onclick="switchView('speed')">
         <div class="home-card-icon">⚡</div>
         <div class="home-card-title">Speed Listening Match</div>
         <div class="home-card-desc">Listen to audio & pick the correct image fast</div>
       </div>
 
-      <!-- 5: Practice all -->
       <div class="home-card-btn card-practice" onclick="startReviewMode()">
         <div class="home-card-icon">🍀</div>
         <div class="home-card-title">Practice all for extra stars!</div>
         <div class="home-card-desc">Review pass weeks' words for 2x stars</div>
       </div>
 
-      <!-- 6: All Words -->
       <div class="home-card-btn card-all" onclick="switchView('viewAll')">
         <div class="home-card-icon">📚</div>
         <div class="home-card-title">All Words</div>
@@ -530,7 +525,7 @@
     <div class="study-grid" id="studyGrid"></div>
   </div>
 
-  <!-- ==================== VIEW 1.1: THIS WEEK WRITING QUIZ (模擬學校聽寫考卷) ==================== -->
+  <!-- ==================== VIEW 1.1: THIS WEEK WRITING QUIZ ==================== -->
   <div class="view-section" id="viewWritingQuiz">
     <div class="nav-back-row">
       <button class="btn-back" onclick="switchView('home')">⬅️ Back to Home</button>
@@ -641,7 +636,7 @@
       <div class="tile-pool" id="poolTiles"></div>
     </div>
 
-    <!-- STEP 3: 紫色 (Type the full word - 強制盲打) -->
+    <!-- STEP 3: 紫色 (Type the full word) -->
     <div class="step-section step-3-box locked" id="step3Box">
       <div class="step-header">
         <div><span class="step-badge">STEP 3</span> Type the full word</div>
@@ -684,7 +679,19 @@
   </div>
 </div>
 
-<!-- MODAL 2: 媽媽專屬後台 (支援文字方塊備份 ＆ 獎勵手動管理) -->
+<!-- MODAL 2: 媽媽專屬後台 (改為點擊直接解鎖，不再使用會卡住的 prompt 彈窗) -->
+<div class="modal" id="pinModal">
+  <div class="modal-box" style="max-width:360px; text-align:center;">
+    <div class="modal-top">
+      <h2 style="margin:0; color:var(--blue-text);">🔒 Parent Access</h2>
+      <button class="btn-back" style="padding:4px 10px;" onclick="closeModal('pinModal')">✕</button>
+    </div>
+    <p style="font-weight:800; color:var(--text-muted); font-size:0.9rem;">Please enter Parent PIN (1234):</p>
+    <input type="password" id="pinInput" style="width:100%; padding:12px; font-size:1.5rem; text-align:center; border:2px solid #cbd5e1; border-radius:12px; font-weight:900; margin-bottom:14px;" placeholder="****" maxlength="4">
+    <button class="btn-submit-quiz" style="width:100%; background:#0284c7; box-shadow:0 4px 0 #0369a1;" onclick="verifyPin()">Unlock Parent Admin</button>
+  </div>
+</div>
+
 <div class="modal" id="parentModal">
   <div class="modal-box">
     <div class="modal-top">
@@ -703,11 +710,11 @@
       </div>
     </div>
 
-    <!-- 備份與還原 (改用大文字方塊，不再用 prompt 跳窗) -->
+    <!-- 備份與還原 -->
     <div style="background:var(--green-bg); border:2px solid var(--green-border); border-radius:18px; padding:14px; margin-bottom:16px;">
-      <div style="font-weight:900; color:var(--green-text); margin-bottom:6px;">💾 Data Backup & Restore (防止資料歸零):</div>
+      <div style="font-weight:900; color:var(--green-text); margin-bottom:6px;">💾 Data Backup & Restore:</div>
       <div style="font-size:0.82rem; color:#166534; font-weight:700; margin-bottom:8px;">
-        Click "Generate Backup Code" to view code below. Copy it to notes or paste backup code to restore!
+        Click "Generate Backup Code" to view code below. Copy it or paste backup code to restore!
       </div>
       <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
         <button class="btn-submit-quiz" style="padding:8px 14px; font-size:0.85rem; background:#16a34a;" onclick="generateBackupCodeText()">📤 Generate Backup Code</button>
@@ -746,7 +753,7 @@
       </div>
     </div>
 
-    <!-- 獎勵權限管理 (Reward Management: 媽媽可手動調整星星、獎盃、貼紙) -->
+    <!-- 獎勵權限管理 -->
     <div style="background:var(--yellow-bg); border:2px solid var(--yellow-border); border-radius:18px; padding:14px; margin-bottom:16px;">
       <div style="font-weight:900; color:var(--yellow-text); margin-bottom:6px;">⭐ Reward Management (Bonus Stars & Trophies):</div>
       <div style="font-size:0.82rem; color:#854d0e; font-weight:700; margin-bottom:6px;">Manually add stars or reward a gold trophy/sticker:</div>
@@ -1039,14 +1046,9 @@
       artBar.appendChild(b);
     });
 
-    const saved = localStorage.getItem('jamie_french_app_v19');
+    const saved = localStorage.getItem('jamie_french_app_v20');
     if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        if (parsed && parsed.profiles) {
-          appData = { ...appData, ...parsed };
-        }
-      } catch (e) {}
+      try { appData = { ...appData, ...JSON.parse(saved) }; } catch (e) {}
     }
 
     const pNames = Object.keys(appData.profiles || {});
@@ -1083,7 +1085,7 @@
   }
 
   function saveAppData() {
-    localStorage.setItem('jamie_french_app_v19', JSON.stringify(appData));
+    localStorage.setItem('jamie_french_app_v20', JSON.stringify(appData));
     renderHeaderAndRewards();
     renderStudyGrid();
   }
@@ -1459,7 +1461,6 @@
     switchView('home');
   }
 
-  // 強效音訊修復：加上 cancel() 與點擊防呆解鎖
   function speakWordText(text) {
     if (!('speechSynthesis' in window)) return;
     window.speechSynthesis.cancel();
@@ -1790,12 +1791,19 @@
     document.getElementById('heroModal').classList.add('open');
   }
 
-  function promptParentPin() {
-    const pin = prompt('🔒 Parent Area: Please enter PIN (1234):');
-    if (pin === '1234') {
+  // 穩定的 Parent 後台解鎖機制（點擊按鈕直接開 Modal，不使用會卡住的 prompt）
+  function openParentModalDirect() {
+    document.getElementById('pinInput').value = '';
+    document.getElementById('pinModal').classList.add('open');
+  }
+
+  function verifyPin() {
+    const val = document.getElementById('pinInput').value.trim();
+    if (val === '1234') {
+      closeModal('pinModal');
       openParentModal();
-    } else if (pin !== null) {
-      alert('❌ Wrong PIN!');
+    } else {
+      alert('❌ Wrong PIN! (Hint: 1234)');
     }
   }
 
@@ -1863,7 +1871,6 @@
     }
   }
 
-  // 匯出備份 (改用大型文字方塊，完美解決手機無法全選複製的問題！)
   function generateBackupCodeText() {
     const raw = JSON.stringify(appData);
     const b64 = btoa(unescape(encodeURIComponent(raw)));
@@ -1891,7 +1898,7 @@
   function importBackupFromTextarea() {
     const text = document.getElementById('backupCodeTextarea').value.trim();
     if (!text) {
-      alert('Please generate or paste your backup code first!');
+      alert('Please paste your backup code first!');
       return;
     }
     try {
@@ -1911,7 +1918,6 @@
     }
   }
 
-  // 媽媽手動獎勵管理 (加星、加獎盃、加貼紙)
   function addManualStars() {
     const val = parseInt(document.getElementById('manualStarInput').value) || 0;
     if (val !== 0) {
