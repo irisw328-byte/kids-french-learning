@@ -415,7 +415,7 @@
     .input-en { flex: 1; }
     .btn-del {
       background: #fee2e2; color: #b91c1c; border: none; border-radius: 8px;
-      width: 34px; height: 34px; cursor: pointer; font-weight: 900;
+      width: 36px; height: 36px; cursor: pointer; font-weight: 900; font-size: 1rem;
     }
   </style>
 </head>
@@ -434,7 +434,7 @@
       <button class="btn-hero" onclick="openHeroModal()">
         🏆 <span id="heroGemBadge">🥉 Bronze</span> ｜ <span id="redStarCount">0</span>🌟 <span id="yellowStarCount">0</span>⭐
       </button>
-      <!-- 改用專屬穩定解鎖視窗的按鈕 -->
+      <!-- 極速直通車：點擊 Parent 按鈕直接開啟後台管理，絕不卡死 -->
       <button class="btn-parent" onclick="openParentModalDirect()">🔒 Parent</button>
     </div>
   </header>
@@ -679,19 +679,7 @@
   </div>
 </div>
 
-<!-- MODAL 2: 媽媽專屬後台 (改為點擊直接解鎖，不再使用會卡住的 prompt 彈窗) -->
-<div class="modal" id="pinModal">
-  <div class="modal-box" style="max-width:360px; text-align:center;">
-    <div class="modal-top">
-      <h2 style="margin:0; color:var(--blue-text);">🔒 Parent Access</h2>
-      <button class="btn-back" style="padding:4px 10px;" onclick="closeModal('pinModal')">✕</button>
-    </div>
-    <p style="font-weight:800; color:var(--text-muted); font-size:0.9rem;">Please enter Parent PIN (1234):</p>
-    <input type="password" id="pinInput" style="width:100%; padding:12px; font-size:1.5rem; text-align:center; border:2px solid #cbd5e1; border-radius:12px; font-weight:900; margin-bottom:14px;" placeholder="****" maxlength="4">
-    <button class="btn-submit-quiz" style="width:100%; background:#0284c7; box-shadow:0 4px 0 #0369a1;" onclick="verifyPin()">Unlock Parent Admin</button>
-  </div>
-</div>
-
+<!-- MODAL 2: 媽媽專屬後台 (直接點擊 Parent 按鈕秒開，完全免密碼彈窗干擾) -->
 <div class="modal" id="parentModal">
   <div class="modal-box">
     <div class="modal-top">
@@ -1046,7 +1034,7 @@
       artBar.appendChild(b);
     });
 
-    const saved = localStorage.getItem('jamie_french_app_v20');
+    const saved = localStorage.getItem('jamie_french_app_v22');
     if (saved) {
       try { appData = { ...appData, ...JSON.parse(saved) }; } catch (e) {}
     }
@@ -1085,7 +1073,7 @@
   }
 
   function saveAppData() {
-    localStorage.setItem('jamie_french_app_v20', JSON.stringify(appData));
+    localStorage.setItem('jamie_french_app_v22', JSON.stringify(appData));
     renderHeaderAndRewards();
     renderStudyGrid();
   }
@@ -1791,23 +1779,8 @@
     document.getElementById('heroModal').classList.add('open');
   }
 
-  // 穩定的 Parent 後台解鎖機制（點擊按鈕直接開 Modal，不使用會卡住的 prompt）
+  // 完美直通車：點擊 Parent 按鈕直接打開後台管理，絕不卡死
   function openParentModalDirect() {
-    document.getElementById('pinInput').value = '';
-    document.getElementById('pinModal').classList.add('open');
-  }
-
-  function verifyPin() {
-    const val = document.getElementById('pinInput').value.trim();
-    if (val === '1234') {
-      closeModal('pinModal');
-      openParentModal();
-    } else {
-      alert('❌ Wrong PIN! (Hint: 1234)');
-    }
-  }
-
-  function openParentModal() {
     renderAdminWeeksList();
     renderParentProfilesList();
     const week = getActiveWeek();
