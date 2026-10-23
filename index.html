@@ -147,72 +147,134 @@
     /* HOME PAGE */
     .home-welcome-card {
       background: linear-gradient(135deg, #e0f2fe, #f3e8ff);
-      border: 3px solid #bae6fd; border-radius: 26px; padding: 22px; text-align: center;
+      border: 3px solid #7dd3fc; border-radius: 26px; padding: 22px; text-align: center;
       margin-bottom: 18px; box-shadow: 0 8px 20px rgba(3,105,161,0.08);
     }
+    .home-step-pills {
+      display: inline-flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; justify-content: center;
+    }
+    .home-step-pill {
+      background: white; padding: 6px 14px; border-radius: 99px; font-weight: 900;
+      font-size: 0.95rem; color: #0369a1; border: 2px solid #bae6fd;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.04);
+    }
+
     .home-grid {
       display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
     }
     @media (max-width: 600px) { .home-grid { grid-template-columns: 1fr; } }
 
     .home-card-btn {
-      border: 3px solid; border-radius: 22px;
-      padding: 22px; text-align: center; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.05); display: flex; flex-direction: column; align-items: center; gap: 8px;
+      border: 3px solid; border-radius: 24px; position: relative;
+      padding: 22px 18px; text-align: center; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.06); display: flex; flex-direction: column; align-items: center; gap: 8px;
     }
-    .home-card-btn:hover { transform: translateY(-4px); box-shadow: 0 10px 24px rgba(0,0,0,0.1); }
-    .home-card-icon { font-size: 3.2rem; }
-    .home-card-title { font-size: 1.25rem; font-weight: 900; }
+    .home-card-btn:hover { transform: translateY(-4px); box-shadow: 0 10px 24px rgba(0,0,0,0.12); }
+    .home-step-num {
+      position: absolute; top: 12px; left: 14px; width: 34px; height: 34px;
+      border-radius: 50%; font-size: 1.1rem; font-weight: 900; color: white;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+    }
+    .home-card-icon { font-size: 3.3rem; }
+    .home-card-title { font-size: 1.28rem; font-weight: 900; }
     .home-card-desc { font-size: 0.88rem; font-weight: 700; color: var(--text-muted); }
 
-    .card-study { background: #e0f2fe; border-color: #7dd3fc; }
+    .card-study { background: #e0f2fe; border-color: #38bdf8; }
     .card-study .home-card-title { color: #0369a1; }
+    .card-study .home-step-num { background: #0284c7; }
 
-    .card-writing { background: #dcfce7; border-color: #86efac; }
+    .card-writing { background: #dcfce7; border-color: #4ade80; }
     .card-writing .home-card-title { color: #15803d; }
+    .card-writing .home-step-num { background: #16a34a; }
 
-    .card-puzzle { background: #f3e8ff; border-color: #d8b4fe; }
+    .card-puzzle { background: #f3e8ff; border-color: #c084fc; }
     .card-puzzle .home-card-title { color: #6b21a8; }
+    .card-puzzle .home-step-num { background: #7e22ce; }
 
-    .card-speed { background: #ffe4e6; border-color: #fda4af; }
-    .card-speed .home-card-title { color: #e11d48; }
+    .card-speed { background: #ffe4e6; border-color: #fb7185; }
+    .card-speed .home-card-title { color: #be123c; }
+    .card-speed .home-step-num { background: #e11d48; }
 
-    .card-practice { background: #fef08a; border-color: #fde047; }
+    .card-practice { background: #fef08a; border-color: #facc15; }
     .card-practice .home-card-title { color: #854d0e; }
 
-    .card-all { background: #ffedd5; border-color: #fdba74; }
+    .card-all { background: #ffedd5; border-color: #fb923c; }
     .card-all .home-card-title { color: #c2410c; }
 
-    /* Study Cards */
+    /* ==================== 6 色繽紛彩虹糖果單字卡 (Rainbow Candy Flashcards) ==================== */
     .study-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(225px, 1fr)); gap: 18px;
     }
     .flashcard {
-      background: linear-gradient(145deg, #ffffff, #f0f9ff);
-      border: 3px solid var(--blue-border); border-radius: 22px;
-      padding: 16px; text-align: center; position: relative;
+      border-radius: 26px; padding: 18px 16px; text-align: center; position: relative;
       display: flex; flex-direction: column; justify-content: space-between;
-      box-shadow: 0 6px 14px rgba(3, 105, 161, 0.06);
+      border: 3px solid; border-bottom-width: 7px;
+      transition: transform 0.15s, box-shadow 0.15s;
     }
+    .flashcard:hover { transform: translateY(-4px); }
+
+    /* 6 種繽紛馬卡龍配色輪播，徹底告別單調白卡 */
+    .fc-theme-0 { background: linear-gradient(145deg, #ffffff 15%, #e0f2fe 100%); border-color: #38bdf8; box-shadow: 0 8px 18px rgba(56,189,248,0.18); }
+    .fc-theme-0 .fc-french { color: #0369a1; }
+    .fc-theme-0 .fc-emoji-wrap { background: #bae6fd; border-color: #7dd3fc; }
+
+    .fc-theme-1 { background: linear-gradient(145deg, #ffffff 15%, #fef3c7 100%); border-color: #fbbf24; box-shadow: 0 8px 18px rgba(251,191,36,0.18); }
+    .fc-theme-1 .fc-french { color: #b45309; }
+    .fc-theme-1 .fc-emoji-wrap { background: #fde68a; border-color: #fcd34d; }
+
+    .fc-theme-2 { background: linear-gradient(145deg, #ffffff 15%, #f3e8ff 100%); border-color: #c084fc; box-shadow: 0 8px 18px rgba(192,132,252,0.18); }
+    .fc-theme-2 .fc-french { color: #6b21a8; }
+    .fc-theme-2 .fc-emoji-wrap { background: #e9d5ff; border-color: #d8b4fe; }
+
+    .fc-theme-3 { background: linear-gradient(145deg, #ffffff 15%, #fce7f3 100%); border-color: #f472b6; box-shadow: 0 8px 18px rgba(244,114,182,0.18); }
+    .fc-theme-3 .fc-french { color: #be185d; }
+    .fc-theme-3 .fc-emoji-wrap { background: #fbcfe8; border-color: #f9a8d4; }
+
+    .fc-theme-4 { background: linear-gradient(145deg, #ffffff 15%, #dcfce7 100%); border-color: #4ade80; box-shadow: 0 8px 18px rgba(74,222,128,0.18); }
+    .fc-theme-4 .fc-french { color: #15803d; }
+    .fc-theme-4 .fc-emoji-wrap { background: #bbf7d0; border-color: #86efac; }
+
+    .fc-theme-5 { background: linear-gradient(145deg, #ffffff 15%, #ffedd5 100%); border-color: #fb923c; box-shadow: 0 8px 18px rgba(251,146,60,0.18); }
+    .fc-theme-5 .fc-french { color: #c2410c; }
+    .fc-theme-5 .fc-emoji-wrap { background: #fed7aa; border-color: #fdba74; }
+
     .flashcard.mastered {
-      background: linear-gradient(145deg, #ffffff, #dcfce7);
-      border-color: #4ade80;
+      background: linear-gradient(145deg, #f0fdf4, #bbf7d0) !important;
+      border-color: #16a34a !important;
+    }
+
+    .fc-num-tag {
+      position: absolute; top: 10px; left: 12px; font-size: 0.78rem;
+      font-weight: 900; padding: 3px 9px; border-radius: 99px;
+      background: rgba(255,255,255,0.9); color: #475569; border: 1px solid #cbd5e1;
     }
     .fc-badge {
       position: absolute; top: 10px; right: 12px; font-size: 0.8rem;
-      font-weight: 900; padding: 3px 8px; border-radius: 99px;
-      background: white; border: 1px solid #cbd5e1;
+      font-weight: 900; padding: 3px 9px; border-radius: 99px;
+      background: white; border: 2px solid #cbd5e1;
     }
-    .fc-emoji { font-size: 3.4rem; margin: 6px 0; }
-    .fc-french { font-size: 1.3rem; font-weight: 900; color: var(--blue-text); }
-    .fc-meaning { font-size: 0.95rem; font-weight: 700; color: var(--text-muted); margin-bottom: 12px; }
+    .fc-emoji-wrap {
+      width: 78px; height: 78px; margin: 16px auto 10px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3.1rem; border: 3px solid white;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+    }
+    .fc-french { font-size: 1.45rem; font-weight: 900; margin-bottom: 2px; letter-spacing: 0.3px; }
+    .fc-meaning {
+      font-size: 0.95rem; font-weight: 800; color: #334155;
+      background: rgba(255,255,255,0.75); padding: 4px 12px; border-radius: 99px;
+      display: inline-block; margin-bottom: 14px;
+    }
     .fc-btns { display: flex; gap: 8px; }
     .fc-btn {
-      flex: 1; border: none; padding: 9px 10px; border-radius: 12px;
-      font-weight: 900; font-size: 0.85rem; cursor: pointer;
+      flex: 1; border: none; padding: 10px 10px; border-radius: 14px;
+      font-weight: 900; font-size: 0.88rem; cursor: pointer;
     }
-    .fc-btn-listen { background: var(--blue-bg); color: var(--blue-text); }
+    .fc-btn-listen { background: white; color: #0284c7; border: 2px solid #7dd3fc; box-shadow: 0 3px 0 #bae6fd; }
+    .fc-btn-listen:active { transform: translateY(2px); box-shadow: none; }
     .fc-btn-spell { background: #22c55e; color: white; box-shadow: 0 3px 0 #15803d; }
+    .fc-btn-spell:active { transform: translateY(2px); box-shadow: none; }
 
     /* Writing Quiz */
     .writing-board {
@@ -387,7 +449,6 @@
       margin-bottom: 14px; padding-bottom: 10px; border-bottom: 2px dashed #e2e8f0;
     }
 
-    /* 漂亮 PIN 碼小視窗與數字鍵盤 */
     .pin-dots {
       display: flex; justify-content: center; gap: 12px; margin: 14px 0 18px;
     }
@@ -487,45 +548,55 @@
     <button class="btn-exit-big" onclick="exitSpecialMode()">❌ Exit</button>
   </div>
 
-  <!-- ==================== VIEW 0: HOME PAGE ==================== -->
+  <!-- ==================== VIEW 0: HOME PAGE (清楚標示 1, 2, 3, 4 步驟) ==================== -->
   <div class="view-section active" id="viewHome">
     <div class="home-welcome-card">
-      <div style="font-size:3.5rem; margin-bottom:6px;">🌟🎒🚀</div>
-      <h2 style="margin:0 0 6px 0; font-size:1.8rem; color:var(--blue-text);">Let's start learning!</h2>
-      <p style="margin:0; font-weight:800; color:var(--text-muted); font-size:1.05rem;">
-        Choose an activity below to learn French words, play puzzles, and win stars!
+      <div style="font-size:3.2rem; margin-bottom:4px;">🌟🎒🚀</div>
+      <h2 style="margin:0 0 6px 0; font-size:1.75rem; color:var(--blue-text);">Let's learn this week's new words!</h2>
+      <p style="margin:0; font-weight:900; color:#475569; font-size:1.15rem;">
+        Follow Steps 1, 2, 3, 4 to master your words and win stars!
       </p>
+      <div class="home-step-pills">
+        <span class="home-step-pill">1️⃣ Study Cards</span>
+        <span class="home-step-pill">2️⃣ Writing Quiz</span>
+        <span class="home-step-pill">3️⃣ Word Puzzle</span>
+        <span class="home-step-pill">4️⃣ Speed Match</span>
+      </div>
     </div>
 
     <div class="home-grid">
       <div class="home-card-btn card-study" onclick="switchView('study')">
+        <div class="home-step-num">1</div>
         <div class="home-card-icon">📖</div>
-        <div class="home-card-title">This Week's New Words</div>
-        <div class="home-card-desc">Study flashcards & test word by word</div>
+        <div class="home-card-title">1. This Week's New Words</div>
+        <div class="home-card-desc">Study colorful flashcards & test word by word</div>
       </div>
 
       <div class="home-card-btn card-writing" onclick="switchView('writingQuiz')">
+        <div class="home-step-num">2</div>
         <div class="home-card-icon">📝</div>
-        <div class="home-card-title">This Week Writing Quiz</div>
+        <div class="home-card-title">2. This Week Writing Quiz</div>
         <div class="home-card-desc">Simulate school dictée exam & practice spelling</div>
       </div>
 
       <div class="home-card-btn card-puzzle" onclick="switchView('puzzle')">
+        <div class="home-step-num">3</div>
         <div class="home-card-icon">🧩</div>
-        <div class="home-card-title">Word Puzzle Game</div>
+        <div class="home-card-title">3. Word Puzzle Game</div>
         <div class="home-card-desc">Play letter grid matching & win stars</div>
       </div>
 
       <div class="home-card-btn card-speed" onclick="switchView('speed')">
+        <div class="home-step-num">4</div>
         <div class="home-card-icon">⚡</div>
-        <div class="home-card-title">Speed Listening Match</div>
+        <div class="home-card-title">4. Speed Listening Match</div>
         <div class="home-card-desc">Listen to audio & pick the correct image fast</div>
       </div>
 
       <div class="home-card-btn card-practice" onclick="startReviewMode()">
         <div class="home-card-icon">🍀</div>
         <div class="home-card-title">Practice all for extra stars!</div>
-        <div class="home-card-desc">Review pass weeks' words for 2x stars</div>
+        <div class="home-card-desc">Review past weeks' words for 2x stars</div>
       </div>
 
       <div class="home-card-btn card-all" onclick="switchView('viewAll')">
@@ -552,7 +623,7 @@
     <div class="nav-back-row">
       <button class="btn-back" onclick="switchView('home')">⬅️ Back to Home</button>
       <h2 style="margin:0; font-size:1.25rem; color:#15803d;">
-        📝 This Week Writing Quiz (Listen & Type Dictée)
+        📝 2. This Week Writing Quiz (Listen & Type Dictée)
       </h2>
     </div>
     <div class="writing-board">
@@ -571,7 +642,7 @@
     <div class="nav-back-row">
       <button class="btn-back" onclick="switchView('home')">⬅️ Back to Home</button>
       <h2 style="margin:0; font-size:1.25rem; color:#e11d48;">
-        ⚡ Speed Listening Match (Listen & tap the correct picture!)
+        ⚡ 4. Speed Listening Match (Listen & tap the correct picture!)
       </h2>
     </div>
     <div class="speed-board">
@@ -599,7 +670,7 @@
     <div class="nav-back-row">
       <button class="btn-back" onclick="switchView('home')">⬅️ Back to Home</button>
       <h2 style="margin:0; font-size:1.25rem; color:var(--purple-text);">
-        🧩 French Word Puzzle (Match letters & win +2⭐!)
+        🧩 3. Word Puzzle Game (Match letters & win +2⭐!)
       </h2>
     </div>
     <div class="puzzle-board">
@@ -614,7 +685,7 @@
   <!-- ==================== VIEW 2: SPELLING QUIZ ==================== -->
   <div class="view-section" id="viewQuiz">
     <div class="nav-back-row">
-      <button class="btn-back" onclick="switchView('home')">⬅️ Back to Home</button>
+      <button class="btn-back" onclick="switchView('study')">⬅️ Back to Word Cards</button>
       <div style="font-weight:900; color:var(--purple-text); font-size:1rem;" id="quizMasteryBadge">
         Word Mastery: ⚪⚪
       </div>
@@ -701,7 +772,7 @@
   </div>
 </div>
 
-<!-- ==================== MODAL 2: PRETTY PIN LOCK MODAL (輸入 4 碼自動秒開！) ==================== -->
+<!-- ==================== MODAL 2: PRETTY PIN LOCK MODAL ==================== -->
 <div class="modal" id="pinModal">
   <div class="modal-box" style="max-width:360px; text-align:center;">
     <div class="modal-top">
@@ -710,7 +781,6 @@
     </div>
     <p style="font-weight:800; color:var(--text-muted); font-size:0.92rem; margin:6px 0;">Enter 4-digit Parent PIN:</p>
     
-    <!-- 4 個密碼圓點顯示 -->
     <div class="pin-dots">
       <div class="pin-dot" id="pinDot0"></div>
       <div class="pin-dot" id="pinDot1"></div>
@@ -718,7 +788,6 @@
       <div class="pin-dot" id="pinDot3"></div>
     </div>
 
-    <!-- 隱藏實體輸入框供電腦鍵盤直接敲擊，同時下方提供超好按的觸控數字鍵盤 -->
     <input type="password" id="pinInput" style="position:absolute; opacity:0; pointer-events:none;" maxlength="4" oninput="onPinTyping(this.value)">
 
     <div class="pin-pad">
@@ -747,7 +816,7 @@
       <button class="btn-back" style="padding:6px 14px;" onclick="closeModal('parentModal')">⬅️ Back</button>
     </div>
 
-    <!-- 1. Reward Management (放在最上面，方便媽媽隨時調整星星、貼紙與獎盃) -->
+    <!-- 1. Reward Management -->
     <div style="background:var(--yellow-bg); border:2px solid var(--yellow-border); border-radius:18px; padding:14px; margin-bottom:16px;">
       <div style="font-weight:900; color:var(--yellow-text); margin-bottom:6px; font-size:1rem;">
         ⭐ Reward Management (Current Player: <span id="rewardPlayerLabel">Jamie</span>)
@@ -858,6 +927,7 @@
 </div>
 
 <script>
+  // 超級擴充版雙向圖庫（包含第二張圖的 tortue, luge, sur, dessus, tulipe, mur, rue, plume 以及常見小學單字）
   const AUTO_DICT = {
     "pomme": { emoji: "🍎", en: "an apple" }, "orange": { emoji: "🍊", en: "an orange" },
     "rose": { emoji: "🌹", en: "the rose" }, "chocolat": { emoji: "🍫", en: "chocolate" },
@@ -878,7 +948,7 @@
     "voiture": { emoji: "🚗", en: "a car" }, "livre": { emoji: "📖", en: "a book" },
     "banane": { emoji: "🍌", en: "a banana" }, "gâteau": { emoji: "🎂", en: "a cake" },
     "château": { emoji: "🏰", en: "a castle" }, "eau": { emoji: "💧", en: "water" },
-    "feu": { emoji: "🔥", en: "fire" }, "lune": { emoji: "🌙", en: "the moon" },
+    "feu": { emoji: "🔥", en: "fire" }, "lune": { emoji: "🌙", en: "a moon" },
     "étoile": { emoji: "⭐", en: "a star" }, "fleur": { emoji: "🌸", en: "a flower" },
     "arbre": { emoji: "🌳", en: "a tree" }, "poisson": { emoji: "🐟", en: "a fish" },
     "lapin": { emoji: "🐰", en: "a rabbit" }, "souris": { emoji: "🐭", en: "a mouse" },
@@ -887,8 +957,52 @@
     "train": { emoji: "🚆", en: "a train" }, "vélo": { emoji: "🚲", en: "a bicycle" },
     "ballon": { emoji: "🎈", en: "a ball / balloon" }, "cadeau": { emoji: "🎁", en: "a gift" },
     "chapeau": { emoji: "🎩", en: "a hat" }, "manteau": { emoji: "🧥", en: "a coat" },
-    "bateau": { emoji: "⛵", en: "a boat" }, "table": { emoji: "🪑", en: "a table" }
+    "bateau": { emoji: "⛵", en: "a boat" }, "table": { emoji: "🪑", en: "a table" },
+    "tortue": { emoji: "🐢", en: "a turtle" }, "luge": { emoji: "🛷", en: "a sled" },
+    "sur": { emoji: "⬆️", en: "on" }, "dessus": { emoji: "🔼", en: "above" },
+    "sous": { emoji: "⬇️", en: "under" }, "tulipe": { emoji: "🌷", en: "a tulip" },
+    "mur": { emoji: "🧱", en: "a wall" }, "rue": { emoji: "🛣️", en: "a street" },
+    "plume": { emoji: "🪶", en: "a feather" }, "nuage": { emoji: "☁️", en: "a cloud" },
+    "jupe": { emoji: "👗", en: "a skirt" }, "tapis": { emoji: "🧶", en: "a rug / carpet" },
+    "moto": { emoji: "🏍️", en: "a motorcycle" }, "امي": { emoji: "🧒", en: "a friend" },
+    "ami": { emoji: "🧒", en: "a friend" }, "amie": { emoji: "👧", en: "a friend" },
+    "lit": { emoji: "🛏️", en: "a bed" }, "nid": { emoji: "🪺", en: "a nest" },
+    "riz": { emoji: "🍚", en: "rice" }, "souris": { emoji: "🐭", en: "a mouse" },
+    "livre": { emoji: "📕", en: "a book" }, "tigre": { emoji: "🐯", en: "a tiger" },
+    "lion": { emoji: "🦁", en: "a lion" }, "ours": { emoji: "🐻", en: "a bear" },
+    "canard": { emoji: "🦆", en: "a duck" }, "vache": { emoji: "🐮", en: "a cow" },
+    "cochon": { emoji: "🐷", en: "a pig" }, "mouton": { emoji: "🐑", en: "a sheep" },
+    "poule": { emoji: "🐔", en: "a hen" }, "forêt": { emoji: "🌲", en: "a forest" },
+    "neige": { emoji: "❄️", en: "snow" }, "pluie": { emoji: "🌧️", en: "rain" },
+    "vent": { emoji: "💨", en: "wind" }, "porte": { emoji: "🚪", en: "a door" },
+    "clé": { emoji: "🔑", en: "a key" }, "crayon": { emoji: "✏️", en: "a pencil" },
+    "stylo": { emoji: "🖊️", en: "a pen" }, "sac": { emoji: "🎒", en: "a bag" }
   };
+
+  // 英文關鍵字反查圖庫（只要媽媽打英文意思，也能自動抓出對應 Emoji！）
+  const EN_EMOJI_MAP = {
+    "turtle": "🐢", "sled": "🛷", "tulip": "🌷", "wall": "🧱", "street": "🛣️",
+    "road": "🛣️", "feather": "🪶", "moon": "🌙", "on": "⬆️", "above": "🔼",
+    "under": "⬇️", "apple": "🍎", "orange": "🍊", "rose": "🌹", "chocolate": "🍫",
+    "sun": "☀️", "storm": "⛈️", "dress": "👗", "skirt": "👗", "school": "🏫",
+    "tomato": "🍅", "ice cream": "🍦", "cheese": "🧀", "olive": "🫒", "pocket": "👕",
+    "ocean": "🌊", "sea": "🌊", "fox": "🦊", "meal": "🍽️", "shark": "🦈",
+    "menu": "📋", "path": "🛤️", "horse": "🐴", "shirt": "👔", "caterpillar": "🐛",
+    "cherry": "🍒", "window": "🪟", "melon": "🍈", "knee": "🦵", "small": "🐣",
+    "week": "📅", "house": "🏠", "cat": "🐱", "dog": "🐶", "bird": "🐦",
+    "car": "🚗", "book": "📖", "banana": "🍌", "cake": "🎂", "castle": "🏰",
+    "water": "💧", "fire": "🔥", "star": "⭐", "flower": "🌸", "tree": "🌳",
+    "fish": "🐟", "rabbit": "🐰", "bunny": "🐰", "mouse": "🐭", "bread": "🥖",
+    "milk": "🥛", "egg": "🥚", "plane": "✈️", "train": "🚆", "bike": "🚲",
+    "bicycle": "🚲", "ball": "🎈", "balloon": "🎈", "gift": "🎁", "hat": "🎩",
+    "coat": "🧥", "boat": "⛵", "table": "🪑", "cloud": "☁️", "bed": "🛏️",
+    "nest": "🪺", "rice": "🍚", "tiger": "🐯", "lion": "🦁", "bear": "🐻",
+    "duck": "🦆", "cow": "🐮", "pig": "🐷", "sheep": "🐑", "snow": "❄️",
+    "rain": "🌧️", "door": "🚪", "key": "🔑", "pencil": "✏️", "bag": "🎒"
+  };
+
+  // 當生字真的沒有具體圖案時，自動分配繽紛可愛圖騰，絕不讓整排都長一樣的 ✨
+  const FUN_FALLBACK_ICONS = ["🎨", "🎈", "🎪", "🌈", "🦄", "🚀", "🪐", "🦖", "🐳", "🍀", "🎯", "🎸", "🧸", "🎡"];
 
   const GEM_RANKS = [
     { min: 0,    name: "🥉 Bronze",      full: "🥉 Bronze Sprout" },
@@ -972,9 +1086,45 @@
   let speedOptions = [];
 
   let currentPinBuffer = "";
-  window._activeUtterance = null; // 防止語音物件被瀏覽器垃圾回收導致沒聲音
+  window._activeUtterance = null;
 
-  // 自動跨版本資料救援：尋找舊版資料並合併，絕不丟失單字與星星
+  function autoLookupMeta(fullFr, customEn = "") {
+    const { noun } = splitFrenchArticle(fullFr);
+    const key = noun.toLowerCase().trim();
+    if (AUTO_DICT[key]) return AUTO_DICT[key];
+    for (const k in AUTO_DICT) {
+      if (key === k || (k.length > 3 && key.includes(k))) return AUTO_DICT[k];
+    }
+    if (customEn) {
+      const enLower = customEn.toLowerCase();
+      for (const ek in EN_EMOJI_MAP) {
+        if (enLower.includes(ek)) return { emoji: EN_EMOJI_MAP[ek], en: customEn };
+      }
+    }
+    return { emoji: "✨", en: customEn || "" };
+  }
+
+  // 自動為已經儲存在 iPad 裡的單字補上漂亮圖案（把 ✨ 換成 🐢、🛷、🌷 等）
+  function upgradeExistingWordEmojis() {
+    if (!appData.profiles) return;
+    Object.values(appData.profiles).forEach(prof => {
+      if (!prof.weeks) return;
+      prof.weeks.forEach(w => {
+        w.words.forEach((wd, idx) => {
+          if (!wd.emoji || wd.emoji === '✨') {
+            const matched = autoLookupMeta(wd.full, wd.meaning);
+            if (matched.emoji !== '✨') {
+              wd.emoji = matched.emoji;
+              if (!wd.meaning && matched.en) wd.meaning = matched.en;
+            } else {
+              wd.emoji = FUN_FALLBACK_ICONS[idx % FUN_FALLBACK_ICONS.length];
+            }
+          }
+        });
+      });
+    });
+  }
+
   function loadAndMigrateData() {
     const masterSaved = localStorage.getItem(STORAGE_KEY);
     if (masterSaved) {
@@ -982,6 +1132,7 @@
         const parsed = JSON.parse(masterSaved);
         if (parsed && parsed.profiles) {
           appData = { ...appData, ...parsed };
+          upgradeExistingWordEmojis();
           return;
         }
       } catch (e) {}
@@ -1016,6 +1167,7 @@
         } catch (e) {}
       }
     }
+    upgradeExistingWordEmojis();
     localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
   }
 
@@ -1071,16 +1223,6 @@
     return { article: '', noun: clean };
   }
 
-  function autoLookupMeta(fullFr) {
-    const { noun } = splitFrenchArticle(fullFr);
-    const key = noun.toLowerCase();
-    if (AUTO_DICT[key]) return AUTO_DICT[key];
-    for (const k in AUTO_DICT) {
-      if (key.includes(k)) return AUTO_DICT[k];
-    }
-    return { emoji: "✨", en: "" };
-  }
-
   function encodeCompactWeek(week) {
     const lines = [week.title];
     week.words.forEach(w => {
@@ -1101,13 +1243,13 @@
     const raw = new TextDecoder().decode(bytes);
     const parts = raw.split('|');
     const title = (parts[0] || 'New Week').trim();
-    const words = parts.slice(1).filter(Boolean).map(item => {
+    const words = parts.slice(1).filter(Boolean).map((item, idx) => {
       const [fr, en] = item.split('~');
-      const meta = autoLookupMeta(fr);
+      const meta = autoLookupMeta(fr, en);
       return {
         full: fr.trim(),
         meaning: (en ? en.trim() : meta.en),
-        emoji: meta.emoji,
+        emoji: meta.emoji !== '✨' ? meta.emoji : FUN_FALLBACK_ICONS[idx % FUN_FALLBACK_ICONS.length],
         streak: 0,
         mastered: false
       };
@@ -1125,6 +1267,7 @@
       pData.weeks.unshift(incomingWeek);
       appData.currentWeekId = incomingWeek.id;
     }
+    upgradeExistingWordEmojis();
     saveAppData();
   }
 
@@ -1301,19 +1444,23 @@
     }
   }
 
+  // 渲染 6 色繽紛彩虹糖果單字卡
   function renderStudyGrid() {
     const week = getActiveWeek();
     const grid = document.getElementById('studyGrid');
     grid.innerHTML = '';
-    week.words.forEach(w => {
+    week.words.forEach((w, idx) => {
+      const themeClass = `fc-theme-${idx % 6}`;
+      const displayIcon = (w.emoji && w.emoji !== '✨') ? w.emoji : FUN_FALLBACK_ICONS[idx % FUN_FALLBACK_ICONS.length];
       const card = document.createElement('div');
-      card.className = 'flashcard' + (w.mastered ? ' mastered' : '');
+      card.className = `flashcard ${themeClass}` + (w.mastered ? ' mastered' : '');
       card.innerHTML = `
+        <div class="fc-num-tag">#${idx + 1}</div>
         <div class="fc-badge">${w.mastered ? '✅ Mastered' : `🟢 ${w.streak}/2`}</div>
         <div>
-          <div class="fc-emoji">${w.emoji || '✨'}</div>
+          <div class="fc-emoji-wrap">${displayIcon}</div>
           <div class="fc-french">${w.full}</div>
-          <div class="fc-meaning">${w.meaning || ''}</div>
+          <div class="fc-meaning">${w.meaning || 'Tap Listen 🔊'}</div>
         </div>
         <div class="fc-btns">
           <button class="fc-btn fc-btn-listen" onclick="speakWordText('${w.full.replace(/'/g, "\\'")}')">🔊 Listen</button>
@@ -1329,14 +1476,15 @@
     const container = document.getElementById('writingQuizRows');
     container.innerHTML = '';
     week.words.forEach((w, idx) => {
+      const displayIcon = (w.emoji && w.emoji !== '✨') ? w.emoji : FUN_FALLBACK_ICONS[idx % FUN_FALLBACK_ICONS.length];
       const row = document.createElement('div');
       row.className = 'writing-row';
       row.innerHTML = `
         <div class="writing-row-left">
-          <div class="writing-row-emoji">${w.emoji || '✨'}</div>
+          <div class="writing-row-emoji">${displayIcon}</div>
           <div>
             <div class="writing-row-title">Word ${idx + 1} (${w.meaning || 'Listen'})</div>
-            <button class="fc-btn fc-btn-listen" style="margin-top:4px;" onclick="speakWordText('${w.full.replace(/'/g, "\\'")}')">🔊 Listen</button>
+            <button class="fc-btn fc-btn-listen" style="margin-top:4px; padding:6px 12px;" onclick="speakWordText('${w.full.replace(/'/g, "\\'")}')">🔊 Listen</button>
           </div>
         </div>
         <div class="writing-row-right">
@@ -1391,7 +1539,7 @@
     speedTargetWord = pool[Math.floor(Math.random() * pool.length)];
     speakWordText(speedTargetWord.full);
 
-    document.getElementById('speedPromptText').textContent = `Listen carefully & tap the matching picture!`;
+    document.getElementById('speedPromptText').textContent = `Listen carefully & tap the matching card!`;
 
     let options = [speedTargetWord];
     let guard = 0;
@@ -1408,11 +1556,12 @@
 
     const grid = document.getElementById('speedOptionsGrid');
     grid.innerHTML = '';
-    speedOptions.forEach(opt => {
+    speedOptions.forEach((opt, idx) => {
+      const displayIcon = (opt.emoji && opt.emoji !== '✨') ? opt.emoji : FUN_FALLBACK_ICONS[idx % FUN_FALLBACK_ICONS.length];
       const card = document.createElement('div');
       card.className = 'speed-card';
       card.innerHTML = `
-        <div class="speed-card-emoji">${opt.emoji || '✨'}</div>
+        <div class="speed-card-emoji">${displayIcon}</div>
         <div class="speed-card-text">${opt.meaning || opt.full}</div>
       `;
       card.onclick = () => checkSpeedAnswer(opt);
@@ -1444,15 +1593,18 @@
 
     const grid = document.getElementById('allWordsGrid');
     grid.innerHTML = '';
-    allPool.forEach(w => {
+    allPool.forEach((w, idx) => {
+      const themeClass = `fc-theme-${idx % 6}`;
+      const displayIcon = (w.emoji && w.emoji !== '✨') ? w.emoji : FUN_FALLBACK_ICONS[idx % FUN_FALLBACK_ICONS.length];
       const card = document.createElement('div');
-      card.className = 'flashcard' + (w.mastered ? ' mastered' : '');
+      card.className = `flashcard ${themeClass}` + (w.mastered ? ' mastered' : '');
       card.innerHTML = `
+        <div class="fc-num-tag">#${idx + 1}</div>
         <div class="fc-badge">${w.mastered ? '✅ Mastered' : '⭐'}</div>
         <div>
-          <div class="fc-emoji">${w.emoji || '✨'}</div>
+          <div class="fc-emoji-wrap">${displayIcon}</div>
           <div class="fc-french">${w.full}</div>
-          <div class="fc-meaning">${w.meaning || ''}</div>
+          <div class="fc-meaning">${w.meaning || 'Tap Listen 🔊'}</div>
         </div>
         <div class="fc-btns">
           <button class="fc-btn fc-btn-listen" onclick="speakWordText('${w.full.replace(/'/g, "\\'")}')">🔊 Listen</button>
@@ -1474,7 +1626,7 @@
     const targetObj = allPool[Math.floor(Math.random() * allPool.length)];
     puzzleTargetWord = targetObj.full.toLowerCase();
 
-    document.getElementById('puzzlePrompt').textContent = `Find & spell: ${targetObj.emoji} ${targetObj.full} (${targetObj.meaning})`;
+    document.getElementById('puzzlePrompt').textContent = `Find & spell: ${targetObj.emoji || '🎯'} ${targetObj.full} (${targetObj.meaning})`;
 
     let letters = puzzleTargetWord.replace(/[^a-zàâéèêëîïôùûçœ]/g, '').split('');
     const alphabet = 'abcdefghijklmnopqrstuvwxyz';
@@ -1572,7 +1724,6 @@
     switchView('home');
   }
 
-  // 強效防卡死法文發音引擎
   function speakWordText(text, rate = 0.9) {
     if (!('speechSynthesis' in window) || !text) return;
     try {
@@ -1648,7 +1799,7 @@
       isFarmQuest ? '🌾 Farm Harvest Challenge (+2⭐)' :
       (isReviewMode ? '🍀 Practice All Mode (+2⭐)' : `Word Mastery: ${'🟢'.repeat(currentWord.streak)}${'⚪'.repeat(Math.max(0, 2 - currentWord.streak))}`);
 
-    document.getElementById('wordEmoji').textContent = currentWord.emoji || '✨';
+    document.getElementById('wordEmoji').textContent = (currentWord.emoji && currentWord.emoji !== '✨') ? currentWord.emoji : '🎯';
     document.getElementById('wordMeaning').textContent = currentWord.meaning || 'Listen & spell in French';
 
     const chunks = splitIntoPhonics(noun);
@@ -1757,7 +1908,7 @@
   function checkUserAnswer() {
     if (awaitingNext) {
       if (specificTestWord || isFarmQuest) {
-        switchView('home');
+        switchView('study');
         return;
       }
       pickNextQuestion();
@@ -1837,7 +1988,7 @@
     }
 
     awaitingNext = true;
-    document.getElementById('checkBtn').textContent = (specificTestWord || isFarmQuest) ? '⬅️ Back to Home' : 'Next Word ➡️';
+    document.getElementById('checkBtn').textContent = (specificTestWord || isFarmQuest) ? '⬅️ Back to Word Cards' : 'Next Word ➡️';
   }
 
   function checkRewardMilestones(week) {
@@ -1908,7 +2059,7 @@
     document.getElementById('heroModal').classList.add('open');
   }
 
-  // ==================== 漂亮 PIN 碼小視窗控制邏輯 (輸入滿 4 碼自動秒開！) ====================
+  // PIN Lock Modal
   function openPinModal() {
     currentPinBuffer = "";
     document.getElementById('pinErrorMsg').textContent = "";
@@ -1973,7 +2124,7 @@
     }
   }
 
-  // ==================== 媽媽後台管理邏輯 (已徹底清除幽靈 ID 錯誤) ====================
+  // Parent Admin
   function openParentModal() {
     const pData = getActiveProfileData();
     document.getElementById('rewardPlayerLabel').textContent = appData.currentProfile || "Jamie";
@@ -2050,7 +2201,6 @@
     }
   }
 
-  // 獎勵控制台：設定確切星星總數、加星、加獎盃、加貼紙、退回貼紙
   function setExactStars() {
     const pData = getActiveProfileData();
     const targetVal = Math.max(0, parseInt(document.getElementById('setExactStarInput').value) || 0);
@@ -2111,7 +2261,6 @@
     }
   }
 
-  // 一鍵產生並複製完整備份碼
   function generateAndCopyBackup() {
     const raw = JSON.stringify(appData);
     const b64 = btoa(unescape(encodeURIComponent(raw)));
@@ -2150,6 +2299,7 @@
             weeks: parsed.weeks
           };
         }
+        upgradeExistingWordEmojis();
         saveAppData();
         openParentModal();
         alert('🎉 Successfully restored all player data, words, and stars!');
@@ -2224,12 +2374,13 @@
     if (raw.length === 0) return;
     const container = document.getElementById('wordRowsContainer');
     container.innerHTML = '';
-    raw.forEach(line => {
+    raw.forEach((line, idx) => {
       const parts = line.split(/[,|]/);
       const fr = parts[0].trim();
       const customEn = parts[1] ? parts[1].trim() : '';
-      const meta = autoLookupMeta(fr);
-      addWordRowUI(fr, customEn || meta.en, meta.emoji);
+      const meta = autoLookupMeta(fr, customEn);
+      const icon = meta.emoji !== '✨' ? meta.emoji : FUN_FALLBACK_ICONS[idx % FUN_FALLBACK_ICONS.length];
+      addWordRowUI(fr, customEn || meta.en, icon);
     });
     document.getElementById('bulkPasteArea').style.display = 'none';
   }
@@ -2285,8 +2436,8 @@
     row.className = 'word-row';
     row.innerHTML = `
       <input type="text" class="input-emoji" value="${emoji}" title="Emoji">
-      <input type="text" class="input-fr" value="${fr}" placeholder="French (e.g. un renard)" oninput="onFrInputChange(this)">
-      <input type="text" class="input-en" value="${en}" placeholder="English meaning">
+      <input type="text" class="input-fr" value="${fr}" placeholder="French (e.g. une tortue)" oninput="onFrInputChange(this)">
+      <input type="text" class="input-en" value="${en}" placeholder="English meaning" oninput="onEnInputChange(this)">
       <button class="btn-del" onclick="this.parentElement.remove()">✕</button>
     `;
     container.appendChild(row);
@@ -2298,10 +2449,20 @@
     const row = inputEl.parentElement;
     const emojiInput = row.querySelector('.input-emoji');
     const enInput = row.querySelector('.input-en');
-    const meta = autoLookupMeta(inputEl.value);
+    const meta = autoLookupMeta(inputEl.value, enInput.value);
     if (meta.emoji !== '✨') {
       emojiInput.value = meta.emoji;
-      if (!enInput.value) enInput.value = meta.en;
+      if (!enInput.value && meta.en) enInput.value = meta.en;
+    }
+  }
+
+  function onEnInputChange(inputEl) {
+    const row = inputEl.parentElement;
+    const emojiInput = row.querySelector('.input-emoji');
+    const frInput = row.querySelector('.input-fr');
+    if (emojiInput.value === '✨' || !emojiInput.value) {
+      const meta = autoLookupMeta(frInput.value, inputEl.value);
+      if (meta.emoji !== '✨') emojiInput.value = meta.emoji;
     }
   }
 
@@ -2317,11 +2478,17 @@
     const title = document.getElementById('editWeekTitle').value.trim() || 'French Dictée';
     const rows = document.querySelectorAll('#wordRowsContainer .word-row');
     const newWords = [];
-    rows.forEach(r => {
+    rows.forEach((r, idx) => {
       const fr = r.querySelector('.input-fr').value.trim();
       const en = r.querySelector('.input-en').value.trim();
-      const em = r.querySelector('.input-emoji').value.trim() || '✨';
-      if (fr) newWords.push({ full: fr, meaning: en, emoji: em, streak: 0, mastered: false });
+      let em = r.querySelector('.input-emoji').value.trim() || '✨';
+      if (fr) {
+        if (em === '✨') {
+          const meta = autoLookupMeta(fr, en);
+          em = meta.emoji !== '✨' ? meta.emoji : FUN_FALLBACK_ICONS[idx % FUN_FALLBACK_ICONS.length];
+        }
+        newWords.push({ full: fr, meaning: en, emoji: em, streak: 0, mastered: false });
+      }
     });
 
     if (newWords.length === 0) {
@@ -2341,7 +2508,7 @@
     }
 
     closeModal('parentModal');
-    switchView('home');
+    switchView('study');
   }
 
   function resetCurrentWeek() {
@@ -2360,7 +2527,6 @@
     if (e.key === 'Enter') checkUserAnswer();
   });
 
-  // 支援在 PIN 視窗直接用電腦鍵盤打 1234
   document.addEventListener('keydown', e => {
     const pinModalOpen = document.getElementById('pinModal').classList.contains('open');
     if (!pinModalOpen) return;
