@@ -212,7 +212,7 @@
     .fc-btn-listen { background: var(--blue-bg); color: var(--blue-text); }
     .fc-btn-spell { background: #22c55e; color: white; box-shadow: 0 3px 0 #15803d; }
 
-    /* Writing Quiz (模擬學校聽寫考卷頁面) */
+    /* Writing Quiz */
     .writing-board {
       background: linear-gradient(135deg, #f0fdf4, #e6fffa);
       border: 3px solid #86efac; border-radius: 26px; padding: 22px;
@@ -464,7 +464,7 @@
     <button class="btn-exit-big" onclick="exitSpecialMode()">❌ Exit</button>
   </div>
 
-  <!-- ==================== VIEW 0: HOME PAGE (5 大色彩方格) ==================== -->
+  <!-- ==================== VIEW 0: HOME PAGE (6 大色彩方格，包含 This Week Writing Quiz) ==================== -->
   <div class="view-section active" id="viewHome">
     <div class="home-welcome-card">
       <div style="font-size:3.5rem; margin-bottom:6px;">🌟🎒🚀</div>
@@ -482,7 +482,7 @@
         <div class="home-card-desc">Study flashcards & test word by word</div>
       </div>
 
-      <!-- 2: This Week Writing Quiz (全新模擬學校聽寫考卷頁面) -->
+      <!-- 2: This Week Writing Quiz (模擬學校聽寫考卷) -->
       <div class="home-card-btn card-writing" onclick="switchView('writingQuiz')">
         <div class="home-card-icon">📝</div>
         <div class="home-card-title">This Week Writing Quiz</div>
@@ -594,7 +594,7 @@
     </div>
   </div>
 
-  <!-- ==================== VIEW 2: Spelling Quiz (強制盲打) ==================== -->
+  <!-- ==================== VIEW 2: Spelling Quiz ==================== -->
   <div class="view-section" id="viewQuiz">
     <div class="nav-back-row">
       <button class="btn-back" onclick="switchView('home')">⬅️ Back to Home</button>
@@ -641,7 +641,7 @@
       <div class="tile-pool" id="poolTiles"></div>
     </div>
 
-    <!-- STEP 3: 紫色 (Type the full word) -->
+    <!-- STEP 3: 紫色 (Type the full word - 強制盲打) -->
     <div class="step-section step-3-box locked" id="step3Box">
       <div class="step-header">
         <div><span class="step-badge">STEP 3</span> Type the full word</div>
@@ -684,7 +684,7 @@
   </div>
 </div>
 
-<!-- MODAL 2: 媽媽專屬後台 -->
+<!-- MODAL 2: 媽媽專屬後台 (支援文字方塊備份 ＆ 獎勵手動管理) -->
 <div class="modal" id="parentModal">
   <div class="modal-box">
     <div class="modal-top">
@@ -692,6 +692,7 @@
       <button class="btn-back" style="padding:6px 14px;" onclick="closeModal('parentModal')">⬅️ Back</button>
     </div>
 
+    <!-- 玩家管理區 -->
     <div style="background:var(--purple-bg); border:2px solid var(--purple-border); border-radius:18px; padding:14px; margin-bottom:16px;">
       <div style="font-weight:900; color:var(--purple-text); margin-bottom:6px;">👤 Player Profiles Management:</div>
       <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:8px;">
@@ -702,18 +703,19 @@
       </div>
     </div>
 
+    <!-- 備份與還原 (改用大文字方塊，不再用 prompt 跳窗) -->
     <div style="background:var(--green-bg); border:2px solid var(--green-border); border-radius:18px; padding:14px; margin-bottom:16px;">
       <div style="font-weight:900; color:var(--green-text); margin-bottom:6px;">💾 Data Backup & Restore (防止資料歸零):</div>
       <div style="font-size:0.82rem; color:#166534; font-weight:700; margin-bottom:8px;">
-        Export your data code to backup all words and stars. Import it anytime to restore!
+        Click "Generate Backup Code" to view code below. Copy it to notes or paste backup code to restore!
       </div>
-      <div style="display:flex; gap:8px; flex-wrap:wrap;">
-        <button class="btn-submit-quiz" style="padding:8px 14px; font-size:0.85rem; background:#16a34a;" onclick="exportFullAppData()">📤 Export Backup Code</button>
-        <button class="btn-submit-quiz" style="padding:8px 14px; font-size:0.85rem; background:#0284c7;" onclick="toggleImportBackupBox()">📥 Import Backup Code</button>
+      <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
+        <button class="btn-submit-quiz" style="padding:8px 14px; font-size:0.85rem; background:#16a34a;" onclick="generateBackupCodeText()">📤 Generate Backup Code</button>
       </div>
-      <div id="importBackupArea" style="display:none; margin-top:10px; padding-top:10px; border-top:1px dashed #86efac;">
-        <textarea id="importBackupText" style="width:100%; height:90px; border-radius:8px; padding:8px; border:2px solid #86efac; font-size:0.75rem;" placeholder="Paste backup code here..."></textarea>
-        <button class="btn-parent" style="margin-top:4px; background:#16a34a; color:white; border:none;" onclick="importFullAppData()">💾 Restore Data Now</button>
+      <textarea id="backupCodeTextarea" style="width:100%; height:90px; border-radius:8px; padding:8px; border:2px solid #86efac; font-size:0.75rem; margin-bottom:6px;" placeholder="Click 'Generate Backup Code' or paste backup code here..."></textarea>
+      <div style="display:flex; gap:8px;">
+        <button class="btn-parent" style="background:#0284c7; color:white; border:none;" onclick="copyBackupTextarea()">📋 Copy Code</button>
+        <button class="btn-parent" style="background:#16a34a; color:white; border:none;" onclick="importBackupFromTextarea()">💾 Restore Data Now</button>
       </div>
     </div>
 
@@ -741,6 +743,18 @@
           <input type="text" id="importCodeBox" style="flex:1; padding:8px; border-radius:8px; border:2px solid #7e22ce; font-size:0.85rem;" placeholder="Paste Sync Code here...">
           <button class="btn-parent" style="background:#16a34a; color:white; border:none;" onclick="importFromSyncCode()">📥 Import Now</button>
         </div>
+      </div>
+    </div>
+
+    <!-- 獎勵權限管理 (Reward Management: 媽媽可手動調整星星、獎盃、貼紙) -->
+    <div style="background:var(--yellow-bg); border:2px solid var(--yellow-border); border-radius:18px; padding:14px; margin-bottom:16px;">
+      <div style="font-weight:900; color:var(--yellow-text); margin-bottom:6px;">⭐ Reward Management (Bonus Stars & Trophies):</div>
+      <div style="font-size:0.82rem; color:#854d0e; font-weight:700; margin-bottom:6px;">Manually add stars or reward a gold trophy/sticker:</div>
+      <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:8px;">
+        <input type="number" id="manualStarInput" style="width:90px; padding:8px; border-radius:8px; border:1px solid #eab308; font-weight:900;" value="5">
+        <button class="btn-parent" style="background:#ca8a04; color:white; border:none;" onclick="addManualStars()">⭐ Add Stars</button>
+        <button class="btn-parent" style="background:#16a34a; color:white; border:none;" onclick="addManualTrophy()">🏆 Reward Trophy</button>
+        <button class="btn-parent" style="background:#7e22ce; color:white; border:none;" onclick="addManualSticker()">🎁 Reward Sticker</button>
       </div>
     </div>
 
@@ -1027,7 +1041,12 @@
 
     const saved = localStorage.getItem('jamie_french_app_v19');
     if (saved) {
-      try { appData = { ...appData, ...JSON.parse(saved) }; } catch (e) {}
+      try {
+        const parsed = JSON.parse(saved);
+        if (parsed && parsed.profiles) {
+          appData = { ...appData, ...parsed };
+        }
+      } catch (e) {}
     }
 
     const pNames = Object.keys(appData.profiles || {});
@@ -1036,7 +1055,7 @@
         "Jamie": { totalStars: 0, allStickers: [], starHistory: [], weeks: JSON.parse(JSON.stringify(DEFAULT_WEEKS)) }
       };
       appData.currentProfile = "Jamie";
-    } else if (!appData.currentProfile) {
+    } else if (!appData.currentProfile || !appData.profiles[appData.currentProfile]) {
       appData.currentProfile = pNames[0];
     }
 
@@ -1195,7 +1214,6 @@
     });
   }
 
-  // 渲染模擬學校寫字考卷頁面 (This Week Writing Quiz)
   function initWritingQuiz() {
     const week = getActiveWeek();
     const container = document.getElementById('writingQuizRows');
@@ -1845,10 +1863,24 @@
     }
   }
 
-  function exportFullAppData() {
+  // 匯出備份 (改用大型文字方塊，完美解決手機無法全選複製的問題！)
+  function generateBackupCodeText() {
     const raw = JSON.stringify(appData);
     const b64 = btoa(unescape(encodeURIComponent(raw)));
-    prompt('📋 Copy this full backup code and save it in your notes. You can restore everything anytime!', b64);
+    const ta = document.getElementById('backupCodeTextarea');
+    ta.value = b64;
+    ta.select();
+    alert('✅ Backup code generated below! Click "Copy Code" to save it.');
+  }
+
+  function copyBackupTextarea() {
+    const ta = document.getElementById('backupCodeTextarea');
+    if (!ta.value) {
+      generateBackupCodeText();
+    }
+    ta.select();
+    navigator.clipboard.writeText(ta.value);
+    alert('✅ Backup code copied to clipboard!');
   }
 
   function toggleImportBackupBox() {
@@ -1856,10 +1888,10 @@
     box.style.display = box.style.display === 'none' ? 'block' : 'none';
   }
 
-  function importFullAppData() {
-    const text = document.getElementById('importBackupText').value.trim();
+  function importBackupFromTextarea() {
+    const text = document.getElementById('backupCodeTextarea').value.trim();
     if (!text) {
-      alert('Please paste your backup code first!');
+      alert('Please generate or paste your backup code first!');
       return;
     }
     try {
@@ -1879,6 +1911,7 @@
     }
   }
 
+  // 媽媽手動獎勵管理 (加星、加獎盃、加貼紙)
   function addManualStars() {
     const val = parseInt(document.getElementById('manualStarInput').value) || 0;
     if (val !== 0) {
@@ -1886,6 +1919,23 @@
       saveAppData();
       alert(`⭐ Successfully added ${val} stars to ${appData.currentProfile}!`);
     }
+  }
+
+  function addManualTrophy() {
+    const pData = getActiveProfileData();
+    pData.allStickers.push('🏆');
+    addStars(5, `🏆 Bonus Trophy from Mom`);
+    saveAppData();
+    alert(`🏆 Awarded a Gold Trophy + 5 Stars to ${appData.currentProfile}!`);
+  }
+
+  function addManualSticker() {
+    const pData = getActiveProfileData();
+    const randomSticker = STICKER_POOL[Math.floor(Math.random() * STICKER_POOL.length)];
+    pData.allStickers.push(randomSticker);
+    addStars(2, `🎁 Bonus Sticker from Mom`);
+    saveAppData();
+    alert(`🎁 Awarded sticker "${randomSticker}" + 2 Stars to ${appData.currentProfile}!`);
   }
 
   function renderAdminWeeksList() {
